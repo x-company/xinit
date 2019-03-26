@@ -1,0 +1,94 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Unit Tests",
+            "program": "${workspaceFolder}/node_modules/jasmine-ts/lib/index.js",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "${workspaceFolder}\\${relativeFile}"
+            ],
+            "env": {
+                "NODE_ENV": "DEVELOPMENT",
+                "NODE_APP_INSTANCE": "BK10",
+                "NODE_CONFIG_DIR": "${workspaceFolder}"
+            },
+            "sourceMaps": true,
+            "internalConsoleOptions": "neverOpen",
+            "console": "integratedTerminal",
+            "showAsyncStacks": false,
+            "protocol": "inspector",
+            "autoAttachChildProcesses": false,
+            "smartStep": false
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch CLI (NoArgs)",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "${workspaceFolder}/src/cli/${input:cli_command}.ts",
+            ],
+            "env": {
+                "NODE_ENV": "DEVELOPMENT",
+                "NODE_APP_INSTANCE": "BK10",
+                "NODE_CONFIG_DIR": "${workspaceFolder}"
+            },
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "sourceMaps": true,
+            "internalConsoleOptions": "neverOpen",
+            "console": "integratedTerminal",
+            "showAsyncStacks": false,
+            "protocol": "inspector",
+            "autoAttachChildProcesses": false,
+            "smartStep": false
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch CLI (WithArgs)",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "${workspaceFolder}/src/cli/${input:cli_command}.ts",
+                "${input:cli_param}"
+            ],
+            "env": {
+                "NODE_ENV": "DEVELOPMENT",
+                "NODE_APP_INSTANCE": "BK10",
+                "NODE_CONFIG_DIR": "${workspaceFolder}"
+            },
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "sourceMaps": true,
+            "internalConsoleOptions": "neverOpen",
+            "console": "integratedTerminal",
+            "showAsyncStacks": false,
+            "protocol": "inspector",
+            "autoAttachChildProcesses": false,
+            "smartStep": false
+        }
+    ],
+    "inputs": [
+        {
+            "id": "cli_command",
+            "description": "Choose CLI Command",
+            "type": "pickString",
+            "default": "xinit",
+            "options": [
+                "xinit"
+            ]
+        },
+        {
+            "id": "cli_param",
+            "description": "Type a CLI Command param",
+            "type": "promptString"
+        }
+    ]
+}

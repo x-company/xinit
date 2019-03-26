@@ -1,0 +1,17 @@
+# Global Ignores
+.vscode
+.gitignore
+.gitlab
+.gitlab-ci.yml
+node_modules
+spec
+tsconfig.json
+tslint.json
+src
+lib/*.map
+yarn.lock
+package-lock.json
+
+# Local Ignores
+yarn-error.log
+testarea

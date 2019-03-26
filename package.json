@@ -1,0 +1,65 @@
+{
+    "name": "xinit",
+    "version": "0.1.0",
+    "description": "",
+    "main": "./lib/index.js",
+    "typings": "./lib/index.d.ts",
+    "bin": {
+        "xinit": "./bin/xinit"
+    },
+    "engines": {
+        "node": ">=8.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:x-company/xinit.git"
+    },
+    "bugs": {
+        "url": "https://github.com/x-company/xinit/issues"
+    },
+    "homepage": "https://github.com/x-company/xinit",
+    "author": "Roland Breitschaft <info@x-company.de> (https://www.x-company.de)",
+    "license": "MIT",
+    "keywords": [
+        "docker",
+        "init",
+        "runit"
+    ],
+    "scripts": {
+        "lint": "tslint -c ./tslint.json './src/**/*.ts'",
+        "prebuild": "yarn build:clean && yarn lint",
+        "build:clean": "rimraf -rf lib && mkdir lib ",
+        "build": "tsc -p ./src/tsconfig.json",
+        "postbuild": "appvmgr update build",
+        "watch": "tsc -w -p ./src/tsconfig.json",
+        "pretest": "yarn build",
+        "test": "jasmine-ts 'spec/**/*.spec.ts'",
+        "prepublish": "yarn test && appvmgr update commit --tag"
+    },
+    "devDependencies": {
+        "@types/configstore": "^4.0.0",
+        "@types/find-root": "^1.1.1",
+        "@types/fs-extra": "^5.0.5",
+        "@types/jasmine": "^3.3.12",
+        "@types/node": "^11.11.7",
+        "@types/rimraf": "^2.0.2",
+        "@types/winston": "^2.4.4",
+        "@types/winston-syslog": "^2.0.2",
+        "appversion-mgr": "^0.7.0",
+        "jasmine": "^3.3.1",
+        "jasmine-spec-reporter": "^4.2.1",
+        "jasmine-ts": "^0.3.0",
+        "rimraf": "^2.6.3",
+        "ts-node": "^8.0.3",
+        "tslint": "^5.14.0",
+        "typescript": "^3.3.4000"
+    },
+    "dependencies": {
+        "commander": "^2.19.0",
+        "configstore": "^4.0.0",
+        "find-root": "^1.1.0",
+        "fs-extra": "^7.0.1",
+        "winston": "^3.2.1",
+        "winston-syslog": "^2.1.0"
+    }
+}

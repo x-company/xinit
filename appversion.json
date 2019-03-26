@@ -1,0 +1,31 @@
+{
+  "version": {
+    "major": 0,
+    "minor": 1,
+    "patch": 0,
+    "badge": "[![xinit-version](https://img.shields.io/badge/Version-${M.m.p}-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xinit/v/${M.m.p})"
+  },
+  "build": {
+    "date": "2019-03-26T23:14:46.309Z",
+    "number": 18,
+    "total": 18,
+    "badge": "[![xinit-build](https://img.shields.io/badge/Builds-${t}-brightgreen.svg?style=flat)](https://github.com/x-company/xinit#status)"
+  },
+  "status": {
+    "stage": "alpha",
+    "number": 0,
+    "badge": "[![xinit-status](https://img.shields.io/badge/Status-${S%20s}-brightgreen.svg?style=flat)](https://github.com/x-company/xinit#status)"
+  },
+  "git": {
+    "commit": null,
+    "tag": "vM.m.p"
+  },
+  "config": {
+    "schema": "1.11.1",
+    "ignore": [],
+    "json": [],
+    "markdown": [
+      "README.md"
+    ]
+  }
+}

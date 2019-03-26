@@ -1,0 +1,136 @@
+{
+    "cSpell.words": [
+        "Breitschaft",
+        "GITLAB",
+        "LOGFILE",
+        "PIDFILE",
+        "Syslog",
+        "appversion",
+        "appvmgr",
+        "crit",
+        "datetime",
+        "emerg",
+        "esac",
+        "jsonc",
+        "postbuild",
+        "prebuild",
+        "printf",
+        "runit",
+        "xinit"
+    ],
+    "licenser.license": "MIT",
+    "licenser.projectName": "xinit",
+    "licenser.author": "IT Solutions Roland Breitschaft <info@x-company.de>",
+    "licenser.useSingleLineStyle": false,
+    "codeheader.autoInsert": true,
+    "codeheader.copyright": false,
+    "jasmineExplorer.nodeArgv": [
+        "--require",
+        "ts-node/register"
+    ],
+    "jasmineExplorer.env": {
+        "TS_NODE_PROJECT": "./src/tsconfig.json"
+    },
+    "search.exclude": {
+        "**/.git/**": true,
+        "**/node_modules/*/**": true,
+        "**/.gitlab/*/**": true,
+        "**/.vscode/*/**": true,
+        "**/bower_components": true,
+        "**/changelogs": true,
+        "**/doc": true
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "node_modules": true
+    },
+    "files.watcherExclude": {
+        "**/.git/**": true,
+        "**/node_modules/*/**": true,
+        "**/.gitlab/*/**": true,
+        "**/.vscode/*/**": true
+    },
+    "todo-tree.grouped": true,
+    "todo-tree.flat": true,
+    "todo-tree.statusBar": "total",
+    "todo-tree.regexCaseSensitive": false,
+    "todo-tree.tags": [
+        "TODO",
+        "FIXME",
+        "POWERTIP",
+        "HACK",
+        "TRICKY",
+        "BUG",
+        "BREAKING"
+    ],
+    "todo-tree.showCountsInTree": true,
+    "todo-tree.defaultHighlight": {
+        "icon": "checklist",
+        "type": "tag",
+        "foreground": "white",
+        "background": "yellow",
+        "opacity": 80,
+        "iconColour": "white"
+    },
+    "todo-tree.customHighlight": {
+        "TODO": {
+            "background": "#2bc600",
+            "icon": "check",
+            "iconColour": "#2bc600"
+        },
+        "FIXME": {
+            "background": "#c300dd",
+            "icon" : "tools",
+            "iconColour": "#c300dd"
+        },
+        "POWERTIP": {
+            "background": "yellow",
+            "icon": "light-bulb",
+            "iconColour": "yellow"
+        },
+        "BUG":{
+            "background": "red",
+            "icon": "bug",
+            "iconColour": "red"
+        },
+        "HACK":{
+            "background": "grey",
+            "icon": "file-binary",
+            "iconColour": "grey"
+        },
+        "TRICKY":{
+            "background": "#ff00b2",
+            "icon": "mortar-board",
+            "iconColour": "#ff00b2"
+        },
+        "BREAKING":{
+            "background": "#ffa500",
+            "icon": "alert",
+            "iconColour": "#ffa500"
+        }
+    },
+    "todo-tree.excludeGlobs": [
+        "node_modules/**/*",
+        ".git/**/*",
+        ".gitlab/**/*",
+        ".vscode/**/*"
+    ],
+    "gitlab.instanceUrl": "https://git.x-company.de",
+    "gitlab.ignoreCertificateErrors": true,
+    "gitlab.showPipelineUpdateNotifications": true,
+    "workbench.iconTheme": "vscode-great-icons",
+    "workbench.settings.editor": "json",
+    "workbench.settings.openDefaultSettings": true,
+    "workbench.settings.useSplitJSON": true,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#65c89b",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#945bc4",
+        "activityBarBadge.foreground": "#e7e7e7"
+    }
+}
