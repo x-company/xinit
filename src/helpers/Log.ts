@@ -10,7 +10,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 14:38:04
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-26 23:36:08
+ * @Last Modified At: 2019-03-27 00:37:53
  * @Description: This is description.
  */
 
@@ -18,6 +18,7 @@
 import winston, { Logger, format } from 'winston';
 import { Syslog } from 'winston-syslog';
 import { Info } from '../helpers/Info';
+import { CliManager } from './CliManager';
 
 export class Log {
 
@@ -75,7 +76,7 @@ export class Log {
             );
         }
 
-        this.logger.level = Info.Store.get('level') || 'warn';
+        this.logger.level = CliManager.get<string>('level') || 'warn';
         return this.logger;
     }
 }

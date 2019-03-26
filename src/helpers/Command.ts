@@ -9,13 +9,14 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 21:48:40
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-26 23:19:23
+ * @Last Modified At: 2019-03-27 00:37:11
  * @Description: This is description.
  */
 
 import os from 'os';
 import { CommandOptions } from './CommandOptions';
 import { Log } from './Log';
+import { CliManager } from './CliManager';
 
 export abstract class Command<TOptions extends CommandOptions> {
 
@@ -24,6 +25,7 @@ export abstract class Command<TOptions extends CommandOptions> {
     constructor(options?: TOptions) {
 
         const defaultOptions = {
+            directory: options && options.directory ? CliManager.getDirectory(options.directory) : CliManager.getDirectory(),
             user: options && options.user ? options.user : os.userInfo().username,
         };
 

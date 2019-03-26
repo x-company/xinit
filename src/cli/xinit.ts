@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 15:02:08
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-26 23:19:50
+ * @Last Modified At: 2019-03-27 00:39:19
  * @Description: This is description.
  */
 
@@ -27,10 +27,15 @@ const program = new Command(CommandInfos.main.command)
 
 // Global Options
 program
-    .option('-l, --level <level>', `Defines the Log level, default level is 'warn':[verbose|info|warn|error|critical]`)
+    .option('-l, --level <level>', `Defines the Log level, default level is 'warn':[silly|debug|verbose|info|warn|error]`)
+    .option('-d, --directory <directory>', 'Specifies the directory where layout should initialized.')
+    .on('option:directory', (data) => {
+        Log.verbose(`Parameter 'directory' with value '${data}' is given`);
+        CliManager.set('directory', data);
+    })
     .on('option:level', (data) => {
-        CliManager.save('level', data);
-        Log.info(`Parameter 'level' with value '${data}' is given`);
+        CliManager.set('level', data);
+        Log.verbose(`Parameter 'level' with value '${data}' is given`);
     });
 
 // Commands

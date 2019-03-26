@@ -4,6 +4,7 @@
         "GITLAB",
         "LOGFILE",
         "PIDFILE",
+        "RUNAS",
         "Syslog",
         "appversion",
         "appvmgr",

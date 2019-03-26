@@ -9,13 +9,15 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 21:47:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-27 00:09:49
+ * @Last Modified At: 2019-03-27 00:53:01
  * @Description: This is description.
  */
 
 import fs from 'fs-extra';
+import path from 'path';
 import { Command } from '../../helpers/Command';
 import { ServiceCommandOptions } from './ServiceCommandOptions';
+import { CliManager } from '../../helpers/CliManager';
 
 export class CreateCommand extends Command<ServiceCommandOptions> {
 
@@ -28,9 +30,7 @@ export class CreateCommand extends Command<ServiceCommandOptions> {
 
         try {
 
-            const scriptFile = `
-
-#!/usr/bin/env bash
+            const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
 ### BEGIN INIT INFO
@@ -43,8 +43,8 @@ export class CreateCommand extends Command<ServiceCommandOptions> {
 # Description:       <A long Description>
 ### END INIT INFO
 
-SCRIPT=${this.options.name}
-RUNAS=${this.options.user}
+SCRIPT="${this.options.name}"
+RUNAS="${this.options.user}"
 
 PIDFILE=/var/run/xinit/${this.options.name}.pid
 LOGFILE=/var/log/xinit/${this.options.name}.log
@@ -55,7 +55,7 @@ start(){
     return 1
   fi
 
-  echo 'Starting service…' >&2
+  echo 'Starting service' >&2
   local CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
 
   su -c "$CMD" $RUNAS > "$PIDFILE"
@@ -68,7 +68,7 @@ stop(){
     return 1
   fi
 
-  echo 'Stopping service…' >&2
+  echo 'Stopping service' >&2
 
   kill -15 $(cat "$PIDFILE") && rm -f "$PIDFILE"
   echo 'Service stopped' >&2
@@ -80,7 +80,7 @@ pre(){
     return 1
   fi
 
-  echo 'Stopping service…' >&2
+  echo 'Stopping service' >&2
 }
 
 post(){
@@ -89,7 +89,7 @@ post(){
     return 1
   fi
 
-  echo 'Stopping service…' >&2
+  echo 'Stopping service' >&2
 }
 
 
@@ -121,7 +121,10 @@ esac
 exit 0
 `;
 
-            await fs.writeFile(this.options.name, scriptFile, { encoding: 'utf-8'});
+            const rootDir =  CliManager.getDirectory();
+            const scriptFileName = path.join(rootDir, this.options.name);
+
+            await fs.writeFile(scriptFileName, content, { encoding: 'utf-8'});
 
         } catch (e) {
             throw e;
