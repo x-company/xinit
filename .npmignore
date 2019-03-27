@@ -14,4 +14,4 @@ package-lock.json
 
 # Local Ignores
 yarn-error.log
-testarea
+tests
