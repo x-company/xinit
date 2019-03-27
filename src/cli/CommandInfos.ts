@@ -24,4 +24,8 @@ export class CommandInfos {
     public static service = {
         command: 'service', description: 'Helps you to manage runit Services',
     };
+
+    public static layout = {
+        command: 'layout', description: 'Creates the Working Layout to create new Services',
+    };
 }

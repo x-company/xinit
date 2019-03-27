@@ -2,6 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "Bash-Debug (hardcoded script name)",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/tests/integration/${input:cli_integration_tests}",
+            "args": []
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Launch Unit Tests",
@@ -55,7 +63,8 @@
             "cwd": "${workspaceFolder}",
             "args": [
                 "${workspaceFolder}/src/cli/${input:cli_command}.ts",
-                "${input:cli_param}"
+                "${input:cli_param}",
+                "${input:cli_arg}"
             ],
             "env": {
                 "NODE_ENV": "DEVELOPMENT",
@@ -82,13 +91,28 @@
             "type": "pickString",
             "default": "xinit",
             "options": [
-                "xinit"
+                "xinit",
+                "xinit-layout",
+                "xinit-service"
             ]
         },
         {
             "id": "cli_param",
             "description": "Type a CLI Command param",
             "type": "promptString"
+        },
+        {
+            "id": "cli_arg",
+            "description": "Type a CLI Command arg",
+            "type": "promptString"
+        },
+        {
+            "id": "cli_integration_tests",
+            "description": "Choose Integration Test",
+            "type": "pickString",
+            "options": [
+                "CreateService.Tests.sh"
+            ]
         }
     ]
 }

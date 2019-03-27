@@ -17,13 +17,15 @@ const program = new Command(`${CommandInfos.main.command} ${CommandInfos.service
 program
     .command('create <name>')
     .description('Creates an new runit Service')
-    .action(async (name) => {
+    .option('-i, --image <image>', 'The Name of the Base Image which the Service will created.')
+    .action(async (name, options) => {
 
         try {
-            Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.service.command} service' is called ...`);
+            Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.service.command} create' is called ...`);
 
             await new CreateCommand({
-                name,
+                serviceName: name,
+                imageName: options.image,
             }).invoke();
 
         } catch (err) {

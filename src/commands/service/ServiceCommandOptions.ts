@@ -16,5 +16,6 @@
 import { CommandOptions } from '../../helpers/CommandOptions';
 
 export interface ServiceCommandOptions extends CommandOptions {
-    name: string;
+    serviceName: string;
+    imageName?: string;
 }

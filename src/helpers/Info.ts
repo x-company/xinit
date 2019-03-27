@@ -19,6 +19,7 @@ import path from 'path';
 import findRoot from 'find-root';
 import Configstore from 'configstore';
 import { Log } from '../helpers/Log';
+import { CliManager } from './CliManager';
 
 export class Info {
     /**
@@ -65,6 +66,30 @@ export class Info {
         const store = new Configstore(name);
 
         return store;
+    }
+
+    public static getImageRoot(imageName?: string): string {
+
+        let rootDirectory = CliManager.getDirectory();
+        if (rootDirectory === process.cwd()) {
+            rootDirectory = path.join(process.cwd(), 'src');
+            fs.ensureDirSync(rootDirectory);
+        }
+
+        if (!imageName) {
+            const dirs = fs.readdirSync(rootDirectory).filter((file) => fs.statSync(path.join(rootDirectory, file)).isDirectory());
+
+            if (dirs.length > 1) {
+                throw new Error('More than one Base Images found. Please specify the Base Image with parameter -i or --image');
+            } else {
+                imageName = path.basename(dirs[0]);
+            }
+        }
+
+        const distDir = path.join(rootDirectory, imageName, 'dist');
+        fs.ensureDirSync(distDir);
+
+        return distDir;
     }
 
     private static PROG_VERSION: string = '0.1.0';

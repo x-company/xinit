@@ -63,7 +63,7 @@ export class CliManager {
         if (!baseDirectory) {
             try {
                 baseDirectory = findRoot(process.cwd(), (dir) => {
-                    return fs.existsSync(path.resolve(dir, 'template.json'));
+                    return fs.existsSync(path.resolve(dir, 'package.json'));
                 });
             } catch (err) {
                 Log.verbose(err);

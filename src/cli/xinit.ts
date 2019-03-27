@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 15:02:08
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-27 00:39:19
+ * @Last Modified At: 2019-03-27 12:33:10
  * @Description: This is description.
  */
 
@@ -18,6 +18,10 @@ import { Info } from '../helpers/Info';
 import { CommandInfos } from './CommandInfos';
 import { Log } from '../helpers/Log';
 import { CliManager } from '../helpers/CliManager';
+
+// Reset Global Options
+CliManager.set('level', 'warn');
+CliManager.set('directory', process.cwd());
 
 
 // Main Program
@@ -40,6 +44,7 @@ program
 
 // Commands
 program
-    .command(CommandInfos.service.command, CommandInfos.service.description);
+    .command(CommandInfos.service.command, CommandInfos.service.description)
+    .command(CommandInfos.layout.command, CommandInfos.layout.description);
 
 CliManager.parseArguments(program);

@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 21:47:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-27 00:53:01
+ * @Last Modified At: 2019-03-27 12:17:03
  * @Description: This is description.
  */
 
@@ -18,6 +18,7 @@ import path from 'path';
 import { Command } from '../../helpers/Command';
 import { ServiceCommandOptions } from './ServiceCommandOptions';
 import { CliManager } from '../../helpers/CliManager';
+import { Info } from '../../helpers/Info';
 
 export class CreateCommand extends Command<ServiceCommandOptions> {
 
@@ -30,11 +31,33 @@ export class CreateCommand extends Command<ServiceCommandOptions> {
 
         try {
 
-            const content = `#!/usr/bin/env bash
+
+            const rootDir = Info.getImageRoot(this.options.imageName);
+
+            const svInstallDir = path.join(rootDir, 'build', 'services', this.options.serviceName);
+            const svRunitDir = path.join(rootDir, 'etc', 'sv', this.options.serviceName);
+            const xinitDir = path.join(rootDir, 'etc', 'xinit.d');
+
+            fs.ensureDirSync(svInstallDir);
+            fs.ensureDirSync(svRunitDir);
+            fs.ensureDirSync(xinitDir);
+
+            await this.createServiceControlFile(xinitDir);
+            await this.createServiceInstallFile(svInstallDir);
+            await this.createServiceFile(svRunitDir);
+
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    private async createServiceControlFile(directory: string) {
+
+        const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
 ### BEGIN INIT INFO
-# Provides:          ${this.options.name}
+# Provides:          ${this.options.serviceName}
 # Required-Start:    <List Services which should started, before this Service can started, e.g. $syslog>
 # Required-Stop:     <List Services which should stopped, before this Service will stopped, e.g. $syslog>
 # Should-Start:      <List Services which should started, before this Service will started, e.g. $syslog>
@@ -43,11 +66,11 @@ export class CreateCommand extends Command<ServiceCommandOptions> {
 # Description:       <A long Description>
 ### END INIT INFO
 
-SCRIPT="${this.options.name}"
+SCRIPT="${this.options.serviceName}"
 RUNAS="${this.options.user}"
 
-PIDFILE=/var/run/xinit/${this.options.name}.pid
-LOGFILE=/var/log/xinit/${this.options.name}.log
+PIDFILE=/var/run/xinit/${this.options.serviceName}.pid
+LOGFILE=/var/log/xinit/${this.options.serviceName}.log
 
 start(){
   if [ -f "$PIDFILE" ] && kill -0 $(cat "$PIDFILE"); then
@@ -96,24 +119,24 @@ post(){
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
-    echo "Starting Service '${this.options.name}' ..."
+    echo "Starting Service '${this.options.serviceName}' ..."
     start
     ;;
   pre)
-    echo "Execute PreShutdown Scripts before stopping Service '${this.options.name}' ..."
+    echo "Execute PreShutdown Scripts before stopping Service '${this.options.serviceName}' ..."
     pre
     ;;
   stop)
-    echo "Stopping Service '${this.options.name}' ..."
+    echo "Stopping Service '${this.options.serviceName}' ..."
     stop
     sleep 2
     ;;
   post)
-    echo "Execute PostShutdown Scripts before stopping Service '${this.options.name}' ..."
+    echo "Execute PostShutdown Scripts before stopping Service '${this.options.serviceName}' ..."
     post
     ;;
   *)
-    echo "Usage: /etc/xinit.d/${this.options.name} {start|pre|stop|post}"
+    echo "Usage: /etc/xinit.d/${this.options.serviceName} {start|pre|stop|post}"
     exit 1
     ;;
 esac
@@ -121,13 +144,41 @@ esac
 exit 0
 `;
 
-            const rootDir =  CliManager.getDirectory();
-            const scriptFileName = path.join(rootDir, this.options.name);
+        const scriptFileName = path.join(directory, this.options.serviceName);
+        await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
+    }
 
-            await fs.writeFile(scriptFileName, content, { encoding: 'utf-8'});
+    private async createServiceInstallFile(directory: string) {
 
-        } catch (e) {
-            throw e;
-        }
+        const content = `#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+set -e
+source /build/helper.sh
+set -x
+
+# Execute Commands to Configure the Service
+
+`;
+        const scriptFileName = path.join(directory, this.options.serviceName);
+        await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
+    }
+
+    private async createServiceFile(directory: string) {
+
+        const content = `#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+set -e
+
+# Execute the Service
+exec 2>&1
+exec <Service Command>
+
+`;
+
+        const scriptFileName = path.join(directory, 'run');
+        await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
+
     }
 }
