@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 15:02:08
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-27 12:33:10
+ * @Last Modified At: 2019-03-27 20:55:37
  * @Description: This is description.
  */
 
@@ -44,7 +44,8 @@ program
 
 // Commands
 program
-    .command(CommandInfos.service.command, CommandInfos.service.description)
-    .command(CommandInfos.layout.command, CommandInfos.layout.description);
+    .command(CommandInfos.layout.command, CommandInfos.layout.description)
+    .command(CommandInfos.run.command, CommandInfos.run.description)
+    .command(CommandInfos.service.command, CommandInfos.service.description);
 
 CliManager.parseArguments(program);

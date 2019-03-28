@@ -93,6 +93,7 @@
             "options": [
                 "xinit",
                 "xinit-layout",
+                "xinit-run",
                 "xinit-service"
             ]
         },

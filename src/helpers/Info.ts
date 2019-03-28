@@ -53,7 +53,7 @@ export class Info {
 
         let name = this.ProductName;
 
-
+        Log.verbose('Load package.json');
         const root = findRoot(__dirname);
         const packageFile = path.join(root, 'package.json');
         if (fs.existsSync(packageFile)) {

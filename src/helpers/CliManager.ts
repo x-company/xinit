@@ -14,13 +14,15 @@ import { Log } from './Log';
 
 export class CliManager {
 
-    public static parseArguments(program: Command) {
+    public static parseArguments(program: Command, showHelp: boolean = true) {
 
         if (!process.argv.slice(2).length) {
-            console.log();
-            program.outputHelp();
-            console.log();
-            process.exit();
+            if (showHelp) {
+                console.log();
+                program.outputHelp();
+                console.log();
+                process.exit();
+            }
         }
         program.parse(process.argv);
     }

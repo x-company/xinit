@@ -14,6 +14,7 @@
  */
 
 import { Info } from '../src/helpers/Info';
+import { CliManager } from '../src/helpers/CliManager';
 
 describe('Load the Image Root Dir', () => {
 
@@ -21,8 +22,8 @@ describe('Load the Image Root Dir', () => {
 
         // arrange, act & assert
         try {
-            CliManager.save('directory', 'image');
-            
+            CliManager.set('directory', 'image');
+
             const imageRoot = Info.getImageRoot();
 
             done();

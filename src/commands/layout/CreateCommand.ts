@@ -45,6 +45,7 @@ export class CreateCommand extends Command<LayoutCommandOptions> {
             const svDir = path.join(imageRoot, 'etc/sv');
             const xinitDir = path.join(imageRoot, 'etc/xinit.d');
             const usrDir = path.join(imageRoot, 'usr/local/bin');
+            const varDir = path.join(imageRoot, 'var/local/xinit');
 
             fs.ensureDirSync(imageRoot);
             fs.ensureDirSync(buildDir);
@@ -52,6 +53,7 @@ export class CreateCommand extends Command<LayoutCommandOptions> {
             fs.ensureDirSync(svDir);
             fs.ensureDirSync(xinitDir);
             fs.ensureDirSync(usrDir);
+            fs.ensureDirSync(varDir);
 
             await this.createDockerFile(path.join(imageRoot, '..'));
             await this.createBuildFile(buildDir);
