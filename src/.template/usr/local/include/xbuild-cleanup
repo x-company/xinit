@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+function cleanup()
+{
+    # Cleans up the Image after an build.
+    # Remark: If no excludes defined, previously installed Packages will maybe removed.
+
+    args=("$@")
+    local excludes
+
+    if [ -z "$args" ]
+    then
+        log "No excludes given. If no excludes defined, previously installed Packages will maybe removed by build."
+        log "Please call 'cleanup --excludes <package1> <package2> ... <packageN>'"
+    else
+        for opt in "${args[@]}"
+        do
+            if [ "$opt" != "-e" ] && [ "$opt" != "--excludes" ]
+            then
+                excludes+="!$opt"
+            fi
+        done
+    fi
+
+    log "Remove non-critical packages"
+    # Remove non-critical packages (don't remove busybox -> don't sure if this ist still a problem on debian 7)
+    # ~i 					-> list all installed packages
+    # !~M 					-> don't list automatic installed packages
+    # !~prequired 			-> don't list packages with priority required
+    # !~pimportant 			-> don't list packages with priority important
+    # !~R~prequired 		-> don't list dependency packages of required packages
+    # !~R~pimportant 		-> don't list dependency packages of important packages
+    # !~R~R~prequired 		-> don't list dependency packages of dependency packages of required packages -.- (two levels should be enough. Have not found a recursive option)
+    # !~R~R~pimportant 		-> ... required packages
+
+    # !busybox 				-> don't list busybox
+    # !grub 				-> don't list grub (we need a boot manager. If LILO or something else is used change this)
+    # !initramfs-tools 		-> don't list initramfs-tools (else the kernel is gone)
+
+    # System Packages
+    # !runit-systemd
+    # !cron
+    # !syslog-ng-core
+    # !logrotate
+    # !locales
+    # !apt-transport-https
+    # !ca-certificates
+
+    # Optional Packages
+    # !wget
+    # !gnupg
+    # !apt-utils
+    # !aptitude
+    # !nano
+    # !psmisc
+    # !software-properties-common
+
+    base_pattern="~i!~M!~prequired!~pimportant!~R~prequired!~R~R~prequired!~R~pimportant!~R~R~pimportant"
+
+    system_packages="$base_pattern!runit-systemd!cron!syslog-ng-core!logrotate!locales!apt-transport-https!ca-certificates"
+    optional_packages="!wget!gnupg!apt-utils!aptitude!nano!psmisc!software-properties-common!grub!initramfs-tools"
+
+    excludes+=$system_packages
+    if [ -z "$args" ]
+    then
+        # Only remove optional Packages when Parameter --excludes is given. This assumes that the Build Administrator has finished his work.
+        # This Scenario is for Users of the baseimage to cleanup their work.
+        excludes+=$optional_packages
+    fi
+
+    execute apt-get -qy purge $(aptitude search "$excludes" | awk '{print $2}')
+    execute apt-get -qy autoremove
+    execute apt-get clean
+
+    #find /.build/ -not \( -name '.build' -or -name 'buildconfig' -or -name 'cleanup.sh' \) -delete
+
+    execute rm -rf /tmp/* /var/tmp/*
+    execute rm -rf /var/lib/apt/lists/*
+    execute rm -f /etc/ssh/ssh_host_*
+    execute rm -rf /build
+}

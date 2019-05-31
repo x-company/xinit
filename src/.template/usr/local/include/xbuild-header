@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+function header()
+{
+
+    local title="$1"
+    echo "${BLUE_BG}${YELLOW}${BOLD}${title}${RESET}"
+    echo "------------------------------------------"
+}

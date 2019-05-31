@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+function prepare()
+{
+    # Prepares the Image. Only needed for the Base Image.
+    # Attention!!! Dont execute twice.
+
+    flag_file=/var/local/xbuild/finished
+
+    header "Prepare the Environment for the Build ..."
+
+    if [ ! -f "$flag_file" ]
+    then
+
+        log "Update the Package Sources ..."
+        execute apt-get -q update
+        install apt-utils apt-transport-https
+
+        if [ "$XBUILD_OSNAME" = "ubuntu" ]
+        then
+            log "Fix some issues with APT packages."
+            ## See https://github.com/dotcloud/docker/issues/1024
+            execute dpkg-divert --local --rename --add /sbin/initctl
+            execute ln -sf /bin/true /sbin/initctl
+
+            log "Replace the 'ischroot' tool to make it always return true."
+            ## Prevent initscripts updates from breaking /dev/shm.
+            ## https://journal.paul.querna.org/articles/2013/10/15/docker-ubuntu-on-rackspace/
+            ## https://bugs.launchpad.net/launchpad/+bug/974584
+            execute dpkg-divert --local --rename --add /usr/bin/ischroot
+            execute ln -sf /bin/true /usr/bin/ischroot
+        fi
+
+        log "Switch to the complete Package Source List of our Mirror ..."
+        rm -f /etc/apt/sources.list
+        if [ "$XBUILD_OSNAME" = "debian" ]
+        then
+            {
+                echo "deb [arch=amd64] $XBUILD_MIRROR/debian/major $XBUILD_OSCODENAME main contrib non-free"
+                echo "deb [arch=amd64] $XBUILD_MIRROR/debian/major $XBUILD_OSCODENAME-updates main contrib non-free"
+                echo "deb [arch=amd64] $XBUILD_MIRROR/debian/major $XBUILD_OSCODENAME-backports main contrib non-free"
+                echo "deb [arch=amd64] $XBUILD_MIRROR/debian/security $XBUILD_OSCODENAME/updates main contrib non-free"
+                echo "#deb [arch=amd64] $XBUILD_MIRROR/debian/major sid main contrib non-free"
+            } > /etc/apt/sources.list
+        else
+            {
+                echo "deb [arch=amd64] $XBUILD_MIRROR/ubuntu/major $XBUILD_OSCODENAME main restricted universe multiverse"
+                echo "deb [arch=amd64] $XBUILD_MIRROR/ubuntu/major $XBUILD_OSCODENAME-updates main restricted universe multiverse"
+                echo "deb [arch=amd64] $XBUILD_MIRROR/ubuntu/major $XBUILD_OSCODENAME-backports main restricted universe multiverse"
+                echo "deb [arch=amd64] $XBUILD_MIRROR/ubuntu/partner $XBUILD_OSCODENAME partner"
+                echo "deb [arch=amd64] $XBUILD_MIRROR/ubuntu/security $XBUILD_OSCODENAME-security main restricted universe multiverse"
+            }  > /etc/apt/sources.list
+        fi
+
+        log "Cleanup Package Sources ..."
+        execute apt-get clean
+        execute apt-get -qy autoremove
+        execute rm -rf /var/lib/apt/lists/*
+        execute apt-get -q update
+
+        log "Install Install Packages and Tools ..."
+        install apt-utils apt-transport-https ca-certificates software-properties-common wget gnupg aptitude nano psmisc
+
+        log "Execte System Upgrade ..."
+        execute apt-get dist-upgrade -qy --no-install-recommends -o Dpkg::Options::="--force-confold"
+
+        log "Configure timezone"
+        echo "Europe/Berlin" > /etc/timezone
+        dpkg-reconfigure -f noninteractive tzdata
+
+        log "Configure locale"
+        install locales
+        sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+        sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
+        echo 'LANG="de_DE.UTF-8"' > /etc/default/locale
+        dpkg-reconfigure --frontend=noninteractive locales
+        update-locale LANG=de_DE.UTF-8
+
+        execute touch $flag_file
+    else
+        log "Environment already prepared. Now only update Package Sources ..."
+        execute apt-get -q update
+    fi
+}

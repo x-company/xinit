@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+function install()
+{
+    # Installs an Package with minimal effort
+
+    args=("$@")
+    local packages=""
+
+    if [ -z "$args" ]
+    then
+        log "No Packages given to install. Please call 'install --packages <package1> <package2> ... <packageN>'"
+        return 1
+    else
+        for opt in "${args[@]}"; do
+            if [ "$opt" != "-p" ] && [ "$opt" != "--packages" ]
+            then
+                packages+="$opt "
+            fi
+        done
+
+        log "Install Package(s) '$packages' ..."
+        execute apt-get install -qy --no-install-recommends $packages
+    fi
+}

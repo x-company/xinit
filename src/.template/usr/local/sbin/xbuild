@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+# Set Colors for Log Outputs
+if perl -v >/dev/null 2>/dev/null; then
+	RESET=$(perl -e 'print("\e[0m")')
+	BOLD=$(perl -e 'print("\e[1m")')
+	YELLOW=$(perl -e 'print("\e[33m")')
+	BLUE_BG=$(perl -e 'print("\e[44m")')
+elif python -V >/dev/null 2>/dev/null; then
+	RESET=$(echo 'import sys; sys.stdout.write("\033[0m")' | python)
+	BOLD=$(echo 'import sys; sys.stdout.write("\033[1m")' | python)
+	YELLOW=$(echo 'import sys; sys.stdout.write("\033[33m")' | python)
+	BLUE_BG=$(echo 'import sys; sys.stdout.write("\033[44m")' | python)
+else
+	RESET=
+	BOLD=
+	YELLOW=
+	BLUE_BG=
+fi
+
+# Exit if a Command returns non-zero status
+set -e
+
+# Enable if you want extended Outputs
+# set -x
+
+# shellcheck source=../include/xbuild-cleanup
+source /usr/local/include/xbuild-cleanup
+# shellcheck source=../include/xbuild-configure
+source /usr/local/include/xbuild-configure
+# shellcheck source=../include/xbuild-copy
+source /usr/local/include/xbuild-copy
+# shellcheck source=../include/xbuild-execute
+source /usr/local/include/xbuild-execute
+# shellcheck source=../include/xbuild-header
+source /usr/local/include/xbuild-header
+# shellcheck source=../include/xbuild-install
+source /usr/local/include/xbuild-install
+# shellcheck source=../include/xbuild-log
+source /usr/local/include/xbuild-log
+# shellcheck source=../include/xbuild-prepare
+source /usr/local/include/xbuild-prepare
+
+header "Prepare global Variables and verify the Environment"
+
+log " Export needed Variables ..."
+export LC_ALL=C
+export DEBIAN_FRONTEND=noninteractive
+
+# Prevent initramfs updates from trying to run grub and lilo.
+# https://journal.paul.querna.org/articles/2013/10/15/docker-ubuntu-on-rackspace/
+# http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=594189
+export INITRD=no
+export XBUILD_MIRROR=http://xlca097.in.x-company.de
+
+log "Determine current OS Name ..."
+osname=$(< /etc/os-release grep 'NAME="Ubuntu"' | cut -d'=' -f2)
+if [ "$osname" == "\"Ubuntu\"" ]
+then
+    export XBUILD_OSNAME="ubuntu"
+else
+    export XBUILD_OSNAME="debian"
+fi
+
+log "Determine current OS Code Name ..."
+osversion=$(< /etc/os-release grep VERSION= | cut -d'(' -f 2 | cut -d')' -f 1 | cut -d' ' -f1)
+export XBUILD_OSCODENAME=${osversion,,} # ToLower
+
+log "Current OS is '$XBUILD_OSNAME'."
+log "Current OS Code Name is '$XBUILD_OSCODENAME'."
+
+header "Create needed Directories"
+mkdir -p /var/local/xbuild
+
+header "Prepare the Environment ..."
+prepare

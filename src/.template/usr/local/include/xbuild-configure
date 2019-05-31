@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+function configure()
+{
+    local service
+    args=("$@")
+
+    for opt in "${args[@]}"
+    do
+        if [ "$opt" != "-s" ] && [ "$opt" != "--services" ]
+        then
+            service=$opt
+
+            header "Configure Service '$service' ..."
+
+            if [ -f "/build/services/$service.sh" ]
+            then
+                "/build/services/$service.sh"
+            fi
+
+            if [ -d "/build/dist/etc/sv/$service" ]
+            then
+                cp -rf "/build/dist/etc/sv/$service" /etc/sv
+                chmod 0755 "/etc/sv/$service/*"
+                chown -R root:root "/etc/sv/$service"
+                ln -s "/etc/sv/$service" /etc/service
+            fi
+        fi
+    done
+}

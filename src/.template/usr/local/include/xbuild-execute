@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+function execute()
+{
+
+    # Execute an Command and print the Command to the Console
+    local cmd="+ $@"
+    echo "${YELLOW}${cmd}${RESET}"
+    "$@"
+}

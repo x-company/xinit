@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+function copy()
+{
+	log "Copy File $1 to Destination $2"
+
+    local file="$2/$(basename $1)"
+
+    execute cp -f "$1" "$2"
+    execute chmod 0644 "$file"
+    execute chown -R root:root "$file"
+}
