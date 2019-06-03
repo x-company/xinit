@@ -9,7 +9,6 @@
     "debug.inlineValues": true,
     "debug.node.autoAttach": "on",
     "docomment.activateOnEnter": true,
-    "dotnet-test-explorer.enableTelemetry": false,
     "editor.detectIndentation": false,
     "editor.formatOnPaste": false,
     "editor.formatOnSave": false,
@@ -63,10 +62,10 @@
     "git.checkoutType": "remote",
     "git.confirmSync": false,
     "git.promptToSaveFilesBeforeCommit": true,
-    "gitlab.showPipelineUpdateNotifications": true,
+    "licenser.author": "IT Solutions Roland Breitschaft <info@x-company.de>",
     "licenser.disableAutoHeaderInsertion": false,
-    "licenser.projectName": "baseimage",
-    "licenser.license": "AL2",
+    "licenser.projectName": "xinit",
+    "licenser.license": "MIT",
     "licenser.useSingleLineStyle": false,
     "merge-conflict.autoNavigateNextConflict.enabled": true,
     "npm.enableScriptExplorer": true,
@@ -78,10 +77,8 @@
     "peacock.keepBadgeColor": true,
     "peacock.keepForegroundColor": true,
     "peacock.surpriseMeOnStartup": true,
-
     "powershell.codeFormatting.preset": "Allman",
     "powershell.scriptAnalysis.settingsPath": "./.vscode/PSScriptAnalyzerSettings.psd1",
-
     "search.exclude": {
         "**/node_modules": true,
         "**/bower_components": true,
@@ -105,8 +102,6 @@
             "launchName": "PowerShell Core"
         }
     ],
-    "telemetry.enableCrashReporter": false,
-    "telemetry.enableTelemetry": false,
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.cursorStyle": "line",
     "terminal.integrated.scrollback": 10000,
@@ -191,7 +186,6 @@
         "csharp",
         "powershell"
     ],
-    "update.showReleaseNotes": false,
     "vsicons.projectDetection.disableDetect": true,
     "workbench.enableExperiments": false,
     "workbench.iconTheme": "vscode-great-icons",
@@ -237,6 +231,8 @@
         "esac",
         "jsonc",
         "killall",
+        "mybaseimagename",
+        "myimagename",
         "postbuild",
         "prebuild",
         "predocker",

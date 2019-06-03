@@ -3,7 +3,17 @@
  *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
+ *
+ * @Script: xinit-run.ts
+ * @Author: Roland Breitschaft
+ * @Email: roland.breitschaft@x-company.de
+ * @Create At: 2019-06-03 09:29:50
+ * @Last Modified By: Roland Breitschaft
+ * @Last Modified At: 2019-06-03 09:29:50
+ * @Description: This is description.
  */
+
+
 
 import { Command } from 'commander';
 import { CommandInfos } from './CommandInfos';

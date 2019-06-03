@@ -7,8 +7,5 @@ services:
       context: ../../../
       target: xnodeimage
     volumes:
-      - ../../../bin/:/code/bin/
-      - ../../../lib/:/code/lib/
-      - ../../../src/:/code/src/
-      - ../../../tests/:/code/tests/
+      - ../../../:/code/
     command: node node_modules/.bin/_mocha --require ts-node/register './tests/unit/xinit/**/*.Tests.ts'

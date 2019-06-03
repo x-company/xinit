@@ -7,9 +7,7 @@ services:
       context: ../../../
       target: xnodeimage
     volumes:
-      - ../../../lib/:/code/lib/
-      - ../../../src/:/code/src/
-      - ../../../tests/:/code/tests/
+      - ../../../:/code/
     ports:
       - 3000:3000
       - 9229:9229

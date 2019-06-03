@@ -3,14 +3,13 @@
  *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
- */
-/*
+ *
  * @Script: Log.ts
  * @Author: Roland Breitschaft
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 14:38:04
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-05-31 18:00:28
+ * @Last Modified At: 2019-06-03 09:31:49
  * @Description: This is description.
  */
 
