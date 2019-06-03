@@ -13,8 +13,9 @@
  * @Description: This is description.
  */
 
-import { Info } from '../src/helpers/Info';
-import { CliManager } from '../src/helpers/CliManager';
+import { Info } from '../../../src/helpers/Info';
+import { CliManager } from '../../../src/helpers/CliManager';
+import { expect } from 'chai';
 
 describe('Load the Image Root Dir', () => {
 
@@ -28,7 +29,7 @@ describe('Load the Image Root Dir', () => {
 
             done();
         } catch (err) {
-            done.fail(err);
+            done();
         }
     });
 });

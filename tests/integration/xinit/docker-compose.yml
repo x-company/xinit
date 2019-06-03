@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  xinit:
+    image: xinit:integration
+    build:
+      context: ../../../
+      target: xnodeimage
+    volumes:
+      - ../../../lib/:/code/lib/
+      - ../../../src/:/code/src/
+      - ../../../tests/:/code/tests/
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: nodemon --inspect=0.0.0.0:9229 --nolazy ./tests/integration/xinit/index.ts

@@ -27,39 +27,41 @@
     ],
     "scripts": {
         "lint": "tslint -c ./tslint.json './src/**/*.ts'",
-        "prebuild": "yarn build:clean && yarn lint",
+        "prebuild": "yarn lint",
         "build:clean": "rimraf -rf lib && mkdir lib ",
         "build": "tsc -p ./src/tsconfig.json",
         "postbuild": "appvmgr update build",
         "watch": "tsc -w -p ./src/tsconfig.json",
-        "pretest": "yarn build",
-        "test": "jasmine-ts 'spec/**/*.spec.ts'",
-        "prepublish": "yarn test && appvmgr update commit --tag"
+        "test": "yarn test:xinit && yarn test:xbuild",
+        "test:xinit": "docker-compose -f ./tests/unit/xinit/docker-compose.yml up",
+        "test:xbuild": "docker-compose -f ./tests/unit/xbuild/docker-compose.yml up",
+        "debug": "docker-compose -f ./tests/integration/xinit/docker-compose.yml up"
     },
     "devDependencies": {
+        "@types/chai": "^4.1.7",
         "@types/configstore": "^4.0.0",
+        "@types/express": "^4.16.1",
         "@types/find-root": "^1.1.1",
-        "@types/fs-extra": "^5.0.5",
-        "@types/jasmine": "^3.3.12",
-        "@types/node": "^11.12.0",
+        "@types/fs-extra": "^7.0.0",
+        "@types/mocha": "^5.2.7",
+        "@types/node": "^12.0.4",
         "@types/rimraf": "^2.0.2",
-        "@types/winston": "^2.4.4",
-        "@types/winston-syslog": "^2.0.2",
         "appversion-mgr": "^0.7.0",
-        "jasmine": "^3.3.1",
-        "jasmine-spec-reporter": "^4.2.1",
-        "jasmine-ts": "^0.3.0",
+        "bats": "^1.1.0",
+        "chai": "^4.2.0",
+        "express": "^4.17.1",
+        "mocha": "^6.1.4",
         "rimraf": "^2.6.3",
-        "ts-node": "^8.0.3",
-        "tslint": "^5.14.0",
-        "typescript": "^3.3.4000"
+        "ts-node": "^8.2.0",
+        "tslint": "^5.17.0",
+        "typescript": "^3.5.1",
+        "yarn": "^1.16.0"
     },
     "dependencies": {
-        "commander": "^2.19.0",
+        "commander": "^2.20.0",
         "configstore": "^4.0.0",
         "find-root": "^1.1.0",
-        "fs-extra": "^7.0.1",
-        "winston": "^3.2.1",
-        "winston-syslog": "^2.1.0"
+        "fs-extra": "^8.0.1",
+        "winston": "^3.2.1"
     }
 }

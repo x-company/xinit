@@ -1,4 +1,221 @@
 {
+    "breadcrumbs.enabled": true,
+    "breadcrumbs.filePath": "on",
+    "breadcrumbs.symbolPath": "off",
+    "codeheader.autoInsert": true,
+    "codeheader.copyright": false,
+    "cSpell.language": "en,en-US,de,de-DE",
+    "debug.openExplorerOnEnd": true,
+    "debug.inlineValues": true,
+    "debug.node.autoAttach": "on",
+    "docomment.activateOnEnter": true,
+    "dotnet-test-explorer.enableTelemetry": false,
+    "editor.detectIndentation": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false,
+    "editor.insertSpaces": true,
+    "editor.renderIndentGuides": true,
+    "editor.renderControlCharacters": true,
+    "editor.renderWhitespace": "all",
+    "editor.smoothScrolling": true,
+    "editor.tabCompletion": "on",
+    "editor.tabSize": 4,
+    "editor.trimAutoWhitespace": true,
+    "editor.useTabStops": true,
+    "extensions.ignoreRecommendations": true,
+    "extensions.showRecommendationsOnlyOnDemand": false,
+    "files.autoGuessEncoding": true,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "files.associations": {
+        "*.config": "json",
+        "*.info": "json"
+    },
+    "files.encoding": "utf8",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/*.js": {
+            "when": "$(basename).ts"
+        },
+        "**/*.js.map": true
+    },
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        "**/3rdParty/*/**": true,
+        "**/.runtime/*/**": true,
+        "**/.stores/*/**": true,
+        "**/.gitlab/*/**": true,
+        "**/.vscode/*/**": true
+    },
+    "git.autofetch": true,
+    "git.autorefresh": true,
+    "git.autoRepositoryDetection": true,
+    "git.checkoutType": "remote",
+    "git.confirmSync": false,
+    "git.promptToSaveFilesBeforeCommit": true,
+    "gitlab.showPipelineUpdateNotifications": true,
+    "licenser.disableAutoHeaderInsertion": false,
+    "licenser.projectName": "baseimage",
+    "licenser.license": "AL2",
+    "licenser.useSingleLineStyle": false,
+    "merge-conflict.autoNavigateNextConflict.enabled": true,
+    "npm.enableScriptExplorer": true,
+    "npm.fetchOnlinePackageInfo": false,
+    "omnisharp.autoStart": false,
+    "peacock.affectActivityBar": true,
+    "peacock.affectTitleBar": false,
+    "peacock.affectStatusBar": false,
+    "peacock.keepBadgeColor": true,
+    "peacock.keepForegroundColor": true,
+    "peacock.surpriseMeOnStartup": true,
+
+    "powershell.codeFormatting.preset": "Allman",
+    "powershell.scriptAnalysis.settingsPath": "./.vscode/PSScriptAnalyzerSettings.psd1",
+
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/.build": true,
+        "**/changelogs": true,
+        "**/doc": true,
+        "**/.stores": true,
+        "**/.vscode": true,
+        "**/.gitlab": true,
+        "**/.runtime": true
+    },
+    "shellLauncher.shells.windows": [
+        {
+            "shell": "/bin/bash",
+            "label": "bash",
+            "launchName": "bash"
+        },
+        {
+            "shell": "/usr/bin/pwsh",
+            "label": "PowerShell Core",
+            "launchName": "PowerShell Core"
+        }
+    ],
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.scrollback": 10000,
+    "terminal.integrated.shell.windows": "/usr/bin/pwsh",
+    "todo-tree.autoRefresh": true,
+    "todo-tree.grouped": true,
+    "todo-tree.flat": true,
+    "todo-tree.regexCaseSensitive": false,
+    "todo-tree.showCountsInTree": true,
+    "todo-tree.showTagsFromOpenFilesOnly": false,
+    "todo-tree.statusBar": "total",
+    "todo-tree.trackFile": true,
+    "todo-tree.highlightDelay": 500,
+    "todo-tree.tags": [
+        "TODO",
+        "FIXME",
+        "POWERTIP",
+        "HACK",
+        "TRICKY",
+        "BUG",
+        "BREAKING",
+        "DEPRECATED"
+    ],
+    "todo-tree.defaultHighlight": {
+        "icon": "checklist",
+        "type": "tag",
+        "foreground": "white",
+        "background": "yellow",
+        "opacity": 80,
+        "iconColour": "white"
+    },
+    "todo-tree.customHighlight": {
+        "TODO": {
+            "background": "#2bc600",
+            "icon": "check",
+            "iconColour": "#2bc600"
+        },
+        "FIXME": {
+            "background": "#c300dd",
+            "icon": "tools",
+            "iconColour": "#c300dd"
+        },
+        "POWERTIP": {
+            "background": "yellow",
+            "icon": "light-bulb",
+            "iconColour": "yellow"
+        },
+        "BUG": {
+            "background": "red",
+            "icon": "bug",
+            "iconColour": "red"
+        },
+        "HACK": {
+            "background": "grey",
+            "icon": "file-binary",
+            "iconColour": "grey"
+        },
+        "TRICKY": {
+            "background": "#ff00b2",
+            "icon": "mortar-board",
+            "iconColour": "#ff00b2"
+        },
+        "BREAKING": {
+            "background": "#ffa500",
+            "icon": "alert",
+            "iconColour": "#ffa500"
+        },
+        "DEPRECATED": {
+            "type": "tag",
+            "background": "#c6003b",
+            "icon": "trashcan",
+            "iconColour": "#c6003b"
+        }
+    },
+    "todo-tree.excludeGlobs": [
+        "node_modules/**/*",
+        ".git/**/*",
+        ".gitlab/**/*",
+        ".vscode/**/*"
+    ],
+    "typelens.skiplanguages": [
+        "csharp",
+        "powershell"
+    ],
+    "update.showReleaseNotes": false,
+    "vsicons.projectDetection.disableDetect": true,
+    "workbench.enableExperiments": false,
+    "workbench.iconTheme": "vscode-great-icons",
+    "workbench.list.horizontalScrolling": true,
+    "workbench.settings.editor": "json",
+    "workbench.settings.enableNaturalLanguageSearch": false,
+    "workbench.settings.openDefaultSettings": true,
+    "workbench.settings.useSplitJSON": true,
+    "powershell.codeFormatting.alignPropertyValuePairs": false,
+    "logViewer.showStatusBarItemOnChange": true,
+    "[json]": {
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "files.encoding": "utf8",
+        "files.autoGuessEncoding": false
+    },
+    "[powershell]": {
+        "files.encoding": "utf8",
+        "files.autoGuessEncoding": false
+    },
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#65c89b"
+    },
     "cSpell.words": [
         "Breitschaft",
         "ENTRYPOINT",
@@ -22,126 +239,18 @@
         "killall",
         "postbuild",
         "prebuild",
+        "predocker",
         "printf",
         "runit",
         "sbin",
+        "testarea",
         "xbuild",
         "xcom",
-        "xinit"
+        "xinit",
+        "xnodeimage"
     ],
-    "licenser.license": "MIT",
-    "licenser.projectName": "xinit",
-    "licenser.author": "IT Solutions Roland Breitschaft <info@x-company.de>",
-    "licenser.useSingleLineStyle": false,
-    "codeheader.autoInsert": true,
-    "codeheader.copyright": false,
-    "jasmineExplorer.nodeArgv": [
-        "--require",
-        "ts-node/register"
-    ],
-    "jasmineExplorer.env": {
-        "TS_NODE_PROJECT": "./src/tsconfig.json"
-    },
-    "search.exclude": {
-        "**/.git/**": true,
-        "**/node_modules/*/**": true,
-        "**/.gitlab/*/**": true,
-        "**/.vscode/*/**": true,
-        "**/bower_components": true,
-        "**/changelogs": true,
-        "**/doc": true
-    },
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "node_modules": true
-    },
-    "files.watcherExclude": {
-        "**/.git/**": true,
-        "**/node_modules/*/**": true,
-        "**/.gitlab/*/**": true,
-        "**/.vscode/*/**": true
-    },
-    "todo-tree.grouped": true,
-    "todo-tree.flat": true,
-    "todo-tree.statusBar": "total",
-    "todo-tree.regexCaseSensitive": false,
-    "todo-tree.tags": [
-        "TODO",
-        "FIXME",
-        "POWERTIP",
-        "HACK",
-        "TRICKY",
-        "BUG",
-        "BREAKING"
-    ],
-    "todo-tree.showCountsInTree": true,
-    "todo-tree.defaultHighlight": {
-        "icon": "checklist",
-        "type": "tag",
-        "foreground": "white",
-        "background": "yellow",
-        "opacity": 80,
-        "iconColour": "white"
-    },
-    "todo-tree.customHighlight": {
-        "TODO": {
-            "background": "#2bc600",
-            "icon": "check",
-            "iconColour": "#2bc600"
-        },
-        "FIXME": {
-            "background": "#c300dd",
-            "icon" : "tools",
-            "iconColour": "#c300dd"
-        },
-        "POWERTIP": {
-            "background": "yellow",
-            "icon": "light-bulb",
-            "iconColour": "yellow"
-        },
-        "BUG":{
-            "background": "red",
-            "icon": "bug",
-            "iconColour": "red"
-        },
-        "HACK":{
-            "background": "grey",
-            "icon": "file-binary",
-            "iconColour": "grey"
-        },
-        "TRICKY":{
-            "background": "#ff00b2",
-            "icon": "mortar-board",
-            "iconColour": "#ff00b2"
-        },
-        "BREAKING":{
-            "background": "#ffa500",
-            "icon": "alert",
-            "iconColour": "#ffa500"
-        }
-    },
-    "todo-tree.excludeGlobs": [
-        "node_modules/**/*",
-        ".git/**/*",
-        ".gitlab/**/*",
-        ".vscode/**/*"
-    ],
-    "gitlab.instanceUrl": "https://git.x-company.de",
-    "gitlab.ignoreCertificateErrors": true,
-    "gitlab.showPipelineUpdateNotifications": true,
-    "workbench.iconTheme": "vscode-great-icons",
-    "workbench.settings.editor": "json",
-    "workbench.settings.openDefaultSettings": true,
-    "workbench.settings.useSplitJSON": true,
-    "workbench.colorCustomizations": {
-        "activityBar.background": "#65c89b",
-        "activityBar.foreground": "#15202b",
-        "activityBar.inactiveForeground": "#15202b99",
-        "activityBarBadge.background": "#945bc4",
-        "activityBarBadge.foreground": "#e7e7e7"
-    }
+    "mochaExplorer.files": "tests/unit/xinit/**/*.Tests.ts",
+    "mochaExplorer.optsFile": "tests/unit/mocha.opts",
+    "mochaExplorer.require": "ts-node/register",
+    "mochaExplorer.timeout": 999999
 }

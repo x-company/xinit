@@ -10,13 +10,12 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 14:38:04
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-27 00:37:53
+ * @Last Modified At: 2019-05-31 18:00:28
  * @Description: This is description.
  */
 
 
 import winston, { Logger, format } from 'winston';
-import { Syslog } from 'winston-syslog';
 import { Info } from '../helpers/Info';
 import { CliManager } from './CliManager';
 
@@ -52,6 +51,7 @@ export class Log {
 
         if (!this.logger) {
             const { combine, timestamp, label, printf } = format;
+
 
             // tslint:disable-next-line: no-shadowed-variable
             const customFormat = printf(({ level, message, label, timestamp }) => {

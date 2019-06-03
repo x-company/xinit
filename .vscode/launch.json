@@ -2,117 +2,50 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "bashdb",
-            "request": "launch",
-            "name": "Bash-Debug (hardcoded script name)",
-            "cwd": "${workspaceFolder}",
-            "program": "${workspaceFolder}/tests/integration/${input:cli_integration_tests}",
-            "args": []
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Docker",
+            "preLaunchTask": "tsc-watch",
+            "protocol": "auto",
+            "address": "localhost",
+            "port": 9229,
+            "restart": true,
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/code/",
+            "sourceMapPathOverrides": {
+                "/code/*": "${workspaceFolder}/*"
+            }
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Unit Tests",
-            "program": "${workspaceFolder}/node_modules/jasmine-ts/lib/index.js",
-            "cwd": "${workspaceFolder}",
-            "args": [
-                "${workspaceFolder}\\${relativeFile}"
-            ],
-            "env": {
-                "NODE_ENV": "DEVELOPMENT",
-                "NODE_APP_INSTANCE": "BK10",
-                "NODE_CONFIG_DIR": "${workspaceFolder}"
-            },
-            "sourceMaps": true,
-            "internalConsoleOptions": "neverOpen",
+            "name": "Debug TypeScript File",
+            "autoAttachChildProcesses": true,
+            "internalConsoleOptions": "openOnSessionStart",
             "console": "integratedTerminal",
-            "showAsyncStacks": false,
-            "protocol": "inspector",
-            "autoAttachChildProcesses": false,
-            "smartStep": false
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch CLI (NoArgs)",
+            "smartStep": true,
+            "showAsyncStacks": true,
             "cwd": "${workspaceFolder}",
-            "args": [
-                "${workspaceFolder}/src/cli/${input:cli_command}.ts",
-            ],
-            "env": {
-                "NODE_ENV": "DEVELOPMENT",
-                "NODE_APP_INSTANCE": "BK10",
-                "NODE_CONFIG_DIR": "${workspaceFolder}"
-            },
             "runtimeArgs": [
-                "-r",
+                "--require",
                 "ts-node/register"
             ],
-            "sourceMaps": true,
-            "internalConsoleOptions": "neverOpen",
-            "console": "integratedTerminal",
-            "showAsyncStacks": false,
-            "protocol": "inspector",
-            "autoAttachChildProcesses": false,
-            "smartStep": false
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch CLI (WithArgs)",
-            "cwd": "${workspaceFolder}",
             "args": [
-                "${workspaceFolder}/src/cli/${input:cli_command}.ts",
-                "${input:cli_param}",
-                "${input:cli_arg}"
-            ],
-            "env": {
-                "NODE_ENV": "DEVELOPMENT",
-                "NODE_APP_INSTANCE": "BK10",
-                "NODE_CONFIG_DIR": "${workspaceFolder}"
-            },
-            "runtimeArgs": [
-                "-r",
-                "ts-node/register"
-            ],
-            "sourceMaps": true,
-            "internalConsoleOptions": "neverOpen",
-            "console": "integratedTerminal",
-            "showAsyncStacks": false,
-            "protocol": "inspector",
-            "autoAttachChildProcesses": false,
-            "smartStep": false
-        }
-    ],
-    "inputs": [
-        {
-            "id": "cli_command",
-            "description": "Choose CLI Command",
-            "type": "pickString",
-            "default": "xinit",
-            "options": [
-                "xinit",
-                "xinit-layout",
-                "xinit-run",
-                "xinit-service"
+                "${file}"
             ]
         },
         {
-            "id": "cli_param",
-            "description": "Type a CLI Command param",
-            "type": "promptString"
-        },
-        {
-            "id": "cli_arg",
-            "description": "Type a CLI Command arg",
-            "type": "promptString"
-        },
-        {
-            "id": "cli_integration_tests",
-            "description": "Choose Integration Test",
-            "type": "pickString",
-            "options": [
-                "CreateService.Tests.sh"
+            "type": "node",
+            "request": "launch",
+            "name": "Debug NodeJS File",
+            "autoAttachChildProcesses": true,
+            "internalConsoleOptions": "openOnSessionStart",
+            "console": "integratedTerminal",
+            "smartStep": true,
+            "showAsyncStacks": true,
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "${file}"
             ]
         }
     ]

@@ -53,7 +53,7 @@ export class Info {
 
         let name = this.ProductName;
 
-        Log.verbose('Load package.json');
+        // Load package.json;
         const root = findRoot(__dirname);
         const packageFile = path.join(root, 'package.json');
         if (fs.existsSync(packageFile)) {
@@ -82,7 +82,11 @@ export class Info {
             if (dirs.length > 1) {
                 throw new Error('More than one Base Images found. Please specify the Base Image with parameter -i or --image');
             } else {
-                imageName = path.basename(dirs[0]);
+                if (dirs.length === 1) {
+                    imageName = path.basename(dirs[0]);
+                } else {
+                    throw new Error('No Base Image found.');
+                }
             }
         }
 
