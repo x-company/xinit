@@ -109,7 +109,7 @@ set -e
 source /usr/local/include/sbin/xbuild.sh
 
 # Comment out if you don't want Debug Messages
-set -x
+# set -x
 
 # Services to Install
 services="<List your Services which will installed by apt>"

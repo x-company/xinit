@@ -13,8 +13,6 @@
  * @Description: This is description.
  */
 
-
-
 import fs from 'fs-extra';
 import path from 'path';
 import findRoot from 'find-root';
