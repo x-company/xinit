@@ -250,7 +250,7 @@
         "xnodeimage"
     ],
     "mochaExplorer.files": "tests/unit/xinit/**/*.Tests.ts",
-    "mochaExplorer.optsFile": "tests/unit/mocha.opts",
     "mochaExplorer.require": "ts-node/register",
-    "mochaExplorer.timeout": 999999
+    "mochaExplorer.timeout": 999999,
+    "mochaExplorer.pruneFiles": true
 }
