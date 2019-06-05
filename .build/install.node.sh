@@ -5,16 +5,25 @@ source /usr/local/include/xbuild
 
 header "Prepare Docker Image for Node Testing"
 
+
 nodeVer="12"
-if [ "$XBUILD_OSNAME" = "ubuntu" ]
+if [ "$XBUILD_MIRROR_IS_AVAIL" = "true" ]
 then
-    {
-        echo "deb [arch=amd64] $XBUILD_MIRROR/node/node_$nodeVer.x $XBUILD_OSCODENAME main"
-    } > /etc/apt/sources.list.d/node.list
+    if [ "$XBUILD_OSNAME" = "ubuntu" ]
+    then
+        {
+            echo "deb [arch=amd64] $XBUILD_MIRROR/node/node_$nodeVer.x $XBUILD_OSCODENAME main"
+        } > /etc/apt/sources.list.d/node.list
+    else
+        {
+            echo "deb [arch=amd64] $XBUILD_MIRROR/node/node_$nodeVer.x $XBUILD_OSCODENAME main"
+            echo "#deb [arch=amd64] $XBUILD_MIRROR/node/node_$nodeVer.x sid main"
+        } > /etc/apt/sources.list.d/node.list
+    fi
 else
     {
-        echo "deb [arch=amd64] $XBUILD_MIRROR/node/node_$nodeVer.x $XBUILD_OSCODENAME main"
-        echo "#deb [arch=amd64] $XBUILD_MIRROR/node/node_$nodeVer.x sid main"
+        echo "deb https://deb.nodesource.com/node_$nodeVer.x $XBUILD_OSCODENAME main"
+        echo "deb-src https://deb.nodesource.com/node_$nodeVer.x $XBUILD_OSCODENAME main"
     } > /etc/apt/sources.list.d/node.list
 fi
 
