@@ -15,6 +15,7 @@
 
 import { CliManager } from '../../../src/helpers/CliManager';
 import { expect } from 'chai';
+import path from 'path';
 
 describe('Test the CliManager', () => {
 
@@ -54,7 +55,7 @@ describe('Test the CliManager', () => {
 
     it('Get the Default Base Directory', () => {
         // arrange
-        const expected = '/code';
+        const expected = process.cwd();
         CliManager.clear();
 
         // act
@@ -66,7 +67,7 @@ describe('Test the CliManager', () => {
 
     it('Get the Base Directory for testarea', () => {
         // arrange
-        const expected = '/code/testarea';
+        const expected = path.join(process.cwd(), 'testarea');
 
         // act
         const actual = CliManager.getDirectory('testarea');

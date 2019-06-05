@@ -68,7 +68,7 @@ describe('Load the Image Root Dir', () => {
     it('Load Image Root with an Image Name', () => {
 
         // arrange, act & assert
-        const expected = path.join('/code', imageName);
+        const expected = path.join(process.cwd(), imageName);
 
         // act
         const actual = Info.getImageRoot(imageName);
