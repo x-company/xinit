@@ -8,4 +8,4 @@ services:
       target: dev
     volumes:
       - ../../:/code/
-    command: node /usr/bin/mocha --require ts-node/register './tests/unit/**/*.Tests.ts'
+    command: node /usr/bin/mocha --require ts-node/register '/code/tests/unit/**/*.Tests.ts'
