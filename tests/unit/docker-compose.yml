@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  xinit:
+    image: xinit:unit
+    build:
+      context: ../../
+      target: dev
+    volumes:
+      - ../../:/code/
+    command: node node_modules/.bin/_mocha --require ts-node/register './tests/unit/**/*.Tests.ts'

@@ -14,7 +14,7 @@
  */
 
 import { expect } from 'chai';
-import { XInitPaths } from '../../../../src/helpers/XInitPaths';
+import { XInitPaths } from '../../../src/helpers/XInitPaths';
 import fs from 'fs-extra';
 
 describe('Test the XInit Paths', () => {

@@ -25,6 +25,10 @@
         "init",
         "runit"
     ],
+    "config": {
+        "image_name": "xcompany/xinit",
+        "repo_user": "rolbre"
+    },
     "scripts": {
         "lint": "tslint -c ./tslint.json './src/**/*.ts'",
         "prebuild": "yarn lint",
@@ -32,10 +36,9 @@
         "build": "tsc -p ./src/tsconfig.json",
         "postbuild": "appvmgr update build",
         "watch": "tsc -w -p ./src/tsconfig.json",
-        "test": "yarn test:xinit && yarn test:xbuild",
-        "test:xinit": "docker-compose -f ./tests/unit/xinit/docker-compose.yml up",
-        "test:xbuild": "docker-compose -f ./tests/unit/xbuild/docker-compose.yml up",
-        "debug": "docker-compose -f ./tests/integration/xinit/docker-compose.yml up"
+        "test": "docker-compose -f ./tests/unit/docker-compose.yml up",
+        "test:clean": "docker container prune -f && docker image rm -f xinit:unit && docker image rm -f xinit:integration",
+        "debug": "docker-compose -f ./tests/integration/docker-compose.yml up"
     },
     "devDependencies": {
         "@types/chai": "^4.1.7",

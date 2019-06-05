@@ -13,8 +13,8 @@
  * @Description: This is description.
  */
 
-import { Info } from '../../../../src/helpers/Info';
-import { CliManager } from '../../../../src/helpers/CliManager';
+import { Info } from '../../../src/helpers/Info';
+import { CliManager } from '../../../src/helpers/CliManager';
 import { expect } from 'chai';
 import fs from 'fs-extra';
 import path from 'path';

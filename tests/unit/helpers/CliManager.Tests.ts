@@ -13,7 +13,7 @@
  * @Description: This is description.
  */
 
-import { CliManager } from '../../../../src/helpers/CliManager';
+import { CliManager } from '../../../src/helpers/CliManager';
 import { expect } from 'chai';
 
 describe('Test the CliManager', () => {

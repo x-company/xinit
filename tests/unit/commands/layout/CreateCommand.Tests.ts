@@ -13,7 +13,7 @@
  * @Description: This is description.
  */
 
-import { CreateCommand } from '../../../../../src/commands/layout/CreateCommand';
+import { CreateCommand } from '../../../../src/commands/layout/CreateCommand';
 import { expect, assert } from 'chai';
 import fs from 'fs-extra';
 import path from 'path';

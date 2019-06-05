@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-source /usr/local/sbin/xbuild
+source /usr/local/include/xbuild
 
 header "Prepare Docker Image for Node Testing"
 

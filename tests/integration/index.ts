@@ -14,7 +14,7 @@
  */
 
 import express from 'express';
-import { CreateCommand } from '../../../src/commands/layout/CreateCommand';
+import { CreateCommand } from '../../src/commands/layout/CreateCommand';
 
 const app = express();
 app.listen(3000, () => { console.log('Server is running on Port 3000'); });

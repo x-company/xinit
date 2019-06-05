@@ -3,6 +3,9 @@
 .gitignore
 .gitlab
 .gitlab-ci.yml
+.github
+.circleci
+.build
 node_modules
 spec
 tsconfig.json
