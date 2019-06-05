@@ -35,7 +35,7 @@ log "Install NodeJS $nodeVer ..."
 install nodejs
 
 log "Install required Node Packages ..."
-npm install -g nodemon typescript ts-node rimraf yarn
+npm install -g nodemon typescript ts-node rimraf yarn mocha chai
 
 log "Install Node Dependencies ..."
 npm install
