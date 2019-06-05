@@ -27,4 +27,4 @@ jobs:
 
       - run:
           name: Execute Unit Tests
-          command: node ./node_modules/.bin/_mocha --require ts-node/register './tests/unit/**/*.Tests.ts
+          command: node ./node_modules/.bin/_mocha --require ts-node/register './tests/unit/**/*.Tests.ts'
