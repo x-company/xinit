@@ -1,4 +1,5 @@
-# XINIT - A Docker Init Helper
+# xinit
+A Init System for Docker Images written in Node
 
 [![xinit-version](https://img.shields.io/badge/Version-0.1.0-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xinit/v/0.1.0)
 [![xinit-status](https://img.shields.io/badge/Status-alpha%200-brightgreen.svg?style=flat)](https://github.com/x-company/xinit#status)
