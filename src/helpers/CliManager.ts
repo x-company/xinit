@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-03 09:31:24
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-03 09:31:24
+ * @Last Modified At: 2019-06-03 13:18:57
  * @Description: This is description.
  */
 
@@ -61,7 +61,7 @@ export class CliManager {
         Info.Store.clear();
     }
 
-    public static getDirectory(baseDirectory?: string): string {
+    public static getDirectory(baseDirectory?: string | null | undefined): string {
 
         if (!baseDirectory) {
             const directory = this.get<string>('directory');

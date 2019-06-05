@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 14:37:05
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-26 23:10:38
+ * @Last Modified At: 2019-06-03 16:15:00
  * @Description: This is description.
  */
 
@@ -68,14 +68,9 @@ export class Info {
         return store;
     }
 
-    public static getImageRoot(imageName?: string): string {
+    public static getImageRoot(imageName?: string | null | undefined, baseDirectory?: string | null | undefined): string {
 
-        let rootDirectory = CliManager.getDirectory();
-        if (rootDirectory === process.cwd()) {
-            rootDirectory = path.join(process.cwd(), 'src');
-            fs.ensureDirSync(rootDirectory);
-        }
-
+        let rootDirectory = CliManager.getDirectory(baseDirectory);
         if (!imageName) {
             const dirs = fs.readdirSync(rootDirectory).filter((file) => fs.statSync(path.join(rootDirectory, file)).isDirectory());
 
@@ -90,10 +85,9 @@ export class Info {
             }
         }
 
-        const distDir = path.join(rootDirectory, imageName, 'dist');
-        fs.ensureDirSync(distDir);
-
-        return distDir;
+        rootDirectory = path.join(rootDirectory, imageName);
+        fs.ensureDirSync(rootDirectory);
+        return rootDirectory;
     }
 
     private static PROG_VERSION: string = '0.1.0';

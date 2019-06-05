@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-02 18:13:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-03 13:07:25
+ * @Last Modified At: 2019-06-03 14:02:10
  * @Description: This is description.
  */
 
@@ -23,17 +23,21 @@ describe('Creates a new Layout for Services', () => {
     const baseImageName = 'mybaseimagename';
     const imageName = 'myimagename';
 
+    beforeEach(async () => {
+        if (fs.existsSync(testarea)) {
+            await fs.remove(testarea);
+        }
+    });
+
     it('Create a default Layout', async () => {
         // Arrange
 
         // Act
-        const cmd = new CreateCommand({
+        new CreateCommand({
             directory: testarea,
             baseImageName,
             imageName,
-        });
-
-        await cmd.invoke();
+        }).invoke();
 
         // Assert
         const exists = fs.existsSync(testarea);

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
-
-function log()
-{
-	local msg="$1"
-	echo "${YELLOW}${msg}${RESET}"
-}

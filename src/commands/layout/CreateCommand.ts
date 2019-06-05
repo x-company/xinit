@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-27 12:17:18
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-27 12:44:11
+ * @Last Modified At: 2019-06-03 13:17:43
  * @Description: This is description.
  */
 
@@ -38,14 +38,15 @@ export class CreateCommand extends Command<LayoutCommandOptions> {
 
         try {
 
-            const imageRoot = Info.getImageRoot(this.options.imageName);
+            const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
+            const distRoot = path.join(imageRoot, 'dist');
 
             const buildDir = path.join(imageRoot, 'build');
             const buildSvDir = path.join(buildDir, 'services');
-            const svDir = path.join(imageRoot, 'etc/sv');
-            const xinitDir = path.join(imageRoot, 'etc/xinit.d');
-            const usrDir = path.join(imageRoot, 'usr/local/bin');
-            const varDir = path.join(imageRoot, 'var/local/xinit');
+            const svDir = path.join(distRoot, 'etc/sv');
+            const xinitDir = path.join(distRoot, 'etc/xinit.d');
+            const usrDir = path.join(distRoot, 'usr/local/bin');
+            const varDir = path.join(distRoot, 'var/local/xinit');
 
             fs.ensureDirSync(imageRoot);
             fs.ensureDirSync(buildDir);

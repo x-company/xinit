@@ -195,7 +195,6 @@
     "workbench.settings.openDefaultSettings": true,
     "workbench.settings.useSplitJSON": true,
     "powershell.codeFormatting.alignPropertyValuePairs": false,
-    "logViewer.showStatusBarItemOnChange": true,
     "[json]": {
         "editor.quickSuggestions": {
             "strings": true
@@ -249,8 +248,8 @@
         "xinit",
         "xnodeimage"
     ],
-    "mochaExplorer.files": "tests/unit/xinit/**/*.Tests.ts",
-    "mochaExplorer.require": "ts-node/register",
-    "mochaExplorer.timeout": 999999,
-    "mochaExplorer.pruneFiles": true
+    "mocha.files.glob": "tests/unit/xinit/**/*.Tests.ts",
+    "mocha.requires": [
+        "ts-node/register"
+    ]
 }
