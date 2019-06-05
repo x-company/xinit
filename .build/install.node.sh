@@ -5,7 +5,6 @@ source /usr/local/include/xbuild
 
 header "Prepare Docker Image for Node Testing"
 
-
 nodeVer="12"
 if [ "$XBUILD_MIRROR_IS_AVAIL" = "true" ]
 then
