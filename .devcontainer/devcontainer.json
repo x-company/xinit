@@ -1,0 +1,67 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+	"name": "xinit system",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "xinit",
+    "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
+
+
+	// Uncomment the next line if you want to publish any ports.
+	// "appPort": [],
+
+	// Uncomment the next line if you want to add in default container specific settings.json values
+	// "settings":  { "workbench.colorTheme": "Quiet Light" },
+
+	// Uncomment the next line to run commands after the container is created.
+	// "postCreateCommand": "yarn install",
+
+	"extensions": [
+        // Global Extensions
+        "streetsidesoftware.code-spell-checker",
+        "streetsidesoftware.code-spell-checker-german",
+        "xiaokangtu.codeheader",
+        "philhindle.errorlens",
+        "ymotongpoo.licenser",
+        "ionutvmi.path-autocomplete",
+        "christian-kohler.path-intellisense",
+        "alefragnani.bookmarks",
+        "pomber.git-file-history",
+        "mhutchie.git-graph",
+        "emilast.logfilehighlighter",
+        "ibm.output-colorizer",
+        "johnpapa.vscode-peacock",
+        "gruntfuggly.todo-tree",
+        "coenraads.bracket-pair-colorizer-2",
+        "github.vscode-pull-request-github",
+        "emmanuelbeziat.vscode-great-icons",
+
+        // Node and Typescript Extensions
+        "markis.code-coverage",
+        "chrmarti.regex",
+        "ms-vscode.vscode-typescript-tslint-plugin",
+        "zuoez02.tslint-snippets",
+        "kisstkondoros.typelens",
+        "pflannery.vscode-versionlens",
+        "maty.vscode-mocha-sidebar",
+        "adambaldwin.vscode-nsp",
+        "eizongmin.node-module-intellisense",
+        "christian-kohler.npm-intellisense",
+        "gregorbiswanger.json2ts",
+        "salbert.comment-ts",
+
+        // Markdown Extensions
+        "davidanson.vscode-markdownlint",
+        "docsmsft.docs-article-templates",
+        "docsmsft.docs-markdown",
+        "docsmsft.docs-preview",
+
+        // Bash Extensions
+        "rogalmic.bash-debug",
+        "bat-snippets.bat-snippets",
+        "jetmartin.bats",
+        "rpinski.shebang-snippets",
+        "foxundermoon.shell-format",
+        "remisa.shellman"
+    ]
+}

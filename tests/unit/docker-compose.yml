@@ -4,8 +4,7 @@ services:
   xinit:
     image: xinit:unit
     build:
-      context: ../../
-      target: dev
+      context: ../../.devcontainer
     volumes:
-      - ../../:/code/
-    command: node /usr/bin/mocha --require ts-node/register '/code/tests/unit/**/*.Tests.ts'
+      - ../../:/workspace/
+    command: node /usr/bin/mocha --require ts-node/register '/workspace/tests/unit/**/*.Tests.ts'

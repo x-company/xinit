@@ -21,19 +21,13 @@ import path from 'path';
 
 describe('Load the Image Root Dir', () => {
 
-    const testarea = path.join('/code', 'testarea');
+    const testarea = path.join(process.cwd(), 'testarea');
     const imageName = 'infoTestImage';
 
     beforeEach(async () => {
         CliManager.clear();
 
-        if (fs.existsSync(testarea)) {
-            await fs.removeSync(testarea);
-        }
-    });
-
-    afterEach(() => {
-        const root = path.join('/code', imageName);
+        const root = path.join(process.cwd(), imageName);
 
         if (fs.existsSync(imageName)) {
             fs.removeSync(imageName);

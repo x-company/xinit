@@ -34,32 +34,26 @@
         "prebuild": "yarn lint && rimraf -rf lib && mkdir lib && appvmgr update build",
         "build": "tsc -p ./src/tsconfig.json",
         "postbuild": "git add . && git commit -m 'Automatic Build Commit'",
-        "prepublish": "yarn build && appvmgr add-git-tag && git push --all",
+        "prepublish": "yarn build && appvmgr add-git-tag && git push --tags && git push --all",
         "watch": "tsc -w -p ./src/tsconfig.json",
         "test": "docker-compose -f ./tests/unit/docker-compose.yml up",
-        "test:clean": "docker container prune -f && docker image rm -f xinit:unit && docker image rm -f xinit:integration",
-        "debug": "docker-compose -f ./tests/integration/docker-compose.yml up"
+        "test:clean": "docker container prune -f && docker image rm -f xinit:unit"
     },
     "devDependencies": {
         "@types/chai": "^4.1.7",
         "@types/configstore": "^4.0.0",
-        "@types/express": "^4.16.1",
         "@types/find-root": "^1.1.1",
         "@types/fs-extra": "^7.0.0",
         "@types/mocha": "^5.2.7",
         "@types/node": "^12.0.4",
         "@types/rimraf": "^2.0.2",
         "appversion-mgr": "^0.7.0",
-        "bats": "^1.1.0",
         "chai": "^4.2.0",
-        "express": "^4.17.1",
         "mocha": "^6.1.4",
-        "nyc": "^14.1.1",
         "rimraf": "^2.6.3",
         "ts-node": "^8.2.0",
         "tslint": "^5.17.0",
-        "typescript": "^3.5.1",
-        "yarn": "^1.16.0"
+        "typescript": "^3.5.1"
     },
     "dependencies": {
         "commander": "^2.20.0",

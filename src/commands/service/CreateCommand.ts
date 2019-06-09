@@ -31,20 +31,20 @@ export class CreateCommand extends Command<ServiceCommandOptions> {
 
         try {
 
+            const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
 
-            const rootDir = Info.getImageRoot(this.options.imageName);
-
-            const svInstallDir = path.join(rootDir, 'build', 'services', this.options.serviceName);
-            const svRunitDir = path.join(rootDir, 'etc', 'sv', this.options.serviceName);
-            const xinitDir = path.join(rootDir, 'etc', 'xinit.d');
+            const svInstallDir = path.join(imageRoot, 'build', 'services', this.options.serviceName);
+            const svRunitDir = path.join(imageRoot, 'dist', 'etc', 'sv', this.options.serviceName);
+            const xinitDir = path.join(imageRoot, 'dist', 'etc', 'xinit.d');
 
             fs.ensureDirSync(svInstallDir);
             fs.ensureDirSync(svRunitDir);
             fs.ensureDirSync(xinitDir);
 
-            await this.createServiceControlFile(xinitDir);
+            await this.createServiceControlFile(svInstallDir);
             await this.createServiceInstallFile(svInstallDir);
-            await this.createServiceFile(svRunitDir);
+            await this.createServiceFile(svInstallDir);
+            await this.createHealthcheckFile(svInstallDir);
 
         } catch (e) {
             throw e;
@@ -144,7 +144,8 @@ esac
 exit 0
 `;
 
-        const scriptFileName = path.join(directory, this.options.serviceName);
+        // const scriptFileName = path.join(directory, this.options.serviceName);
+        const scriptFileName = path.join(directory, `${this.options.serviceName}.service`);
         await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
     }
 
@@ -153,14 +154,26 @@ exit 0
         const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-set -e
-source /build/helper.sh
-set -x
+# Set the Error Handling for the first Error and for unused Variables
+set -eu -o pipeline
+
+# If you want more Debug Infos comment the follow line out
+# set -eux -o pipeline
+
+source /usr/local/include/xbuild
+
 
 # Execute Commands to Configure the Service
+$services=(<List your Services which will installed by apt>)
+
+header "Install Service  ..."
+install --packages "$services"
+
+header "Configure Services ..."
+configure --services "$services"
 
 `;
-        const scriptFileName = path.join(directory, this.options.serviceName);
+        const scriptFileName = path.join(directory, `${this.options.serviceName}.build`);
         await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
     }
 
@@ -169,7 +182,11 @@ set -x
         const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-set -e
+# Set the Error Handling for the first Error and for unused Variables
+set -eu -o pipeline
+
+# If you want more Debug Infos comment the follow line out
+# set -eux -o pipeline
 
 # Execute the Service
 exec 2>&1
@@ -177,8 +194,31 @@ exec <Service Command>
 
 `;
 
-        const scriptFileName = path.join(directory, 'run');
+        // const scriptFileName = path.join(directory, 'run');
+        const scriptFileName = path.join(directory, `${this.options.serviceName}.runit`);
         await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
 
+    }
+
+    private async createHealthcheckFile(directory: string) {
+
+        const content = `#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+# Set the Error Handling for the first Error and for unused Variables
+set -eu -o pipeline
+
+# If you want more Debug Infos comment the follow line out
+# set -eux -o pipeline
+
+# Place here your Health Check Tests
+
+# When everything is ok, than return 0, otherwise return 1
+exit 0
+`;
+
+        const scriptFileName = path.join(directory, `${this.options.serviceName}.health`);
+        await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
+        await fs.chmod(scriptFileName, 0o755);
     }
 }

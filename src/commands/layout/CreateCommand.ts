@@ -58,7 +58,6 @@ export class CreateCommand extends Command<LayoutCommandOptions> {
 
             await this.createDockerFile(path.join(imageRoot, '..'));
             await this.createBuildFile(buildDir);
-            await this.createHealthcheckFile(usrDir);
 
         } catch (e) {
             throw e;
@@ -106,20 +105,20 @@ HEALTHCHECK --interval=5s --timeout=3s CMD /usr/local/bin/healthcheck.sh || exit
         const buildFileContent = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-set -e
-source /usr/local/include/sbin/xbuild.sh
+# Set the Error Handling for the first Error and for unused Variables
+set -eu -o pipeline
 
-# Comment out if you don't want Debug Messages
-# set -x
+# If you want more Debug Infos comment the follow line out
+# set -eux -o pipeline
 
-# Services to Install
+# Load the xbuild System
+source /usr/local/include/xbuild
+
+header "Prepare Services to Install ..."
 services="<List your Services which will installed by apt>"
 
-header "Install Services ..."
-install --packages "$services"
-
-header "Configure Services ..."
-configure --services "$services"
+header "Build Services ..."
+build --services $services
 
 header "Cleanup the Build ..."
 cleanup
@@ -130,25 +129,6 @@ cleanup
             await fs.writeFile(buildFile, buildFileContent, { encoding: 'utf-8' });
 
             await fs.chmod(buildFile, 0o755);
-        }
-    }
-
-    private async createHealthcheckFile(directory: string) {
-
-        const healthcheckFileContent = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
-
-set -e
-
-# Place here your Health Check Tests
-
-# When everything is ok, than return 0, otherwise return 1
-exit 0
-`;
-        const healthcheckFile = path.join(directory, 'healthcheck.sh');
-        if (!fs.existsSync(healthcheckFile)) {
-            await fs.writeFile(healthcheckFile, healthcheckFileContent, { encoding: 'utf-8' });
-            await fs.chmod(healthcheckFile, 0o755);
         }
     }
 }

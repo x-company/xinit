@@ -19,7 +19,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 describe('Creates a new Layout for Services', () => {
-    const testarea = path.join('/code', 'testarea');
+    const testarea = path.join(process.cwd(), 'testarea');
     const baseImageName = 'mybaseimagename';
     const imageName = 'myimagename';
 
@@ -40,7 +40,6 @@ describe('Creates a new Layout for Services', () => {
         }).invoke();
 
         // Assert
-        const exists = fs.existsSync(testarea);
-        assert.isTrue(exists);
+        assert.isTrue(fs.existsSync(testarea));
     });
 });
