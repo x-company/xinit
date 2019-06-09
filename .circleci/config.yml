@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: node:latest
+      - image: xcompany/xbuild:latest
 
     working_directory: /workspace
 
@@ -15,6 +15,10 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+
+      - run:
+          name: Execute Build Script for Image
+          command: .devcontainer/build.sh
 
       - run:
           name: Install Dependencies
