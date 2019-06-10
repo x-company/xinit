@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  xbuild:
+    image: xcompany/xbuild:unit
+    build:
+      context: ../../
+      target: devcontainer
+    volumes:
+      # Map the current Source Folder
+      - ../../tests/unit/:/workspace/tests/unit
+    command: "/usr/bin/bats /workspace/tests/unit/"
