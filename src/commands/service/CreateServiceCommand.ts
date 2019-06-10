@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 21:47:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-10 09:47:23
+ * @Last Modified At: 2019-06-10 20:14:57
  * @Description: This is description.
  */
 
@@ -31,121 +31,36 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
         try {
 
             const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
-            const buildRoot = path.join(imageRoot, 'build');
-            const svInstallDir = path.join(buildRoot, 'services', this.options.serviceName);
-            const ruInstallDir = path.join(svInstallDir, 'runit');
+            const buildDir = path.join(imageRoot, 'build');
+            const serviceDir = path.join(buildDir, 'services', this.options.serviceName);
+            const fsrootDir = path.join(serviceDir, 'fsroot');
+            const etcDir = path.join(fsrootDir, 'etc');
+            const xinitDir = path.join(etcDir, 'xinit');
+            const svDir = path.join(etcDir, 'sv', this.options.serviceName);
+            const eventsDir = path.join(xinitDir, 'events.d');
+            const postDir = path.join(eventsDir, 'post.d');
+            const preDir = path.join(eventsDir, 'prev.d');
+            const healthDir = path.join(xinitDir, 'health.d');
 
-            fs.ensureDirSync(svInstallDir);
-            fs.ensureDirSync(buildRoot);
-            fs.ensureDirSync(ruInstallDir);
+            fs.ensureDirSync(buildDir);
+            fs.ensureDirSync(serviceDir);
+            fs.ensureDirSync(svDir);
+            fs.ensureDirSync(fsrootDir);
+            fs.ensureDirSync(etcDir);
+            fs.ensureDirSync(xinitDir);
+            fs.ensureDirSync(eventsDir);
+            fs.ensureDirSync(postDir);
+            fs.ensureDirSync(preDir);
+            fs.ensureDirSync(healthDir);
 
-            await this.createServiceControlFile(svInstallDir);
-            await this.createServiceInstallFile(svInstallDir);
-            await this.createServiceFile(ruInstallDir);
-            await this.createHealthcheckFile(svInstallDir);
-            await this.registerServiceForBuild(buildRoot);
+            await this.createServiceInstallFile(serviceDir);
+            await this.createServiceFile(svDir);
+            await this.createHealthcheckFile(healthDir);
+            await this.registerServiceForBuild(buildDir);
 
         } catch (e) {
             throw e;
         }
-    }
-
-    private async createServiceControlFile(directory: string) {
-
-        const content = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
-
-### BEGIN INIT INFO
-# Provides:          ${this.options.serviceName}
-# Required-Start:    <List Services which should started, before this Service can started, e.g. $syslog>
-# Required-Stop:     <List Services which should stopped, before this Service will stopped, e.g. $syslog>
-# Should-Start:      <List Services which should started, before this Service will started, e.g. $syslog>
-# Should-Stop:       <List Services which can stopped, after this Service is stopped, e.g. $syslog>
-# Short-Description: <A short Description>
-# Description:       <A long Description>
-### END INIT INFO
-
-SCRIPT="${this.options.serviceName}"
-RUNAS="${this.options.user}"
-
-PIDFILE=/var/run/xinit/${this.options.serviceName}.pid
-LOGFILE=/var/log/xinit/${this.options.serviceName}.log
-
-start(){
-  if [ -f "$PIDFILE" ] && kill -0 $(cat "$PIDFILE"); then
-    echo 'Service already running' >&2
-    return 1
-  fi
-
-  echo 'Starting service' >&2
-  local CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
-
-  su -c "$CMD" $RUNAS > "$PIDFILE"
-  echo 'Service started' >&2
-}
-
-stop(){
-  if [ ! -f "$PIDFILE" ] || ! kill -0 $(cat "$PIDFILE"); then
-    echo 'Service not running' >&2
-    return 1
-  fi
-
-  echo 'Stopping service' >&2
-
-  kill -15 $(cat "$PIDFILE") && rm -f "$PIDFILE"
-  echo 'Service stopped' >&2
-}
-
-pre(){
-  if [ ! -f "$PIDFILE" ] || ! kill -0 $(cat "$PIDFILE"); then
-    echo 'Service not running' >&2
-    return 1
-  fi
-
-  echo 'Stopping service' >&2
-}
-
-post(){
-  if [ -f "$PIDFILE" ] && kill -0 $(cat "$PIDFILE"); then
-    echo 'Service already running' >&2
-    return 1
-  fi
-
-  echo 'Stopping service' >&2
-}
-
-
-# Carry out specific functions when asked to by the system
-case "$1" in
-  start)
-    echo "Starting Service '${this.options.serviceName}' ..."
-    start
-    ;;
-  pre)
-    echo "Execute PreShutdown Scripts before stopping Service '${this.options.serviceName}' ..."
-    pre
-    ;;
-  stop)
-    echo "Stopping Service '${this.options.serviceName}' ..."
-    stop
-    sleep 2
-    ;;
-  post)
-    echo "Execute PostShutdown Scripts before stopping Service '${this.options.serviceName}' ..."
-    post
-    ;;
-  *)
-    echo "Usage: /etc/xinit.d/${this.options.serviceName} {start|pre|stop|post}"
-    exit 1
-    ;;
-esac
-
-exit 0
-`;
-
-        // const scriptFileName = path.join(directory, this.options.serviceName);
-        const scriptFileName = path.join(directory, `${this.options.serviceName}.service`);
-        await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
     }
 
     private async createServiceInstallFile(directory: string) {
