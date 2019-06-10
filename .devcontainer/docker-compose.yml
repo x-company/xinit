@@ -10,7 +10,7 @@ services:
       # Configure Git with the current local Settings
       - ~/.gitconfig:/root/.gitconfig
       # Persists Extensions and VSCode Server
-      - xinit-vscode-server:/root/.vscode-server
+      - vscode-server:/root/.vscode-server
     cap_add:
         - SYS_PTRACE
     security_opt:
@@ -18,4 +18,4 @@ services:
     command: sleep infinity
 
 volumes:
-  xinit-vscode-server:
+  vscode-server:
