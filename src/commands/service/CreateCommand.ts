@@ -32,14 +32,9 @@ export class CreateCommand extends Command<ServiceCommandOptions> {
         try {
 
             const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
-
             const svInstallDir = path.join(imageRoot, 'build', 'services', this.options.serviceName);
-            const svRunitDir = path.join(imageRoot, 'dist', 'etc', 'sv', this.options.serviceName);
-            const xinitDir = path.join(imageRoot, 'dist', 'etc', 'xinit.d');
 
             fs.ensureDirSync(svInstallDir);
-            fs.ensureDirSync(svRunitDir);
-            fs.ensureDirSync(xinitDir);
 
             await this.createServiceControlFile(svInstallDir);
             await this.createServiceInstallFile(svInstallDir);
@@ -154,23 +149,57 @@ exit 0
         const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# Set the Error Handling for the first Error and for unused Variables
-set -eu -o pipeline
+# Load the xBuild System
+source /usr/local/include/xbuild/loader
 
-# If you want more Debug Infos comment the follow line out
-# set -eux -o pipeline
+# Enable Debug Mode
+# debug --on
 
-source /usr/local/include/xbuild
+# Enable Debug Mode inclusive Debug Outputs from Shell
+# debug --on --dev
 
+# Load the Environment Variables to the current Session
+loadvars
 
-# Execute Commands to Configure the Service
+# For Debug you can print current Vars
+# printvars
+
+# Prepare the Image
+prepare
+
+# Alternatives
+# Remarks: If you add the Param --dev additional Development Tools will installed
+# Example: prepare --dev
+
+# Prepare the Image
+# prepare
+
+# Prepare the Image inclusive NodeJS 12.x
+# prepare --with-node-12
+
+# Prepare the Image inclusive DotNet Core
+# prepare --with-dotnet
+
+# Prepare the Image inclusive PowerShell
+# prepare --with-powershell
+
+# Execute here your own Build and Install Needs
+
 $services=(<List your Services which will installed by apt>)
 
 header "Install Service  ..."
 install --packages "$services"
 
-header "Configure Services ..."
-configure --services "$services"
+header "Build Services ..."
+build --services "$services"
+
+# Persist Environment Variables
+savevars
+
+# Cleanup the Build and the Image. It should called when you finished your Work
+cleanup
+
+header "That's it. xBuild has finished his work. Have a nice Day"
 
 `;
         const scriptFileName = path.join(directory, `${this.options.serviceName}.build`);

@@ -27,15 +27,13 @@ const program = new Command(`${CommandInfos.main.command} ${CommandInfos.layout.
 program
     .command('create <name>')
     .description('Creates an new Layout to create new Services')
-    .option('-i, --image <image>', 'The Docker Base Image which will used.', 'xcom:baseimage')
     .action(async (name, options) => {
 
         try {
             Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.layout.command} create' is called ...`);
 
             await new CreateCommand({
-                imageName: name,
-                baseImageName: options.image,
+                imageName: name
             }).invoke();
 
         } catch (err) {

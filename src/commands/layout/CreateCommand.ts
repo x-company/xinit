@@ -25,7 +25,6 @@ export class CreateCommand extends Command<LayoutCommandOptions> {
 
         const defaultOptions: LayoutCommandOptions = {
             imageName: 'baseimage',
-            baseImageName: 'xcom:baseimage',
         };
 
         super({
@@ -43,18 +42,10 @@ export class CreateCommand extends Command<LayoutCommandOptions> {
 
             const buildDir = path.join(imageRoot, 'build');
             const buildSvDir = path.join(buildDir, 'services');
-            const svDir = path.join(distRoot, 'etc/sv');
-            const xinitDir = path.join(distRoot, 'etc/xinit.d');
-            const usrDir = path.join(distRoot, 'usr/local/bin');
-            const varDir = path.join(distRoot, 'var/local/xinit');
 
             fs.ensureDirSync(imageRoot);
             fs.ensureDirSync(buildDir);
             fs.ensureDirSync(buildSvDir);
-            fs.ensureDirSync(svDir);
-            fs.ensureDirSync(xinitDir);
-            fs.ensureDirSync(usrDir);
-            fs.ensureDirSync(varDir);
 
             await this.createDockerFile(path.join(imageRoot, '..'));
             await this.createBuildFile(buildDir);
@@ -66,7 +57,7 @@ export class CreateCommand extends Command<LayoutCommandOptions> {
 
     private async createDockerFile(directory: string) {
 
-        const dockerFileContent = `FROM ${this.options.baseImageName || 'xcom:baseimage'}
+        const dockerFileContent = `FROM xcompany/xbuild:latest
 
 LABEL   maintainer="<Your mail address>" \\
         vendor="<Your Firm Name>" \\
@@ -75,11 +66,9 @@ LABEL   maintainer="<Your mail address>" \\
 
 WORKDIR /build
 
-COPY ./dist/ /
+COPY ./build/ /
 
 RUN ./build.sh
-
-ENV LANG="de_DE.UTF-8"
 
 ENTRYPOINT ["/sbin/xinit"]
 

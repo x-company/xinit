@@ -19,6 +19,5 @@ import { CommandOptions } from '../../helpers/CommandOptions';
 
 export interface LayoutCommandOptions extends CommandOptions {
 
-    baseImageName: string;
     imageName: string;
 }
