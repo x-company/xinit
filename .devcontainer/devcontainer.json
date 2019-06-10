@@ -35,6 +35,7 @@
         "coenraads.bracket-pair-colorizer-2",
         "github.vscode-pull-request-github",
         "emmanuelbeziat.vscode-great-icons",
+        "mutantdino.resourcemonitor",
 
         // Node and Typescript Extensions
         "markis.code-coverage",

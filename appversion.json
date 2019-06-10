@@ -6,9 +6,9 @@
     "badge": "[![xinit-version](https://img.shields.io/badge/Version-${M.m.p}-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xinit/v/${M.m.p})"
   },
   "build": {
-    "date": "2019-06-10T01:45:17.014Z",
-    "number": 36,
-    "total": 36,
+    "date": "2019-06-10T14:23:05.488Z",
+    "number": 38,
+    "total": 38,
     "badge": "[![xinit-build](https://img.shields.io/badge/Builds-${n}-brightgreen.svg?style=flat)](https://github.com/x-company/xinit#status)"
   },
   "status": {
