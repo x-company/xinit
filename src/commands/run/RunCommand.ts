@@ -9,22 +9,17 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-27 20:35:42
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-10 16:54:51
+ * @Last Modified At: 2019-06-10 19:58:06
  * @Description: This is description.
  */
 
 import { Command } from '../../helpers/Command';
 import { RunCommandOptions } from './RunCommandOptions';
-import { CliManager } from '../../helpers/CliManager';
-import { ChildProcess, spawn } from 'child_process';
-import os from 'os';
 import { Log } from '../../helpers/Log';
 import { Shell } from '../../helpers/Shell';
 import { wait } from '../../helpers/HelperFunctions';
 
 export class RunCommand extends Command<RunCommandOptions> {
-
-    private static runningProcesses: ChildProcess[] = new Array();
 
     private static KILL_PROCESS_TIMEOUT: number = 5;
 
@@ -45,11 +40,15 @@ export class RunCommand extends Command<RunCommandOptions> {
     protected async execute() {
 
         if (!this.options.skipStartupFiles) {
-            this.runStartupFiles();
+            // this.runPreStartupFiles();
         }
 
         if (!this.options.skipRunit) {
             await this.startRunit();
+        }
+
+        if (!this.options.skipStartupFiles) {
+            // this.runPostStartupFiles();
         }
 
         try {
@@ -75,8 +74,8 @@ export class RunCommand extends Command<RunCommandOptions> {
 
         Log.info('Booting runit daemon');
 
-        return Shell.execute('/usr/bin/runsvdir', {
-            cwd: '/usr/bin/runsvdir',
+        return Shell.execute('/usr/bin/runsvdir -P /etc/service', {
+            cwd: '/usr/bin',
             detached: true,
             silent: true,
             windowsHide: true,
