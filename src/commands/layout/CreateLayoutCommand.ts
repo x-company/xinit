@@ -4,12 +4,12 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  *
- * @Script: CreateCommand.ts
+ * @Script: CreateLayoutCommand.ts
  * @Author: Roland Breitschaft
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-27 12:17:18
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-03 13:17:43
+ * @Last Modified At: 2019-06-10 09:25:24
  * @Description: This is description.
  */
 
@@ -19,7 +19,7 @@ import { Command } from '../../helpers/Command';
 import { CliManager } from '../../helpers/CliManager';
 import { LayoutCommandOptions } from './LayoutCommandOptions';
 import { Info } from '../../helpers/Info';
-export class CreateCommand extends Command<LayoutCommandOptions> {
+export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
 
     constructor(options?: LayoutCommandOptions) {
 
@@ -38,8 +38,6 @@ export class CreateCommand extends Command<LayoutCommandOptions> {
         try {
 
             const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
-            const distRoot = path.join(imageRoot, 'dist');
-
             const buildDir = path.join(imageRoot, 'build');
             const buildSvDir = path.join(buildDir, 'services');
 
@@ -94,23 +92,53 @@ HEALTHCHECK --interval=5s --timeout=3s CMD /usr/local/bin/healthcheck.sh || exit
         const buildFileContent = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# Set the Error Handling for the first Error and for unused Variables
-set -eu -o pipeline
+# Load the xBuild System
+source /usr/local/include/xbuild/loader
 
-# If you want more Debug Infos comment the follow line out
-# set -eux -o pipeline
+# Enable Debug Mode
+# debug --on
 
-# Load the xbuild System
-source /usr/local/include/xbuild
+# Enable Debug Mode inclusive Debug Outputs from Shell
+# debug --on --dev
 
-header "Prepare Services to Install ..."
-services="<List your Services which will installed by apt>"
+# Load the Environment Variables to the current Session
+loadvars
+
+# For Debug you can print current Vars
+# printvars
+
+# Prepare the Image
+# prepare
+
+# Alternatives
+# Remarks: If you add the Param --dev additional Development Tools will installed
+# Example: prepare --dev
+
+# Prepare the Image
+# prepare
+
+# Prepare the Image inclusive NodeJS 12.x
+prepare --with-node-12
+
+# Prepare the Image inclusive DotNet Core
+# prepare --with-dotnet
+
+# Prepare the Image inclusive PowerShell
+# prepare --with-powershell
+
+header "Prepare Services for Install ..."
+services=
 
 header "Build Services ..."
-build --services $services
+build --services "$services"
 
-header "Cleanup the Build ..."
+# Persist Environment Variables
+savevars
+
+# Cleanup the Build and the Image. It should called when you finished your Work
 cleanup
+
+header "That's it. xBuild has finished his work. Have a nice Day"
 
 `;
         const buildFile = path.join(directory, 'build.sh');

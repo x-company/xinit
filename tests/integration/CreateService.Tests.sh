@@ -3,8 +3,7 @@
 
 testarea="../../testarea"
 serviceName="TestService"
-imageName1="TestBaseImage1"
-imageName2="TestBaseImage2"
+imageName1="TestBaseImage"
 
 rm -rf "$testarea"
 

@@ -19,7 +19,7 @@ import { Command } from 'commander';
 import { CommandInfos } from './CommandInfos';
 import { Log } from '../helpers/Log';
 import { CliManager } from '../helpers/CliManager';
-import { CreateCommand } from '../commands/service/CreateCommand';
+import { CreateServiceCommand } from '../commands/service/CreateServiceCommand';
 
 const program = new Command(`${CommandInfos.main.command} ${CommandInfos.service.command}`)
     .description(CommandInfos.service.description);
@@ -33,7 +33,7 @@ program
         try {
             Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.service.command} create' is called ...`);
 
-            await new CreateCommand({
+            await new CreateServiceCommand({
                 serviceName: name,
                 imageName: options.image,
             }).invoke();

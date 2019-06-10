@@ -4,12 +4,12 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  *
- * @Script: CreateCommand.ts
+ * @Script: CreateServiceCommand.ts
  * @Author: Roland Breitschaft
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 21:47:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-27 12:17:03
+ * @Last Modified At: 2019-06-10 09:47:23
  * @Description: This is description.
  */
 
@@ -17,10 +17,9 @@ import fs from 'fs-extra';
 import path from 'path';
 import { Command } from '../../helpers/Command';
 import { ServiceCommandOptions } from './ServiceCommandOptions';
-import { CliManager } from '../../helpers/CliManager';
 import { Info } from '../../helpers/Info';
 
-export class CreateCommand extends Command<ServiceCommandOptions> {
+export class CreateServiceCommand extends Command<ServiceCommandOptions> {
 
 
     constructor(options?: ServiceCommandOptions) {
@@ -32,14 +31,19 @@ export class CreateCommand extends Command<ServiceCommandOptions> {
         try {
 
             const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
-            const svInstallDir = path.join(imageRoot, 'build', 'services', this.options.serviceName);
+            const buildRoot = path.join(imageRoot, 'build');
+            const svInstallDir = path.join(buildRoot, 'services', this.options.serviceName);
+            const ruInstallDir = path.join(svInstallDir, 'runit');
 
             fs.ensureDirSync(svInstallDir);
+            fs.ensureDirSync(buildRoot);
+            fs.ensureDirSync(ruInstallDir);
 
             await this.createServiceControlFile(svInstallDir);
             await this.createServiceInstallFile(svInstallDir);
-            await this.createServiceFile(svInstallDir);
+            await this.createServiceFile(ruInstallDir);
             await this.createHealthcheckFile(svInstallDir);
+            await this.registerServiceForBuild(buildRoot);
 
         } catch (e) {
             throw e;
@@ -164,42 +168,11 @@ loadvars
 # For Debug you can print current Vars
 # printvars
 
-# Prepare the Image
-prepare
-
-# Alternatives
-# Remarks: If you add the Param --dev additional Development Tools will installed
-# Example: prepare --dev
-
-# Prepare the Image
-# prepare
-
-# Prepare the Image inclusive NodeJS 12.x
-# prepare --with-node-12
-
-# Prepare the Image inclusive DotNet Core
-# prepare --with-dotnet
-
-# Prepare the Image inclusive PowerShell
-# prepare --with-powershell
-
-# Execute here your own Build and Install Needs
-
-$services=(<List your Services which will installed by apt>)
-
-header "Install Service  ..."
-install --packages "$services"
-
-header "Build Services ..."
-build --services "$services"
+# Install here your Service for example we show how to install mariadb
+# install --packages mariadb
 
 # Persist Environment Variables
 savevars
-
-# Cleanup the Build and the Image. It should called when you finished your Work
-cleanup
-
-header "That's it. xBuild has finished his work. Have a nice Day"
 
 `;
         const scriptFileName = path.join(directory, `${this.options.serviceName}.build`);
@@ -211,11 +184,20 @@ header "That's it. xBuild has finished his work. Have a nice Day"
         const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# Set the Error Handling for the first Error and for unused Variables
-set -eu -o pipeline
+# Load the xBuild System
+source /usr/local/include/xbuild/loader
 
-# If you want more Debug Infos comment the follow line out
-# set -eux -o pipeline
+# Enable Debug Mode
+# debug --on
+
+# Enable Debug Mode inclusive Debug Outputs from Shell
+# debug --on --dev
+
+# Load the Environment Variables to the current Session
+loadvars
+
+# For Debug you can print current Vars
+# printvars
 
 # Execute the Service
 exec 2>&1
@@ -224,7 +206,7 @@ exec <Service Command>
 `;
 
         // const scriptFileName = path.join(directory, 'run');
-        const scriptFileName = path.join(directory, `${this.options.serviceName}.runit`);
+        const scriptFileName = path.join(directory, 'run');
         await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
 
     }
@@ -234,11 +216,20 @@ exec <Service Command>
         const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# Set the Error Handling for the first Error and for unused Variables
-set -eu -o pipeline
+# Load the xBuild System
+source /usr/local/include/xbuild/loader
 
-# If you want more Debug Infos comment the follow line out
-# set -eux -o pipeline
+# Enable Debug Mode
+# debug --on
+
+# Enable Debug Mode inclusive Debug Outputs from Shell
+# debug --on --dev
+
+# Load the Environment Variables to the current Session
+loadvars
+
+# For Debug you can print current Vars
+# printvars
 
 # Place here your Health Check Tests
 
@@ -249,5 +240,29 @@ exit 0
         const scriptFileName = path.join(directory, `${this.options.serviceName}.health`);
         await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
         await fs.chmod(scriptFileName, 0o755);
+    }
+
+    private async registerServiceForBuild(directory: string) {
+
+        const buildFile = path.join(directory, 'build.sh');
+
+        if (fs.existsSync(buildFile)) {
+
+            let content = await fs.readFile(buildFile, {
+                encoding: 'utf8',
+            });
+
+            const lines = content.split('\n');
+            content = '';
+
+            lines.forEach((line) => {
+                if (line.startsWith('services=')) {
+                    line = `${line}${this.options.serviceName} `;
+                }
+                content += `${line}\n`;
+            });
+
+            await fs.writeFile(buildFile, content, { encoding: 'utf8'});
+        }
     }
 }

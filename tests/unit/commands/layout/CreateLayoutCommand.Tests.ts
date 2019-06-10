@@ -4,24 +4,23 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  *
- * @Script: CreateCommand.Tests.ts
+ * @Script: CreateLayoutCommand.Tests.ts
  * @Author: Roland Breitschaft
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-02 18:13:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-03 14:02:10
+ * @Last Modified At: 2019-06-10 09:06:53
  * @Description: This is description.
  */
 
-import { CreateCommand } from '../../../../src/commands/layout/CreateCommand';
-import { expect, assert } from 'chai';
+import { CreateLayoutCommand } from '../../../../src/commands/layout/CreateLayoutCommand';
+import { assert } from 'chai';
 import fs from 'fs-extra';
 import path from 'path';
 
 describe('Creates a new Layout for Services', () => {
     const testarea = path.join(process.cwd(), 'testarea');
-    const baseImageName = 'mybaseimagename';
-    const imageName = 'myimagename';
+    const imageName = 'TestBaseImage';
 
     beforeEach(async () => {
         if (fs.existsSync(testarea)) {
@@ -33,13 +32,15 @@ describe('Creates a new Layout for Services', () => {
         // Arrange
 
         // Act
-        new CreateCommand({
+        await new CreateLayoutCommand({
             directory: testarea,
-            baseImageName,
             imageName,
         }).invoke();
 
         // Assert
         assert.isTrue(fs.existsSync(testarea));
+
+        const layoutRoot = path.join(testarea, imageName);
+        assert.isTrue(fs.existsSync(layoutRoot));
     });
 });

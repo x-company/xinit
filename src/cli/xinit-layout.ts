@@ -19,7 +19,7 @@ import { Command } from 'commander';
 import { CommandInfos } from './CommandInfos';
 import { Log } from '../helpers/Log';
 import { CliManager } from '../helpers/CliManager';
-import { CreateCommand } from '../commands/layout/CreateCommand';
+import { CreateLayoutCommand } from '../commands/layout/CreateLayoutCommand';
 
 const program = new Command(`${CommandInfos.main.command} ${CommandInfos.layout.command}`)
     .description(CommandInfos.layout.description);
@@ -32,7 +32,7 @@ program
         try {
             Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.layout.command} create' is called ...`);
 
-            await new CreateCommand({
+            await new CreateLayoutCommand({
                 imageName: name
             }).invoke();
 
