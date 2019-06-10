@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+# Load the xBuild System
+source /usr/local/include/xbuild/loader
+
+# Load the Environment Variables to the current Session
+loadvars
+
+# Install here your Service for example we show how to install mariadb
+install --packages cron
+
+execute chmod 600 /etc/crontab
+execute sed -i 's/^\s*session\s\+required\s\+pam_loginuid.so/# &/' /etc/pam.d/cron
+
+## Remove useless cron entries.
+# Checks for lost+found and scans for mtab.
+execute rm -f /etc/cron.daily/standard
+execute rm -f /etc/cron.daily/upstart
+execute rm -f /etc/cron.daily/dpkg
+execute rm -f /etc/cron.daily/password
+execute rm -f /etc/cron.weekly/fstrim
