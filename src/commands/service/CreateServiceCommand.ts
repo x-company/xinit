@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 21:47:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-10 20:14:57
+ * @Last Modified At: 2019-06-10 20:59:47
  * @Description: This is description.
  */
 
@@ -29,6 +29,8 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
     protected async execute() {
 
         try {
+
+            const projectRoot = Info.getProjectRoot();
 
             const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
             const buildDir = path.join(imageRoot, 'build');

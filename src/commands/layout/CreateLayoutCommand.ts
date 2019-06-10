@@ -9,16 +9,19 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-27 12:17:18
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-10 09:25:24
+ * @Last Modified At: 2019-06-10 23:16:45
  * @Description: This is description.
  */
 
 import fs from 'fs-extra';
 import path from 'path';
 import { Command } from '../../helpers/Command';
-import { CliManager } from '../../helpers/CliManager';
 import { LayoutCommandOptions } from './LayoutCommandOptions';
 import { Info } from '../../helpers/Info';
+import { UpdateManager } from '../../updaters/UpdateManager';
+import { PackageJsonUpdater } from '../../updaters/PackageJsonUpdater';
+import { ProjectLayoutUpdater } from '../../updaters/ProjectLayoutUpdater';
+
 export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
 
     constructor(options?: LayoutCommandOptions) {
@@ -37,15 +40,34 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
 
         try {
 
+            let folderPrefix = '../..';
+            if (this.options.imageName.indexOf('/')) {
+                folderPrefix = '../../..';
+            }
+
             const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
+            const projectRoot = path.join(imageRoot, folderPrefix);
+
             const buildDir = path.join(imageRoot, 'build');
             const buildSvDir = path.join(buildDir, 'services');
+            const vscodeDir = path.join(projectRoot, '.vscode');
+            const devcontainerDir = path.join(projectRoot, '.devcontainer');
+            const circleciDir = path.join(projectRoot, '.circleci');
+            const testDir = path.join(projectRoot, 'tests', 'unit', this.options.imageName);
 
             fs.ensureDirSync(imageRoot);
             fs.ensureDirSync(buildDir);
             fs.ensureDirSync(buildSvDir);
+            fs.ensureDirSync(vscodeDir);
+            fs.ensureDirSync(testDir);
+            fs.ensureDirSync(devcontainerDir);
+            fs.ensureDirSync(circleciDir);
 
-            await this.createDockerFile(path.join(imageRoot, '..'));
+            UpdateManager.update(new ProjectLayoutUpdater(), projectRoot);
+            UpdateManager.update(new PackageJsonUpdater(this.options), projectRoot);
+
+            await this.createDockerComposeFile(projectRoot);
+            await this.createDockerFile(imageRoot);
             await this.createBuildFile(buildDir);
 
         } catch (e) {
@@ -53,9 +75,35 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
         }
     }
 
+    private async createDockerComposeFile(directory: string) {
+
+        let name = this.options.imageName;
+        if (name.indexOf('/') !== -1) {
+            name = name.substring(name.lastIndexOf('/') + 1);
+        }
+
+        const dockerComposeFile = path.join(directory, 'docker-compose.yml');
+
+        let content = '';
+        if (!fs.existsSync(dockerComposeFile)) {
+            content = `version: "3.7"
+
+services:
+`;
+        }
+
+        content += `
+  ${name}:
+    build:
+      context: ./src/${this.options.imageName}
+
+`;
+        await fs.writeFile(dockerComposeFile, content, { encoding: 'utf-8' });
+    }
+
     private async createDockerFile(directory: string) {
 
-        const dockerFileContent = `FROM xcompany/xbuild:latest
+        const content = `FROM xcompany/xbuild:latest
 
 LABEL   maintainer="<Your mail address>" \\
         vendor="<Your Firm Name>" \\
@@ -74,7 +122,7 @@ HEALTHCHECK --interval=5s --timeout=3s CMD /usr/local/bin/healthcheck.sh || exit
 `;
         const dockerFile = path.join(directory, 'Dockerfile');
         if (!fs.existsSync(dockerFile)) {
-            await fs.writeFile(dockerFile, dockerFileContent, { encoding: 'utf-8' });
+            await fs.writeFile(dockerFile, content, { encoding: 'utf-8' });
         }
 
         const dockerIgnoreContent = `Dockerfile
@@ -87,9 +135,11 @@ HEALTHCHECK --interval=5s --timeout=3s CMD /usr/local/bin/healthcheck.sh || exit
         }
     }
 
+
+
     private async createBuildFile(directory: string) {
 
-        const buildFileContent = `#!/usr/bin/env bash
+        const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
 # Load the xBuild System
@@ -143,7 +193,7 @@ header "That's it. xBuild has finished his work. Have a nice Day"
 `;
         const buildFile = path.join(directory, 'build.sh');
         if (!fs.existsSync(buildFile)) {
-            await fs.writeFile(buildFile, buildFileContent, { encoding: 'utf-8' });
+            await fs.writeFile(buildFile, content, { encoding: 'utf-8' });
 
             await fs.chmod(buildFile, 0o755);
         }

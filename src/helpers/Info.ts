@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 14:37:05
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-03 16:15:00
+ * @Last Modified At: 2019-06-10 20:59:06
  * @Description: This is description.
  */
 
@@ -85,12 +85,43 @@ export class Info {
             }
         }
 
-        rootDirectory = path.join(rootDirectory, imageName);
+        rootDirectory = path.join(rootDirectory, 'src', imageName);
         fs.ensureDirSync(rootDirectory);
         return rootDirectory;
     }
 
+    public static getProjectRoot() {
+
+        let baseDirectory = null;
+
+        try {
+            baseDirectory = findRoot(process.cwd(), (dir) => {
+                return fs.existsSync(path.resolve(dir, 'package.json'));
+            });
+        } catch (err) {
+            Log.verbose(err);
+        }
+
+        if (!baseDirectory) {
+            baseDirectory = process.cwd();
+        }
+
+        if (!baseDirectory) {
+            throw new Error('Root path of your project could not determined.');
+        }
+
+        try {
+            baseDirectory = path.normalize(baseDirectory);
+            if (!path.isAbsolute(baseDirectory)) {
+                baseDirectory = path.resolve(path.join(process.cwd(), baseDirectory));
+            }
+        } catch (err) {
+            throw err;
+        }
+
+        return baseDirectory;
+    }
+
     private static PROG_VERSION: string = '0.1.0';
     private static PROG_NAME: string = 'xinit';
-
 }

@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-03 09:31:24
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-03 13:18:57
+ * @Last Modified At: 2019-06-10 20:56:18
  * @Description: This is description.
  */
 
@@ -71,17 +71,7 @@ export class CliManager {
         }
 
         if (!baseDirectory) {
-            try {
-                baseDirectory = findRoot(process.cwd(), (dir) => {
-                    return fs.existsSync(path.resolve(dir, 'package.json'));
-                });
-            } catch (err) {
-                Log.verbose(err);
-            }
-        }
-
-        if (!baseDirectory) {
-            baseDirectory = process.cwd();
+            baseDirectory = Info.getProjectRoot();
         }
 
         if (!baseDirectory) {
