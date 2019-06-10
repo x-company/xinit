@@ -26,8 +26,7 @@
         "runit"
     ],
     "config": {
-        "image_name": "xcompany/xinit",
-        "repo_user": "rolbre"
+        "image_name": "xcompany/xinit"
     },
     "scripts": {
         "lint": "tslint -c ./tslint.json './src/**/*.ts'",
