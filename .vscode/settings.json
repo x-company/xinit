@@ -7,7 +7,6 @@
     "cSpell.language": "en,en-US,de,de-DE",
     "debug.openExplorerOnEnd": true,
     "debug.inlineValues": true,
-    "debug.node.autoAttach": "on",
     "docomment.activateOnEnter": true,
     "editor.detectIndentation": false,
     "editor.formatOnPaste": false,
@@ -248,7 +247,7 @@
         "xinit",
         "xnodeimage"
     ],
-    "mocha.files.glob": "tests/unit/xinit/**/*.Tests.ts",
+    "mocha.files.glob": "tests/unit/**/*.Tests.ts",
     "mocha.requires": [
         "ts-node/register"
     ]
