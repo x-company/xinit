@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
+# This Script will called when the Service is builded
+
 # Load the xBuild System
 source /usr/local/include/xbuild/loader
 
@@ -9,10 +11,3 @@ loadvars
 
 # Install here your Service for example we show how to install mariadb
 install --packages syslog-ng-core
-
-mkdir -p /var/lib/syslog-ng
-touch /var/log/syslog
-chmod u=rw,g=r,o= /var/log/syslog
-
-## Install logrotate.
-install --packages logrotate
