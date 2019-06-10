@@ -20,52 +20,29 @@ import { spawn, ChildProcess } from 'child_process';
 
 export class Shell {
 
-    public static async execute(cmd: string, options?: ShellOptions): Promise<string>;
-    public static async execute(cmd: string, argsOrShellOptions?: string[] | ShellOptions, options?: ShellOptions): Promise<string> {
+    public static async execute(cmd: string, options?: ShellOptions): Promise<string> {
 
         try {
-            let args: string[] = new Array();
-
-            if (argsOrShellOptions && argsOrShellOptions instanceof Array) {
-                args = argsOrShellOptions;
-            } else {
-                options = argsOrShellOptions;
-            }
-
             Log.verbose(`Execute Shell Command '${cmd}'`);
             const defaultOptions = this.defaultShellOptions(options);
 
-            let cmdAsString = `${cmd}`;
-            if (args) {
-                cmdAsString += ` ${args.join(' ')}`;
-            }
-
-            const child = sh.exec(`${cmdAsString}`, {
+            const child = sh.exec(`${cmd}`, {
                 async: true,
                 silent: defaultOptions.silent || false,
                 cwd: defaultOptions.cwd || process.cwd(),
                 windowsHide: defaultOptions.windowsHide || true,
             }) as ChildProcess;
 
-            return await this.processChild(cmdAsString, child, defaultOptions.silent);
+            return await this.processChild(cmd, child, defaultOptions.silent);
 
         } catch (err) {
             throw err;
         }
     }
 
-    public static async spawn(cmd: string, options?: ShellOptions): Promise<string>;
-    public static async spawn(cmd: string, argsOrShellOptions?: string[] | ShellOptions, options?: ShellOptions): Promise<string> {
+    public static async spawn(cmd: string, args?: string[], options?: ShellOptions): Promise<string> {
 
         try {
-            let args: string[] = new Array();
-
-            if (argsOrShellOptions && argsOrShellOptions instanceof Array) {
-                args = argsOrShellOptions;
-            } else {
-                options = argsOrShellOptions;
-            }
-
             Log.verbose(`Spawn Shell Command '${cmd}'`);
             const defaultOptions = this.defaultShellOptions(options);
 
