@@ -1,23 +1,130 @@
 {
-	// Place your workspace workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
-	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
-	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
-	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
-	// Placeholders with the same ids are connected.
-	// Example:
-	// "Print to console": {
-	// 	"scope": "javascript,typescript",
-	// 	"prefix": "log",
-	// 	"body": [
-	// 		"console.log('$1');",
-	// 		"$2"
-	// 	],
-	// 	"description": "Log output to console"
-    // }
-
-    "Test":{
-        "prefix": "xt-test",
-        "scope": "bash"
+    "Build a Docker Image": {
+        "prefix": "xb-docker",
+        "scope": "shellscript",
+        "body": [
+            "#!/usr/bin/env bash",
+            "# -*- coding: utf-8 -*-",
+            "",
+            "# Load the xBuild System",
+            "source /usr/local/include/xbuild/loader",
+            "",
+            "# Load the Environment Variables to the current Session",
+            "loadvars",
+            "",
+            "# Prepare the Image inclusive NodeJS 12.x",
+            "prepare --with-node-12",
+            "",
+            "header \"Prepare Services for Install ...\"",
+            "services=",
+            "",
+            "header \"Build Services ...\"",
+            "build --services \"$services\"",
+            "",
+            "# Persist Environment Variables",
+            "savevars",
+            "",
+            "# Cleanup the Build and the Image. It should called when you finished your Work",
+            "cleanup",
+            "",
+            "header \"That's it. xBuild has finished his work. Have a nice Day\"",
+        ]
+    },
+    "Load xbuild": {
+        "prefix": "xb-loader",
+        "scope": "shellscript",
+        "description": "Load the xBuild System",
+        "body": [
+            "#!/usr/bin/env bash",
+            "# -*- coding: utf-8 -*-",
+            "",
+            "# Load the xBuild System",
+            "source /usr/local/include/xbuild/loader"
+        ]
+    },
+    "Enable Debug Mode": {
+        "prefix": "xb-debug",
+        "scope": "shellscript",
+        "body": [
+            "# Enable Debug Mode",
+            "debug --on",
+        ]
+    },
+    "Enable Debug Mode for Development": {
+        "prefix": "xb-debug-dev",
+        "scope": "shellscript",
+        "body": [
+            "# Enable Debug Mode inclusive Debug Outputs from Shell",
+            "debug --on --dev",
+        ]
+    },
+    "Load Variables": {
+        "prefix": "xb-vars-load",
+        "scope": "shellscript",
+        "body": [
+            "# Load the Environment Variables to the current Session",
+            "loadvars"
+        ]
+    },
+    "Print Variables": {
+        "prefix": "xb-vars-print",
+        "scope": "shellscript",
+        "body": [
+            "# For Debug you can print current Vars",
+            "printvars",
+        ]
+    },
+    "Save Variables": {
+        "prefix": "xb-vars-save",
+        "scope": "shellscript",
+        "body": [
+            "# Persist Environment Variables",
+            "savevars",
+        ]
+    },
+    "Prepare Image": {
+        "prefix": "xb-prepare",
+        "scope": "shellscript",
+        "description": "Prepare the Image",
+        "body": [
+            "# Prepare the Image",
+            "prepare ${1|--with-node,--with-node-8,--with-node-10,--with-node-11,--with-node-12,--with-dotnet,--with-dotnet-10,--with-dotnet-11,--with-dotnet-20,--with-dotnet-21,--with-dotnet-22,--with-dotnet-30,--with-powershell|}",
+        ]
+    },
+    "Prepare Image add Lang": {
+        "prefix": "xb-prepare-lang",
+        "scope": "shellscript",
+        "description": "Prepare the Image",
+        "body": [
+            "${1|--with-node,--with-node-8,--with-node-10,--with-node-11,--with-node-12,--with-dotnet,--with-dotnet-10,--with-dotnet-11,--with-dotnet-20,--with-dotnet-21,--with-dotnet-22,--with-dotnet-30,--with-powershell|}",
+        ]
+    },
+    "Prepare Image Node": {
+        "prefix": "xb-prepare-node",
+        "scope": "shellscript",
+        "description": "Prepare the Image inclusive NodeJS 12.x",
+        "body": [
+            "# Prepare the Image inclusive NodeJS 12.x",
+            "prepare --with-node-12",
+        ]
     }
 }
+/*
+
+
+# Alternatives
+# Remarks: If you add the Param --dev additional Development Tools will installed
+# Example: prepare --dev
+
+# Prepare the Image
+# prepare
+
+# Prepare the Image inclusive NodeJS 12.x
+prepare --with-node-12
+
+# Prepare the Image inclusive DotNet Core
+# prepare --with-dotnet
+
+# Prepare the Image inclusive PowerShell
+# prepare --with-powershell
+*/

@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 21:47:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-10 20:59:47
+ * @Last Modified At: 2019-06-11 16:50:42
  * @Description: This is description.
  */
 
@@ -18,9 +18,10 @@ import path from 'path';
 import { Command } from '../../helpers/Command';
 import { ServiceCommandOptions } from './ServiceCommandOptions';
 import { Info } from '../../helpers/Info';
+import { TemplateUpdateManager } from '../../updaters/TemplateUpdateManager';
+import { ServiceUpdater } from '../../updaters/ServiceUpdater';
 
 export class CreateServiceCommand extends Command<ServiceCommandOptions> {
-
 
     constructor(options?: ServiceCommandOptions) {
         super(options);
@@ -30,134 +31,59 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
 
         try {
 
-            const projectRoot = Info.getProjectRoot();
+            // const projectRoot = Info.getProjectRoot();
 
-            const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
-            const buildDir = path.join(imageRoot, 'build');
-            const serviceDir = path.join(buildDir, 'services', this.options.serviceName);
-            const fsrootDir = path.join(serviceDir, 'fsroot');
-            const etcDir = path.join(fsrootDir, 'etc');
-            const xinitDir = path.join(etcDir, 'xinit');
-            const svDir = path.join(etcDir, 'sv', this.options.serviceName);
-            const eventsDir = path.join(xinitDir, 'events.d');
-            const postDir = path.join(eventsDir, 'post.d');
-            const preDir = path.join(eventsDir, 'prev.d');
-            const healthDir = path.join(xinitDir, 'health.d');
+            // const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
+            // const buildDir = path.join(imageRoot, 'build');
+            // const serviceDir = path.join(buildDir, 'services', this.options.serviceName);
+            // const fsrootDir = path.join(serviceDir, 'fsroot');
+            // const etcDir = path.join(fsrootDir, 'etc');
+            // const xinitDir = path.join(etcDir, 'xinit');
+            // const svDir = path.join(etcDir, 'sv', this.options.serviceName);
+            // const eventsDir = path.join(xinitDir, 'events.d');
+            // const postDir = path.join(eventsDir, 'post.d');
+            // const preDir = path.join(eventsDir, 'prev.d');
+            // const healthDir = path.join(xinitDir, 'health.d');
 
-            fs.ensureDirSync(buildDir);
-            fs.ensureDirSync(serviceDir);
-            fs.ensureDirSync(svDir);
-            fs.ensureDirSync(fsrootDir);
-            fs.ensureDirSync(etcDir);
-            fs.ensureDirSync(xinitDir);
-            fs.ensureDirSync(eventsDir);
-            fs.ensureDirSync(postDir);
-            fs.ensureDirSync(preDir);
-            fs.ensureDirSync(healthDir);
+            // fs.ensureDirSync(buildDir);
+            // fs.ensureDirSync(serviceDir);
+            // fs.ensureDirSync(svDir);
+            // fs.ensureDirSync(fsrootDir);
+            // fs.ensureDirSync(etcDir);
+            // fs.ensureDirSync(xinitDir);
+            // fs.ensureDirSync(eventsDir);
+            // fs.ensureDirSync(postDir);
+            // fs.ensureDirSync(preDir);
+            // fs.ensureDirSync(healthDir);
 
-            await this.createServiceInstallFile(serviceDir);
-            await this.createServiceFile(svDir);
-            await this.createHealthcheckFile(healthDir);
-            await this.registerServiceForBuild(buildDir);
+            // await this.createServiceInstallFile(serviceDir);
+            // await this.createServiceFile(svDir);
+            // await this.createHealthcheckFile(healthDir);
+            // await this.registerServiceForBuild(buildDir);
+
+            let directory = Info.getProjectRoot();
+            if (this.options.directory) {
+                directory = this.options.directory;
+            }
+
+            if(!this.options.imageName){
+                throw new Error('No Image Name is given. Service could not created.');
+            }
+
+            const mgr = new TemplateUpdateManager({
+                imageName: this.options.imageName,
+                serviceName: this.options.serviceName,
+                directory,
+            });
+
+            await mgr.update(new ServiceUpdater());
 
         } catch (e) {
             throw e;
         }
     }
 
-    private async createServiceInstallFile(directory: string) {
 
-        const content = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
-
-# Load the xBuild System
-source /usr/local/include/xbuild/loader
-
-# Enable Debug Mode
-# debug --on
-
-# Enable Debug Mode inclusive Debug Outputs from Shell
-# debug --on --dev
-
-# Load the Environment Variables to the current Session
-loadvars
-
-# For Debug you can print current Vars
-# printvars
-
-# Install here your Service for example we show how to install mariadb
-# install --packages mariadb
-
-# Persist Environment Variables
-savevars
-
-`;
-        const scriptFileName = path.join(directory, `${this.options.serviceName}.build`);
-        await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
-    }
-
-    private async createServiceFile(directory: string) {
-
-        const content = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
-
-# Load the xBuild System
-source /usr/local/include/xbuild/loader
-
-# Enable Debug Mode
-# debug --on
-
-# Enable Debug Mode inclusive Debug Outputs from Shell
-# debug --on --dev
-
-# Load the Environment Variables to the current Session
-loadvars
-
-# For Debug you can print current Vars
-# printvars
-
-# Execute the Service
-exec 2>&1
-exec <Service Command>
-
-`;
-
-        // const scriptFileName = path.join(directory, 'run');
-        const scriptFileName = path.join(directory, 'run');
-        await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
-
-    }
-
-    private async createHealthcheckFile(directory: string) {
-
-        const content = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
-
-# Load the xBuild System
-source /usr/local/include/xbuild/loader
-
-# Enable Debug Mode
-# debug --on
-
-# Enable Debug Mode inclusive Debug Outputs from Shell
-# debug --on --dev
-
-# Load the Environment Variables to the current Session
-loadvars
-
-# For Debug you can print current Vars
-# printvars
-
-# Place here your Health Check Tests
-
-# When everything is ok, than return 0, otherwise return 1
-exit 0
-`;
-
-        const scriptFileName = path.join(directory, `${this.options.serviceName}.health`);
-        await fs.writeFile(scriptFileName, content, { encoding: 'utf-8' });
-        await fs.chmod(scriptFileName, 0o755);
-    }
 
     private async registerServiceForBuild(directory: string) {
 

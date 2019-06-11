@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 14:38:04
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-03 09:31:49
+ * @Last Modified At: 2019-06-11 16:49:52
  * @Description: This is description.
  */
 
@@ -51,7 +51,6 @@ export class Log {
         if (!this.logger) {
             const { combine, timestamp, label, printf } = format;
 
-
             // tslint:disable-next-line: no-shadowed-variable
             const customFormat = printf(({ level, message, label, timestamp }) => {
                 return `${timestamp} [${label}] ${level}: ${message}`;
@@ -75,7 +74,7 @@ export class Log {
             );
         }
 
-        this.logger.level = CliManager.get<string>('level') || 'warn';
+        this.logger.level = CliManager.get<string>('level') || 'info';
         return this.logger;
     }
 }
