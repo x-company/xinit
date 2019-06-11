@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-02 18:13:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-10 09:06:53
+ * @Last Modified At: 2019-06-11 10:58:10
  * @Description: This is description.
  */
 
@@ -20,7 +20,7 @@ import path from 'path';
 
 describe('Creates a new Layout for Services', () => {
     const testarea = path.join(process.cwd(), 'testarea');
-    const imageName = 'TestBaseImage';
+    const imageName = 'xcompany/mariadb';
 
     beforeEach(async () => {
         if (fs.existsSync(testarea)) {
