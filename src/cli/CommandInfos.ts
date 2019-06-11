@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 15:18:44
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-27 20:55:00
+ * @Last Modified At: 2019-06-11 15:05:36
  * @Description: This is description.
  */
 
@@ -21,6 +21,10 @@ export class CommandInfos {
 
     public static service = {
         command: 'service', description: 'Helps you to manage runit Services',
+    };
+
+    public static event = {
+        command: 'event', description: 'Helps you to manage Events for ',
     };
 
     public static layout = {
