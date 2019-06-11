@@ -4,21 +4,17 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  *
- * @Script: UpdateManager.ts
+ * @Script: UpdaterOptions.ts
  * @Author: Roland Breitschaft
  * @Email: roland.breitschaft@x-company.de
- * @Create At: 2019-06-10 22:45:01
+ * @Create At: 2019-06-11 10:04:04
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-10 22:59:24
+ * @Last Modified At: 2019-06-11 11:03:20
  * @Description: This is description.
  */
 
-import { Updater } from './Updater';
-
-export class UpdateManager {
-
-    public static async update(updater: Updater, directory: string) {
-
-        updater.update(directory);
-    }
+export interface UpdaterOptions {
+    imageName: string;
+    shortImageName?: string;
+    directory: string;
 }

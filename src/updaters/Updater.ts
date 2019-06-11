@@ -9,21 +9,30 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-10 22:45:48
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-10 22:58:57
+ * @Last Modified At: 2019-06-11 11:12:59
  * @Description: This is description.
  */
 
+import { UpdaterOptions } from './UpdaterOptions';
+import { CliManager } from '../helpers/CliManager';
 export abstract class Updater {
 
-    private updateOptions: any = {};
+    private updateOptions: UpdaterOptions;
 
-    constructor(options?: any) {
-        this.updateOptions = options;
+    constructor() {
+        this.updateOptions = {
+            directory: CliManager.getDirectory(),
+            imageName: '',
+        };
     }
 
-    protected get options(): any {
+    public get options(): UpdaterOptions {
         return this.updateOptions;
     }
 
-    public abstract update(directory: string): Promise<any>;
+    public set options(value: UpdaterOptions) {
+        this.updateOptions = value;
+    }
+
+    public abstract update(): Promise<any>;
 }
