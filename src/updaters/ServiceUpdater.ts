@@ -25,14 +25,20 @@ export class ServiceUpdater extends Updater {
             throw new Error('No Service Name is given. Service could not updated.');
         }
 
-        const directory = path.join(this.options.directory, 'src', this.options.imageName, 'build', 'services', this.options.serviceName);
-        const fsrootDir = path.join(directory, 'fsroot');
-        await fs.ensureDir(directory);
-        await fs.ensureDir(fsrootDir);
+        const buildDir = path.join(this.options.directory, 'src', this.options.imageName, 'build');
 
-        await this.updateServiceInstallFile(directory);
-        await this.updateServiceFile(directory);
-        await this.updateHealthcheckFile(directory);
+        const serviceDir = path.join(buildDir, 'services', this.options.serviceName);
+        const fsrootDir = path.join(buildDir, 'fsroot');
+        const eventsDir = path.join(buildDir, 'events');
+
+        await fs.ensureDir(serviceDir);
+        await fs.ensureDir(fsrootDir);
+        await fs.ensureDir(eventsDir);
+
+        await this.updateServiceInstallFile(serviceDir);
+        await this.updateServiceFile(serviceDir);
+        await this.updateHealthcheckFile(serviceDir);
+        await this.updateReadmeFile(fsrootDir);
     }
 
     private async updateServiceInstallFile(directory: string) {
@@ -43,26 +49,8 @@ export class ServiceUpdater extends Updater {
             const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# Load the xBuild System
-source /usr/local/include/xbuild/loader
-
-# Enable Debug Mode
-# debug --on
-
-# Enable Debug Mode inclusive Debug Outputs from Shell
-# debug --on --dev
-
-# Load the Environment Variables to the current Session
-loadvars
-
-# For Debug you can print current Vars
-# printvars
-
-# Install here your Service for example we show how to install mariadb
-# install --packages mariadb
-
-# Persist Environment Variables
-savevars
+# POWERTIP: Use Snippet xb-service
+# Hint: Look also for other Snippets with the Prefix xb
 
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });
@@ -77,24 +65,8 @@ savevars
             const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# Load the xBuild System
-source /usr/local/include/xbuild/loader
-
-# Enable Debug Mode
-# debug --on
-
-# Enable Debug Mode inclusive Debug Outputs from Shell
-# debug --on --dev
-
-# Load the Environment Variables to the current Session
-loadvars
-
-# For Debug you can print current Vars
-# printvars
-
-# Execute the Service
-exec 2>&1
-exec <Service Command>
+# POWERTIP: Use Snippet xb-service-run
+# Hint: Look also for other Snippets with the Prefix xb
 
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });
@@ -109,25 +81,30 @@ exec <Service Command>
             const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# Load the xBuild System
-source /usr/local/include/xbuild/loader
+# POWERTIP: Use Snippet xb-health
+# Hint: Look also for other Snippets with the Prefix xb
 
-# Enable Debug Mode
-# debug --on
+`;
+            await fs.writeFile(file, content, { encoding: 'utf-8' });
+            await fs.chmod(file, 0o755);
+        }
+    }
 
-# Enable Debug Mode inclusive Debug Outputs from Shell
-# debug --on --dev
+    private async updateReadmeFile(directory: string) {
 
-# Load the Environment Variables to the current Session
-loadvars
+        const file = path.join(directory, `README.md`);
+        if (!fs.existsSync(file)) {
 
-# For Debug you can print current Vars
-# printvars
+            const content = `# Place here your Files which should deployed to your Docker Image
 
-# Place here your Health Check Tests
+## For Example
 
-# When everything is ok, than return 0, otherwise return 1
-exit 0
+You want deploy a File in your Docker Image to Location \`/etc/myfolder/myfile.txt\`. So you have to create
+a Folder under *fsroot* \`etc/myfolder\` and place your File \`myfile.txt\` in it. The Install Process will
+copy this File to your Docker Image to the given Location.
+
+Remarks! Don't forget to set the right Permission in your Service Install File.
+
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });
             await fs.chmod(file, 0o755);

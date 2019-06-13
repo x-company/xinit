@@ -138,14 +138,7 @@ volumes:
         const file = path.join(directory, 'Dockerfile');
         if (!fs.existsSync(file)) {
 
-            const content = `#########################################
-# Global Base Image for Development
-FROM  xcompany/xbuild:latest
-
-LABEL   maintainer="<Your mail address>" \\
-        vendor="<Your Firm Name>" \\
-        description="<Describe your Image>" \\
-        version="0.1.0"
+            const content = `FROM  xcompany/xbuild:latest
 
 WORKDIR /workspace
 
@@ -169,29 +162,10 @@ RUN /build.sh
 # Load the xBuild System
 source /usr/local/include/xbuild/loader
 
-# Enable Debug Mode
-# debug --on
-
-# Enable Debug Mode inclusive Debug Outputs from Shell
-# debug --on --dev
-
 # Load the Environment Variables to the current Session
 loadvars
 
-# For Debug you can print current Vars
-# printvars
-
-# Prepare the Image in Development Mode
-# prepare --dev
-
-# Prepare the Image inclusive NodeJS 12.x in Development Mode
-prepare --with-node-12 --dev
-
-# Prepare the Image inclusive DotNet Core in Development Mode
-# prepare --with-dotnet --dev
-
-# Prepare the Image inclusive PowerShell in Development Mode
-# prepare --with-powershell --dev
+# POWERTIP: Use Snippet xb-prepare-dev to Prepare the Dev Container
 
 # Persist Environment Variables
 savevars
