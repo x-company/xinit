@@ -15,6 +15,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import rimraf from 'rimraf';
 import { Updater } from './Updater';
 import { Info } from '../helpers/Info';
 
@@ -54,11 +55,13 @@ export class ProjectLayoutUpdater extends Updater {
 
             const eventsDir = path.join(destDir, 'events');
             await fs.unlink(path.join(eventsDir, 'syslog-ng.init'));
-            await fs.unlink(path.join(eventsDir, 'post', 'syslog-ng.shutdown'));
-            await fs.rmdir(path.join(eventsDir, 'post'));
+            rimraf(path.join(eventsDir, 'post'), (err) => { throw err; });
 
             const fsrootDir = path.join(destDir, 'fsroot');
-
+            rimraf(path.join(fsrootDir, 'etc', 'default'), (err) => { throw err; });
+            rimraf(path.join(fsrootDir, 'etc', 'logrotate.d'), (err) => { throw err; });
+            rimraf(path.join(fsrootDir, 'etc', 'syslog-ng'), (err) => { throw err; });
+            await fs.unlink(path.join(fsrootDir, 'etc', 'logrotate.conf'));
         }
     }
 }
