@@ -165,7 +165,7 @@ source /usr/local/include/xbuild/loader
 # Load the Environment Variables to the current Session
 loadvars
 
-# POWERTIP: Use Snippet xb-prepare-dev to Prepare the Dev Container
+# TODO: Use Snippet xb-prepare-dev to Prepare the Dev Container for your needs
 
 # Persist Environment Variables
 savevars

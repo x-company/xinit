@@ -9,13 +9,19 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 23:25:40
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-14 01:03:46
+ * @Last Modified At: 2019-03-26 23:36:26
  * @Description: This is description.
  */
 
 import { CommandOptions } from '../../helpers/CommandOptions';
 
-export interface ServiceCommandOptions extends CommandOptions {
-    serviceName: string;
+export interface EventCommandOptions extends CommandOptions {
+    eventName: string;
     imageName?: string;
+    init: boolean;
+    prevInit: boolean;
+    postInit: boolean;
+    shutdown: boolean;
+    prevShutdown: boolean;
+    postShutdown: boolean;
 }

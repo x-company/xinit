@@ -27,13 +27,17 @@ const program = new Command(`${CommandInfos.main.command} ${CommandInfos.layout.
 program
     .command('create <name>')
     .description('Creates an new Layout to create new Services')
+    .option('--configure-sourcelists', 'APT Source Lists can be configured. See fsroot/etc/xbuild for further Details.')
+    .option('--without-default', 'Default Services will not installed.')
     .action(async (name, options) => {
 
         try {
             Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.layout.command} create' is called ...`);
 
             await new CreateLayoutCommand({
-                imageName: name
+                imageName: name,
+                configureSourcelists: options.configureSourcelists,
+                withoutDefault: options.withoutDefault,
             }).invoke();
 
         } catch (err) {

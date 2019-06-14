@@ -5,12 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 /*
- * @Script: BuildfileUpdater.ts
+ * @Script: EventUpdater.ts
  * @Author: Roland Breitschaft
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-11 12:23:43
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-11 12:32:26
+ * @Last Modified At: 2019-06-14 00:33:24
  * @Description: This is description.
  */
 
@@ -18,23 +18,25 @@ import fs from 'fs-extra';
 import path from 'path';
 import { Updater } from './Updater';
 
-export class BuildfileUpdater extends Updater {
+export class EventUpdater extends Updater {
+
+    constructor() {
+        super();
+
+    }
 
     public async update() {
 
-        const directory = path.join(this.options.directory, 'src', this.options.imageName, 'build');
+        const directory = this.options.directory;
         await fs.ensureDir(directory);
 
-        const file = path.join(directory, 'build.sh');
+        const file = path.join(directory, `${this.options.eventName}.${this.options.eventExtension}`);
         if (!fs.existsSync(file)) {
 
             const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# This is the main Build File for your Docker Image
-#
-# POWERTIP: Use Snippet xb-build to create a Sample
-# Hint: Look also for other Snippets with the Prefix 'xb-...'
+# Define here Actions when your Image starts or shutdowns
 
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });

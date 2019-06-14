@@ -33,7 +33,9 @@ export class DockerfileUpdater extends Updater {
 
         const file = path.join(directory, 'Dockerfile');
         if (!fs.existsSync(file)) {
-            const content = `# POWERTIP: Use Snippet xb-docker
+            const content = `# This is a Docker Build File
+#
+# POWERTIP: Use Snippet xb-docker to create a Sample
 
 `;
 

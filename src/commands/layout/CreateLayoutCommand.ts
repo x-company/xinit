@@ -33,6 +33,8 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
 
         const defaultOptions: LayoutCommandOptions = {
             imageName: 'baseimage',
+            configureSourcelists: false,
+            withoutDefault: false,
         };
 
         super({
@@ -55,7 +57,7 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
                 directory,
             });
 
-            await mgr.update(new ProjectLayoutUpdater());
+            await mgr.update(new ProjectLayoutUpdater(this.options.configureSourcelists, this.options.withoutDefault));
             await mgr.update(new PackageJsonUpdater());
             await mgr.update(new AppVersionUpdater());
             await mgr.update(new ReadmeUpdater());

@@ -31,42 +31,12 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
 
         try {
 
-            // const projectRoot = Info.getProjectRoot();
-
-            // const imageRoot = Info.getImageRoot(this.options.imageName, this.options.directory);
-            // const buildDir = path.join(imageRoot, 'build');
-            // const serviceDir = path.join(buildDir, 'services', this.options.serviceName);
-            // const fsrootDir = path.join(serviceDir, 'fsroot');
-            // const etcDir = path.join(fsrootDir, 'etc');
-            // const xinitDir = path.join(etcDir, 'xinit');
-            // const svDir = path.join(etcDir, 'sv', this.options.serviceName);
-            // const eventsDir = path.join(xinitDir, 'events.d');
-            // const postDir = path.join(eventsDir, 'post.d');
-            // const preDir = path.join(eventsDir, 'prev.d');
-            // const healthDir = path.join(xinitDir, 'health.d');
-
-            // fs.ensureDirSync(buildDir);
-            // fs.ensureDirSync(serviceDir);
-            // fs.ensureDirSync(svDir);
-            // fs.ensureDirSync(fsrootDir);
-            // fs.ensureDirSync(etcDir);
-            // fs.ensureDirSync(xinitDir);
-            // fs.ensureDirSync(eventsDir);
-            // fs.ensureDirSync(postDir);
-            // fs.ensureDirSync(preDir);
-            // fs.ensureDirSync(healthDir);
-
-            // await this.createServiceInstallFile(serviceDir);
-            // await this.createServiceFile(svDir);
-            // await this.createHealthcheckFile(healthDir);
-            // await this.registerServiceForBuild(buildDir);
-
             let directory = Info.getProjectRoot();
             if (this.options.directory) {
                 directory = this.options.directory;
             }
 
-            if(!this.options.imageName){
+            if (!this.options.imageName) {
                 throw new Error('No Image Name is given. Service could not created.');
             }
 
@@ -105,7 +75,7 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
                 content += `${line}\n`;
             });
 
-            await fs.writeFile(buildFile, content, { encoding: 'utf8'});
+            await fs.writeFile(buildFile, content, { encoding: 'utf8' });
         }
     }
 }

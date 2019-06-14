@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-11 14:59:12
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-11 15:13:41
+ * @Last Modified At: 2019-06-14 00:31:19
  * @Description: This is description.
  */
 
@@ -17,13 +17,15 @@ import { Command } from 'commander';
 import { CommandInfos } from './CommandInfos';
 import { Log } from '../helpers/Log';
 import { CliManager } from '../helpers/CliManager';
+import { CreateEventCommand } from '../commands/event/CreateEventCommand';
 
 const program = new Command(`${CommandInfos.main.command} ${CommandInfos.event.command}`)
     .description(CommandInfos.event.description);
 
 program
-    .command('add <name>')
-    .description('Add new Events for xinit')
+    .command('create <name>')
+    .description('Create Events for xinit')
+    .option('-i, --image <image>', 'The Name of the Base Image which the Service will created.')
     .option('--init', 'The event should run when xinit is starting.')
     .option('--prev-init', 'The event should run before xinit will started.')
     .option('--post-init', 'The event should run after xinit is started.')
@@ -35,7 +37,16 @@ program
         try {
             Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.event.command} create' is called ...`);
 
-
+            await new CreateEventCommand({
+                eventName: name,
+                imageName: options.image,
+                init: options.init,
+                prevInit: options.prevInit,
+                postInit: options.postInit,
+                shutdown: options.shutdown,
+                prevShutdown: options.prevShutdown,
+                postShutdown: options.postShutdown,
+            }).invoke();
 
         } catch (err) {
             Log.error(err);

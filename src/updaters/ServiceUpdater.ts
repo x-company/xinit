@@ -49,8 +49,10 @@ export class ServiceUpdater extends Updater {
             const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# POWERTIP: Use Snippet xb-service
-# Hint: Look also for other Snippets with the Prefix xb
+# Main Build File for your Service
+#
+# POWERTIP: Use Snippet xb-service to create a Sample
+# Hint: Look also for other Snippets with the Prefix 'xb-...'
 
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });
@@ -65,8 +67,10 @@ export class ServiceUpdater extends Updater {
             const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# POWERTIP: Use Snippet xb-service-run
-# Hint: Look also for other Snippets with the Prefix xb
+# File will called to start your Service
+#
+# POWERTIP: Use Snippet xb-service-run to create a Sample
+# Hint: Look also for other Snippets with the Prefix 'xb-...'
 
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });
@@ -81,8 +85,10 @@ export class ServiceUpdater extends Updater {
             const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-# POWERTIP: Use Snippet xb-health
-# Hint: Look also for other Snippets with the Prefix xb
+# Define here the Health Check for your Service
+#
+# POWERTIP: Use Snippet xb-health to create a Sample
+# Hint: Look also for other Snippets with the Prefix 'xb-...'
 
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });

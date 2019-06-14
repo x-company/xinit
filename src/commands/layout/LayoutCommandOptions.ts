@@ -20,4 +20,8 @@ import { CommandOptions } from '../../helpers/CommandOptions';
 export interface LayoutCommandOptions extends CommandOptions {
 
     imageName: string;
+
+    configureSourcelists: boolean;
+
+    withoutDefault: boolean;
 }

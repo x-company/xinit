@@ -1,23 +1,319 @@
 {
-	// Place your workspace workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
-	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
-	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
-	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
-	// Placeholders with the same ids are connected.
-	// Example:
-	// "Print to console": {
-	// 	"scope": "javascript,typescript",
-	// 	"prefix": "log",
-	// 	"body": [
-	// 		"console.log('$1');",
-	// 		"$2"
-	// 	],
-	// 	"description": "Log output to console"
-    // }
-
-    "Test":{
-        "prefix": "xt-test",
-        "scope": "bash"
+    "Docker Image Builder": {
+        "prefix": "xb-build",
+        "scope": "shellscript",
+        "description": "Global Build File to build your Image with the configured Services.",
+        "body": [
+            "",
+            "# Load the xBuild System",
+            "source /usr/local/include/xbuild/loader",
+            "",
+            "# Load the Environment Variables to the current Session",
+            "loadvars",
+            "",
+            "# POWERTIP: Use the Snippet xb-prepare and xb-prepare-lang to Prepare your Image",
+            "$0",
+            "",
+            "header \"Prepare Services for Install ...\"",
+            "services=",
+            "",
+            "header \"Build Services ...\"",
+            "build --services \"\\$services\"",
+            "",
+            "# Persist Environment Variables",
+            "savevars",
+            "",
+            "# Cleanup the Build and the Image. It should called when you finished your Work",
+            "cleanup",
+            "",
+            "header \"That's it. xBuild has finished his work. Have a nice Day\"",
+        ]
+    },
+    "Service Builder": {
+        "prefix": "xb-service",
+        "scope": "shellscript",
+        "description": "Creates a Service Installer Script",
+        "body": [
+            "",
+            "# Load the xBuild System",
+            "source /usr/local/include/xbuild/loader",
+            "",
+            "# Load the Environment Variables to the current Session",
+            "loadvars",
+            "",
+            "# Install here your Service. In this example we install mariadb",
+            "#install --packages mariadb",
+            "",
+            "install --packages ${1:Package_to_install}",
+            "",
+            "# Persist Environment Variables",
+            "savevars",
+        ]
+    },
+    "Service Run Builder": {
+        "prefix": "xb-service-run",
+        "scope": "shellscript",
+        "description": "Creates a Script to run the Service",
+        "body": [
+            "",
+            "# Load the xBuild System",
+            "source /usr/local/include/xbuild/loader",
+            "",
+            "# Load the Environment Variables to the current Session",
+            "loadvars",
+            "",
+            "# Execute the Service",
+            "exec 2>&1",
+            "exec ${1:command_to_start_service}",
+        ]
+    },
+    "Service Finish Builder": {
+        "prefix": "xb-service-finish",
+        "scope": "shellscript",
+        "description": "Creates a Script to finish a Service",
+        "body": [
+            "",
+            "# Load the xBuild System",
+            "source /usr/local/include/xbuild/loader",
+            "",
+            "# Load the Environment Variables to the current Session",
+            "loadvars",
+            "",
+            "# Prepare here the Shutdown of your Service"
+        ]
+    },
+    "Health Builder": {
+        "prefix": "xb-health",
+        "scope": "shellscript",
+        "description": "Creates an Health Script",
+        "body": [
+            "",
+            "# Load the xBuild System",
+            "source /usr/local/include/xbuild/loader",
+            "",
+            "# Load the Environment Variables to the current Session",
+            "loadvars",
+            "",
+            "# Place here your Health Check Tests",
+            "$0",
+            "",
+            "# When everything is ok, than return 0, otherwise return 1",
+            "exit 0",
+        ]
+    },
+    "Dockerfile Image File": {
+        "prefix": "xb-docker",
+        "scope": "dockerfile",
+        "body": [
+            "FROM xcompany/xbuild:latest",
+            "",
+            "ARG XBUILD_BUILD_DATE",
+            "ARG XBUILD_VCS_REF",
+            "ARG XBUILD_VERSION",
+            "ARG XBUILD_IMAGE_NAME=\"${1:The Image Name}\"",
+            "ARG XBUILD_IMAGE_DESCRIPTION=\"${2:Your Image Description}\"",
+            "ARG XBUILD_VENDOR=\"${3:Your Company Name}\"",
+            "ARG XBUILD_VENDOR_URL=\"https://www.${4:Your Domain Name}\"",
+            "ARG XBUILD_VENDOR_MAIL=\"info@$4\"",
+            "",
+            "LABEL  ${5:Type your Domain Name in Reverse DNS Notation}.build-date=\\$XBUILD_BUILD_DATE \\",
+            "       $5.name=\"\\$XBUILD_IMAGE_NAME\" \\",
+            "       $5.description=\\$XBUILD_IMAGE_DESCRIPTION \\",
+            "       $5.url=\"\\$XBUILD_VENDOR_URL\" \\",
+            "       $5.vcs-ref=\\$XBUILD_VCS_REF \\",
+            "       $5.vcs-url=\"https://github.com/$1\" \\",
+            "       $5.vendor=\\$XBUILD_VENDOR \\",
+            "       $5.version=\\$XBUILD_VERSION \\",
+            "       $5.schema-version=\"1.0\" \\",
+            "       $5.dockerfile=\"1.0\" \\",
+            "       $5.license=\"${6|MIT,Apache-1.0,Apache-1.1,Apache-2.0,ISC|}\" \\",
+            "       maintainer=\\$XBUILD_VENDOR_MAIL \\",
+            "       vendor=\\$XBUILD_VENDOR \\",
+            "       description=\\$XBUILD_IMAGE_DESCRIPTION \\",
+            "       version=\\$XBUILD_VERSION",
+            "",
+            "WORKDIR /build",
+            "",
+            "COPY ./build/ /",
+            "",
+            "RUN ./build.sh",
+            "",
+            "ENTRYPOINT [\"/sbin/xinit\"]",
+            "",
+            "HEALTHCHECK --interval=5s --timeout=3s CMD /usr/local/bin/healthcheck.sh || exit 1",
+        ]
+    },
+    "Load xbuild": {
+        "prefix": "xb-loader",
+        "scope": "shellscript",
+        "description": "Load the xBuild System",
+        "body": [
+            "",
+            "# Load the xBuild System",
+            "source /usr/local/include/xbuild/loader",
+            "",
+            "$0"
+        ]
+    },
+    "Enable Debug Mode": {
+        "prefix": "xb-debug",
+        "scope": "shellscript",
+        "description": "Enable or Disable the Debug Mode",
+        "body": [
+            "# Enable/Disable Debug Mode",
+            "debug ${1|--on,--off|}",
+            "",
+            "$0"
+        ]
+    },
+    "Enable Debug Mode for Development": {
+        "prefix": "xb-debug-dev",
+        "scope": "shellscript",
+        "description": "Enable or disable the Debug Mode plus Outputs from the Bash Shell (see also Parameter set -x for more Information)",
+        "body": [
+            "# Enable/Disable Debug Mode inclusive Debug Outputs from Shell",
+            "debug --dev ${1|--on,--off|}",
+            "",
+            "$0"
+        ]
+    },
+    "Load Variables": {
+        "prefix": "xb-vars-load",
+        "scope": "shellscript",
+        "description": "Load persistet Environment Variables and also check the current Environment",
+        "body": [
+            "# Load the Environment Variables to the current Session",
+            "loadvars",
+            "",
+            "$0"
+        ]
+    },
+    "Print Variables": {
+        "prefix": "xb-vars-print",
+        "scope": "shellscript",
+        "description": "Prints current used Environment Variables",
+        "body": [
+            "# For Debug you can print current Vars",
+            "printvars",
+            "",
+            "$0"
+        ]
+    },
+    "Save Variables": {
+        "prefix": "xb-vars-save",
+        "scope": "shellscript",
+        "description": "Saves current Environment Variables",
+        "body": [
+            "# Persist Environment Variables",
+            "savevars",
+            "",
+            "$0"
+        ]
+    },
+    "Set Variable": {
+        "prefix": "xb-vars-set",
+        "scope": "shellscript",
+        "description": "Set a new Environment Variable",
+        "body": [
+            "setvar \"${1:Name}\" \"${2:Value}\"",
+            "$0"
+        ]
+    },
+    "Prepare Image": {
+        "prefix": "xb-prepare",
+        "scope": "shellscript",
+        "description": "Prepare the Image",
+        "body": [
+            "# Prepare the Image",
+            "prepare ${1|--with-node,--with-node-8,--with-node-10,--with-node-11,--with-node-12,--with-dotnet,--with-dotnet-10,--with-dotnet-11,--with-dotnet-20,--with-dotnet-21,--with-dotnet-22,--with-dotnet-30,--with-powershell|}",
+            "",
+            "$0"
+        ]
+    },
+    "Prepare Image in Dev Mode": {
+        "prefix": "xb-prepare-dev",
+        "scope": "shellscript",
+        "description": "Prepare the Image",
+        "body": [
+            "# Prepare the Image",
+            "prepare --dev ${1|--with-node,--with-node-8,--with-node-10,--with-node-11,--with-node-12,--with-dotnet,--with-dotnet-10,--with-dotnet-11,--with-dotnet-20,--with-dotnet-21,--with-dotnet-22,--with-dotnet-30,--with-powershell|}",
+            "",
+            "$0"
+        ]
+    },
+    "Prepare Image add Lang": {
+        "prefix": "xb-prepare-lang",
+        "scope": "shellscript",
+        "description": "Prepare the Image",
+        "body": [
+            "${1|--with-node,--with-node-8,--with-node-10,--with-node-11,--with-node-12,--with-dotnet,--with-dotnet-10,--with-dotnet-11,--with-dotnet-20,--with-dotnet-21,--with-dotnet-22,--with-dotnet-30,--with-powershell|}",
+        ]
+    },
+    "Build all Services": {
+        "prefix": "xb-service-build",
+        "scope": "shellscript",
+        "description": "Builds all configured Services while Docker Image is building",
+        "body": [
+            "header \"Build Services ...\"",
+            "build --services \"${1:Service to Build}\"",
+            "",
+            "$0"
+        ]
+    },
+    "Cleanup Build": {
+        "prefix": "xb-cleanup",
+        "scope": "shellscript",
+        "description": "Cleanup the Docker Image after an Build and removes not needed Packages.",
+        "body": [
+            "# Cleanup the Build and the Image. It should called when you finished your Work",
+            "cleanup",
+            "",
+            "$0"
+        ]
+    },
+    "Copy File": {
+        "prefix": "xb-copy",
+        "scope": "shellscript",
+        "description": "Copy a File to Destination",
+        "body": [
+            "copy \"${1:Full Path of File}\" \"${2:Destination Folder}\"",
+            "$0"
+        ]
+    },
+    "Execute Command": {
+        "prefix": "xb-execute",
+        "scope": "shellscript",
+        "description": "Executes an given Command",
+        "body": [
+            "execute ${1:Command to execute}",
+            "$0"
+        ]
+    },
+    "Write an Header": {
+        "prefix": "xb-header",
+        "scope": "shellscript",
+        "description": "Writes an Log Header",
+        "body": [
+            "header \"${1:Message}\"",
+            "$0"
+        ]
+    },
+    "Install a new Package": {
+        "prefix": "xb-install",
+        "scope": "shellscript",
+        "description": "Install a new Package",
+        "body": [
+            "install --packages ${1:Package_to_install}",
+            "$0"
+        ]
+    },
+    "Log a Message": {
+        "prefix": "xb-log",
+        "scope": "shellscript",
+        "description": "Log a Message",
+        "body": [
+            "log \"${1:Message}\"",
+            "$0"
+        ]
     }
 }
