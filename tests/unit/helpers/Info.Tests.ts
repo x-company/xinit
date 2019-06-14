@@ -45,42 +45,4 @@ describe('Load the Image Root Dir', () => {
     it('Get Product Name', () => {
         expect(Info.ProductName).to.be.equal('xinit');
     });
-
-    it('Load Image Root without an Image Name and Base Directory', () => {
-
-        // arrange, act & assert
-
-        // act
-        const fn = () => {
-            Info.getImageRoot();
-        };
-
-        // assert
-        expect(fn).to.throw();
-    });
-
-    it('Load Image Root with an Image Name', () => {
-
-        // arrange, act & assert
-        const expected = path.join(process.cwd(), imageName);
-
-        // act
-        const actual = Info.getImageRoot(imageName);
-
-        // assert
-        expect(expected).to.equal(actual);
-    });
-
-    it('Load Image Root with an Image Name and a Base Directory', () => {
-
-        // arrange, act & assert
-        CliManager.set('directory', testarea);
-        const expected = path.join(testarea, imageName);
-
-        // act
-        const actual = Info.getImageRoot(imageName, testarea);
-
-        // assert
-        expect(expected).to.equal(actual);
-    });
 });

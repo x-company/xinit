@@ -17,6 +17,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Updater } from './Updater';
+import { Log } from '../helpers/Log';
 
 export class EventUpdater extends Updater {
 
@@ -27,6 +28,7 @@ export class EventUpdater extends Updater {
 
     public async update() {
 
+        Log.info('Create Event for your Image');
         const directory = this.options.directory;
         await fs.ensureDir(directory);
 
@@ -41,6 +43,8 @@ export class EventUpdater extends Updater {
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });
             await fs.chmod(file, 0o755);
+        } else {
+            Log.warn('Event could not created. File already exists.');
         }
 
     }

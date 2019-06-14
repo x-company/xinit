@@ -20,6 +20,7 @@ import { Info } from '../../helpers/Info';
 import { TemplateUpdateManager } from '../../updaters/TemplateUpdateManager';
 import { EventUpdater } from '../../updaters/EventUpdater';
 import { UpdaterOptions } from '../../updaters/UpdaterOptions';
+import { Log } from '../../helpers/Log';
 
 export class CreateEventCommand extends Command<EventCommandOptions> {
 
@@ -87,8 +88,10 @@ export class CreateEventCommand extends Command<EventCommandOptions> {
                 await this.updateEventTemplate(updaterOptions);
             }
 
+            Log.info('Event for your Base Image is now created.');
+
         } catch (e) {
-            throw e;
+            Log.error(e);
         }
     }
 

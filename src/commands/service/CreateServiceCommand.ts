@@ -20,6 +20,7 @@ import { ServiceCommandOptions } from './ServiceCommandOptions';
 import { Info } from '../../helpers/Info';
 import { TemplateUpdateManager } from '../../updaters/TemplateUpdateManager';
 import { ServiceUpdater } from '../../updaters/ServiceUpdater';
+import { Log } from '../../helpers/Log';
 
 export class CreateServiceCommand extends Command<ServiceCommandOptions> {
 
@@ -48,8 +49,10 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
 
             await mgr.update(new ServiceUpdater());
 
+            Log.info('Event for your Base Image is now created.');
+
         } catch (e) {
-            throw e;
+            Log.error(e);
         }
     }
 

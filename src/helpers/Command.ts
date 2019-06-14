@@ -44,8 +44,6 @@ export abstract class Command<TOptions extends CommandOptions> {
 
         try {
 
-            Log.info('Command was invoked');
-
             Log.verbose('Running the command');
             const commandResult = await this.execute();
             return commandResult;

@@ -10,7 +10,7 @@ eventName="TestEvent"
 rm -rf "$testarea"
 
 # Create a Base Image Layout
-xinit layout create "$imageName" -d "$testarea" --configure-sourcelists --without-default
+xinit layout create "$imageName" -d "$testarea"
 
 # Create a Base Image Layout
 # xinit layout create "$imageName2" -d "$testarea"
@@ -19,7 +19,7 @@ xinit layout create "$imageName" -d "$testarea" --configure-sourcelists --withou
 # xinit layout create "$imageName1" -d "$testarea"
 
 # Create a new Service
-# xinit service create "$serviceName" -i "$imageName" -d "$testarea"
+xinit service create "$serviceName" -i "$imageName" -d "$testarea"
 
 # --init
 # --prev-init

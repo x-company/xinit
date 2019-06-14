@@ -26,19 +26,20 @@ import { DockerfileUpdater } from '../../updaters/DockerfileUpdater';
 import { BuildfileUpdater } from '../../updaters/BuildfileUpdater';
 import { DevContainerUpdater } from '../../updaters/DevContainerUpdater';
 import { UnitTestsUpdater } from '../../updaters/UnitTestsUpdater';
+import { Log } from '../../helpers/Log';
 
 export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
 
+    private static defaultOptions: LayoutCommandOptions = {
+        imageName: 'baseimage',
+        configureSourcelists: false,
+        withoutDefault: false,
+        force: false,
+    };
     constructor(options?: LayoutCommandOptions) {
 
-        const defaultOptions: LayoutCommandOptions = {
-            imageName: 'baseimage',
-            configureSourcelists: false,
-            withoutDefault: false,
-        };
-
         super({
-            ...defaultOptions,
+            ...CreateLayoutCommand.defaultOptions,
             ...options,
         });
     }
@@ -57,7 +58,7 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
                 directory,
             });
 
-            await mgr.update(new ProjectLayoutUpdater(this.options.configureSourcelists, this.options.withoutDefault));
+            await mgr.update(new ProjectLayoutUpdater(this.options.configureSourcelists, this.options.withoutDefault, this.options.force));
             await mgr.update(new PackageJsonUpdater());
             await mgr.update(new AppVersionUpdater());
             await mgr.update(new ReadmeUpdater());
@@ -67,8 +68,10 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
             await mgr.update(new DevContainerUpdater());
             await mgr.update(new UnitTestsUpdater());
 
+            Log.info('Layout for your new Base Image is now created.');
+
         } catch (e) {
-            throw e;
+            Log.error(e);
         }
     }
 }

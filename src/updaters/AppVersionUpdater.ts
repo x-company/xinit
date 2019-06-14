@@ -22,10 +22,10 @@ import { CreateCommand, SetCommand } from 'appversion-mgr';
 export class AppVersionUpdater extends Updater {
 
     public async update() {
+        Log.info('Create AppVersion');
 
         let file = path.join(this.options.directory, 'appversion.json');
         if (!fs.existsSync(file)) {
-            Log.info('Create AppVersion');
             new CreateCommand(this.options.directory).initAppVersion();
 
             let content = await fs.readJson(file);
@@ -54,13 +54,14 @@ export class AppVersionUpdater extends Updater {
             await fs.writeJson(file, content, { encoding: 'utf8', spaces: 4 });
             await fs.chmod(file, 0o644);
 
-            new SetCommand(this.options.directory).setVersion('0.1.0');
             new SetCommand(this.options.directory).setStatus('development.1');
-
             file = path.join(this.options.directory, 'README.md');
             if (fs.existsSync(file)) {
+                Log.info('A Readme File exists. Recreate this File.');
                 await fs.unlink(file);
             }
+        } else {
+            Log.warn('AppVersion File could not created. File already exists.');
         }
     }
 }

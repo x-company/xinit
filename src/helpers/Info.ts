@@ -46,6 +46,7 @@ export class Info {
     }
 
     public static get ProductName(): string {
+
         return this.PROG_NAME;
     }
 
@@ -68,27 +69,27 @@ export class Info {
         return store;
     }
 
-    public static getImageRoot(imageName?: string | null | undefined, baseDirectory?: string | null | undefined): string {
+    // public static getImageRoot(imageName?: string | null | undefined, baseDirectory?: string | null | undefined): string {
 
-        let rootDirectory = CliManager.getDirectory(baseDirectory);
-        if (!imageName) {
-            const dirs = fs.readdirSync(rootDirectory).filter((file) => fs.statSync(path.join(rootDirectory, file)).isDirectory());
+    //     let rootDirectory = CliManager.getDirectory(baseDirectory);
+    //     if (!imageName) {
+    //         const dirs = fs.readdirSync(rootDirectory).filter((file) => fs.statSync(path.join(rootDirectory, file)).isDirectory());
 
-            if (dirs.length > 1) {
-                throw new Error('More than one Base Images found. Please specify the Base Image with parameter -i or --image');
-            } else {
-                if (dirs.length === 1) {
-                    imageName = path.basename(dirs[0]);
-                } else {
-                    throw new Error('No Base Image found.');
-                }
-            }
-        }
+    //         if (dirs.length > 1) {
+    //             throw new Error('More than one Base Images found. Please specify the Base Image with parameter -i or --image');
+    //         } else {
+    //             if (dirs.length === 1) {
+    //                 imageName = path.basename(dirs[0]);
+    //             } else {
+    //                 throw new Error('No Base Image found.');
+    //             }
+    //         }
+    //     }
 
-        rootDirectory = path.join(rootDirectory, 'src', imageName);
-        fs.ensureDirSync(rootDirectory);
-        return rootDirectory;
-    }
+    //     rootDirectory = path.join(rootDirectory, 'src', imageName);
+    //     fs.ensureDirSync(rootDirectory);
+    //     return rootDirectory;
+    // }
 
     public static getProjectRoot() {
 

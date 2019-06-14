@@ -16,10 +16,13 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Updater } from './Updater';
+import { Log } from '../helpers/Log';
 
 export class UnitTestsUpdater extends Updater {
 
     public async update() {
+
+        Log.info('Create Unit Tests');
 
         const directory = path.join(this.options.directory, 'tests', 'unit', this.options.imageName);
         await fs.ensureDir(directory);
@@ -30,6 +33,7 @@ export class UnitTestsUpdater extends Updater {
 
     private async updateDockercomposeFile(directory: string) {
 
+        Log.info('Create Docker Compose for UnitTests');
         const file = path.join(directory, 'docker-compose.yml');
         if (!fs.existsSync(file)) {
             const content = `version: "3.7"
@@ -47,10 +51,14 @@ services:
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });
             await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('Docker Compose could not created. File already exists.');
         }
     }
 
     private async updateBatsFile(directory: string) {
+
+        Log.info('Create UnitTest Sample');
 
         const file = path.join(directory, 'sample.bats');
         if (!fs.existsSync(file)) {
@@ -79,6 +87,8 @@ services:
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });
             await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('UnitTest Sample could not created. File already exists.');
         }
     }
 }

@@ -36,6 +36,7 @@ export class CliManager {
     }
 
     public static set(key: string, value: any) {
+        Log.verbose(`Set Value for Key ${key}`);
         Info.Store.set(key, value);
     }
 

@@ -24,4 +24,6 @@ export interface LayoutCommandOptions extends CommandOptions {
     configureSourcelists: boolean;
 
     withoutDefault: boolean;
+
+    force: boolean;
 }

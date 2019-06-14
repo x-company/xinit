@@ -13,8 +13,6 @@
  * @Description: This is description.
  */
 
-
-
 import { Command } from 'commander';
 import { CommandInfos } from './CommandInfos';
 import { Log } from '../helpers/Log';

@@ -17,10 +17,13 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Updater } from './Updater';
+import { Log } from '../helpers/Log';
 
 export class DockerfileUpdater extends Updater {
 
     public async update() {
+
+        Log.info('Create Dockerfile for your Image');
 
         const directory = path.join(this.options.directory, 'src', this.options.imageName);
         await fs.ensureDir(directory);
@@ -41,11 +44,14 @@ export class DockerfileUpdater extends Updater {
 
             await fs.writeFile(file, content, { encoding: 'utf-8' });
             await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('Dockerfile could not created. File already exists.');
         }
     }
 
     private async updateDockerIgnore(directory: string) {
 
+        Log.info('Create Dockerignore File for your Image');
         const file = path.join(directory, '.dockerignore');
         if (!fs.existsSync(file)) {
 
@@ -58,6 +64,8 @@ Dockerfile
 
             await fs.writeFile(file, content, { encoding: 'utf-8' });
             await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('Dockerignore could not created. File already exists.');
         }
     }
 }

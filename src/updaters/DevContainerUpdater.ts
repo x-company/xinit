@@ -16,10 +16,13 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Updater } from './Updater';
+import { Log } from '../helpers/Log';
 
 export class DevContainerUpdater extends Updater {
 
     public async update() {
+
+        Log.info('Create Dev Container Files');
 
         const directory = path.join(this.options.directory, '.devcontainer');
         await fs.ensureDir(directory);
@@ -32,6 +35,7 @@ export class DevContainerUpdater extends Updater {
 
     private async updateDevcontainerFile(directory: string) {
 
+        Log.info('Create Configuration for Dev Container');
         const file = path.join(directory, 'devcontainer.json');
         if (!fs.existsSync(file)) {
 
@@ -98,11 +102,14 @@ export class DevContainerUpdater extends Updater {
 `;
             await fs.writeFile(file, content, { encoding: 'utf8' });
             await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('DevContainer Configuration could not created. File already exists.');
         }
     }
 
     private async updateDockerComposeFile(directory: string) {
 
+        Log.info('Create Docker Compose File for Dev Container');
         const file = path.join(directory, 'docker-compose.yml');
         if (!fs.existsSync(file)) {
 
@@ -130,11 +137,14 @@ volumes:
 `;
             await fs.writeFile(file, content, { encoding: 'utf8' });
             await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('Docker Compose File could not created. File already exists.');
         }
     }
 
     private async updateDockerfile(directory: string) {
 
+        Log.info('Create Dockerfile for Dev Container');
         const file = path.join(directory, 'Dockerfile');
         if (!fs.existsSync(file)) {
 
@@ -148,11 +158,14 @@ RUN /build.sh
 `;
             await fs.writeFile(file, content, { encoding: 'utf8' });
             await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('Dockerfile could not created. File already exists.');
         }
     }
 
     private async updateBuildfile(directory: string) {
 
+        Log.info('Create Buildfile for Dev Container');
         const file = path.join(directory, 'build.sh');
         if (!fs.existsSync(file)) {
 
@@ -178,6 +191,8 @@ header "That's it. Your Dev Container is prepared. Have fun and a nice Day."
 
             await fs.writeFile(file, content, { encoding: 'utf8' });
             await fs.chmod(file, 0o755);
+        } else {
+            Log.warn('Buildfile could not created. File already exists.');
         }
     }
 }

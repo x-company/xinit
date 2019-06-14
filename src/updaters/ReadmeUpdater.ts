@@ -16,7 +16,6 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Updater } from './Updater';
-import { UpdaterOptions } from './UpdaterOptions';
 import { Log } from '../helpers/Log';
 import { Shell } from '../helpers/Shell';
 import { ShellOptions } from '../helpers/ShellOptions';
@@ -24,15 +23,17 @@ import { ShellOptions } from '../helpers/ShellOptions';
 export class ReadmeUpdater extends Updater {
 
     public async update() {
+        Log.info('Create Readme File with Badges');
 
         const file = path.join(this.options.directory, 'README.md');
         if (!fs.existsSync(file)) {
-            Log.info('Create AppVersion');
+
 
             const shellOptions: ShellOptions = {
                 cwd: this.options.directory,
                 detached: false,
                 windowsHide: true,
+                silent: true,
             };
 
             let versionBadge = await Shell.execute('appvmgr generate-badge version', shellOptions);
@@ -60,6 +61,8 @@ ${buildBadge}
 `;
             await fs.writeFile(file, content, { encoding: 'utf8' });
             await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('Readme File could not created. File already exists.');
         }
     }
 }

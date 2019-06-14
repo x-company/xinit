@@ -74,7 +74,7 @@ export class Log {
             );
         }
 
-        this.logger.level = CliManager.get<string>('level') || 'info';
+        this.logger.level = CliManager.get<string>('level') || 'warn';
         return this.logger;
     }
 }

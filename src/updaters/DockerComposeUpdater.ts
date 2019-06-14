@@ -16,11 +16,13 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Updater } from './Updater';
+import { Log } from '../helpers/Log';
 
 export class DockerComposeUpdater extends Updater {
 
     public async update() {
 
+        Log.info('Create Docker Compose File for your Image');
         const file = path.join(this.options.directory, 'docker-compose.yml');
 
         let content = '';

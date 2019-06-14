@@ -18,50 +18,76 @@ import path from 'path';
 import rimraf from 'rimraf';
 import { Updater } from './Updater';
 import { Info } from '../helpers/Info';
+import { Log } from '../helpers/Log';
 
 export class ProjectLayoutUpdater extends Updater {
 
-    constructor(private updateSourcelists: boolean, private withoutDefaultServices: boolean) {
+    constructor(private updateSourcelists: boolean, private withoutDefaultServices: boolean, private force: boolean) {
         super();
 
     }
     public async update() {
 
+        Log.info('Create a new Layout for your Image');
+
         const projectRoot = Info.getProjectRoot();
         const layoutDir = path.join(projectRoot, 'src', '.layout');
         const destDir = path.join(this.options.directory, 'src', this.options.imageName, 'build');
-        if (fs.existsSync(layoutDir)) {
+        if (this.force || (fs.existsSync(layoutDir) && !fs.existsSync(destDir))) {
             await fs.copy(layoutDir, this.options.directory);
 
             const sourceDir = path.join(this.options.directory, 'src', 'image', 'build');
             fs.moveSync(sourceDir, destDir, { overwrite: true });
 
             await fs.rmdir(path.join(sourceDir, '..'));
-        }
 
-        if (!this.updateSourcelists) {
-            const sourcelistsDir = path.join(this.options.directory, 'src', this.options.imageName, 'build', 'fsroot', 'etc', 'xbuild', 'sources.list.d');
-            if (fs.existsSync(sourcelistsDir)) {
-                await fs.unlink(sourcelistsDir);
+            if (!this.updateSourcelists) {
+                Log.info('Remove Source Lists');
+                const xbuildDir = path.join(destDir, 'fsroot', 'etc', 'xbuild');
+                const sourcelistsDir = path.join(xbuildDir, 'sources.list.d');
+                if (fs.existsSync(sourcelistsDir)) {
+                    this.removeDir(sourcelistsDir);
+                }
+
+                const trustedDir = path.join(xbuildDir, 'trusted.gpg.d');
+                if (fs.existsSync(trustedDir)) {
+                    this.removeDir(trustedDir);
+                }
+
+                if (fs.existsSync(xbuildDir)) {
+                    this.removeDir(xbuildDir);
+                }
             }
 
-            const trustedDir = path.join(this.options.directory, 'src', this.options.imageName, 'build', 'fsroot', 'etc', 'xbuild', 'trusted.gpg.d');
-            if (fs.existsSync(trustedDir)) {
-                await fs.unlink(trustedDir);
+            if (this.withoutDefaultServices) {
+                Log.info('Remove Default Services');
+
+                const eventsDir = path.join(destDir, 'events');
+                this.removeDir(path.join(eventsDir, 'post'));
+                await fs.unlink(path.join(eventsDir, 'syslog-ng.init'));
+
+                const fsrootDir = path.join(destDir, 'fsroot', 'etc');
+                this.removeDir(path.join(fsrootDir, 'default'));
+                this.removeDir(path.join(fsrootDir, 'logrotate.d'));
+                this.removeDir(path.join(fsrootDir, 'syslog-ng'));
+                await fs.unlink(path.join(fsrootDir, 'logrotate.conf'));
+
+                const serviceDir = path.join(destDir, 'services');
+                this.removeDir(path.join(serviceDir, 'cron'));
+                this.removeDir(path.join(serviceDir, 'syslog-ng'));
             }
+        } else {
+            Log.warn('Image already created. To recreate the Image use --force Parameter.');
         }
+    }
 
-        if (this.withoutDefaultServices) {
+    private removeDir(directory: string) {
 
-            const eventsDir = path.join(destDir, 'events');
-            await fs.unlink(path.join(eventsDir, 'syslog-ng.init'));
-            rimraf(path.join(eventsDir, 'post'), (err) => { throw err; });
-
-            const fsrootDir = path.join(destDir, 'fsroot');
-            rimraf(path.join(fsrootDir, 'etc', 'default'), (err) => { throw err; });
-            rimraf(path.join(fsrootDir, 'etc', 'logrotate.d'), (err) => { throw err; });
-            rimraf(path.join(fsrootDir, 'etc', 'syslog-ng'), (err) => { throw err; });
-            await fs.unlink(path.join(fsrootDir, 'etc', 'logrotate.conf'));
-        }
+        // tslint:disable-next-line: no-empty
+        rimraf(directory, (err) => {
+            if (err) {
+                Log.warn(err);
+            }
+        });
     }
 }

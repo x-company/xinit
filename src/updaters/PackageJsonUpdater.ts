@@ -16,10 +16,13 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Updater } from './Updater';
+import { Log } from '../helpers/Log';
 
 export class PackageJsonUpdater extends Updater {
 
     public async update() {
+
+        Log.info('Create a package.json');
 
         const file = path.join(this.options.directory, 'package.json');
         if (!fs.existsSync(file)) {
@@ -66,6 +69,8 @@ export class PackageJsonUpdater extends Updater {
 
             await fs.writeJson(file, content, { encoding: 'utf8', spaces: 4 });
             await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('Package.json could not created. File already exists.');
         }
     }
 }

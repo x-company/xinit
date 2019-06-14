@@ -29,6 +29,7 @@ program
     .description('Creates an new Layout to create new Services')
     .option('--configure-sourcelists', 'APT Source Lists can be configured. See fsroot/etc/xbuild for further Details.')
     .option('--without-default', 'Default Services will not installed.')
+    .option('--force', 'Overwrites the Layout. Attention! This will delete already created Services and Events.')
     .action(async (name, options) => {
 
         try {
@@ -38,6 +39,7 @@ program
                 imageName: name,
                 configureSourcelists: options.configureSourcelists,
                 withoutDefault: options.withoutDefault,
+                force: options.force,
             }).invoke();
 
         } catch (err) {

@@ -17,10 +17,13 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Updater } from './Updater';
+import { Log } from '../helpers/Log';
 
 export class BuildfileUpdater extends Updater {
 
     public async update() {
+
+        Log.info('Create Buildfile for your Image');
 
         const directory = path.join(this.options.directory, 'src', this.options.imageName, 'build');
         await fs.ensureDir(directory);
@@ -39,7 +42,10 @@ export class BuildfileUpdater extends Updater {
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });
             await fs.chmod(file, 0o755);
+        } else {
+            Log.warn('Build File could not created. File already exists.');
         }
+
 
     }
 }

@@ -20,7 +20,7 @@ import { Log } from '../helpers/Log';
 import { CliManager } from '../helpers/CliManager';
 
 // Reset Global Options
-CliManager.set('level', 'warn');
+CliManager.set('level', 'info');
 CliManager.set('directory', process.cwd());
 
 
