@@ -1,70 +1,67 @@
 {
-    "name": "xinit",
-    "version": "0.1.0",
-    "description": "",
-    "main": "./lib/index.js",
-    "typings": "./lib/index.d.ts",
-    "bin": {
-        "xinit": "./bin/xinit"
-    },
-    "engines": {
-        "node": ">=8.0.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:x-company/xinit.git"
-    },
-    "bugs": {
-        "url": "https://github.com/x-company/xinit/issues"
-    },
-    "homepage": "https://github.com/x-company/xinit",
-    "author": "Roland Breitschaft <info@x-company.de> (https://www.x-company.de)",
-    "license": "MIT",
-    "keywords": [
-        "docker",
-        "init",
-        "runit"
-    ],
-    "files": [
-        "src/.layout/"
-    ],
-    "config": {
-        "image_name": "xcompany/xinit"
-    },
-    "scripts": {
-        "lint": "tslint -c ./tslint.json './src/**/*.ts'",
-        "prebuild": "yarn lint && rimraf -rf lib && mkdir lib && appvmgr update build",
-        "build": "tsc -p ./src/tsconfig.json && cp -Rf ./src/.layout/ ./lib/",
-        "postbuild": "git add . && git commit -m 'Automatic Build Commit'",
-        "prepublish": "yarn build && appvmgr add-git-tag && git push --tags && git push --all",
-        "watch": "tsc -w -p ./src/tsconfig.json",
-        "test": "docker-compose -f ./tests/unit/docker-compose.yml up",
-        "test:clean": "docker container prune -f && docker image rm -f xinit:unit"
-    },
-    "devDependencies": {
-        "@types/chai": "^4.1.7",
-        "@types/configstore": "^4.0.0",
-        "@types/find-root": "^1.1.1",
-        "@types/fs-extra": "^7.0.0",
-        "@types/mocha": "^5.2.7",
-        "@types/node": "^12.0.4",
-        "@types/rimraf": "^2.0.2",
-        "@types/shelljs": "^0.8.5",
-        "appversion-mgr": "^0.7.0",
-        "chai": "^4.2.0",
-        "mocha": "^6.1.4",
-        "nyc": "^14.1.1",
-        "rimraf": "^2.6.3",
-        "ts-node": "^8.2.0",
-        "tslint": "^5.17.0",
-        "typescript": "^3.5.1"
-    },
-    "dependencies": {
-        "commander": "^2.20.0",
-        "configstore": "^4.0.0",
-        "find-root": "^1.1.0",
-        "fs-extra": "^8.0.1",
-        "shelljs": "^0.8.3",
-        "winston": "^3.2.1"
-    }
+  "name": "xinit",
+  "version": "0.1.1",
+  "description": "",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "bin": {
+    "xinit": "./bin/xinit"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:x-company/xinit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/x-company/xinit/issues"
+  },
+  "homepage": "https://github.com/x-company/xinit",
+  "author": "Roland Breitschaft <info@x-company.de> (https://www.x-company.de)",
+  "license": "MIT",
+  "keywords": [
+    "docker",
+    "init",
+    "runit"
+  ],
+  "config": {
+    "image_name": "xcompany/xinit"
+  },
+  "scripts": {
+    "lint": "tslint -c ./tslint.json './src/**/*.ts'",
+    "prebuild": "yarn lint && rimraf -rf lib && mkdir lib && appvmgr update build",
+    "build": "tsc -p ./src/tsconfig.json && cp -Rf ./src/.layout/ ./lib/",
+    "postbuild": "git add . && git commit -m 'Automatic Build Commit'",
+    "prepublish": "yarn build && appvmgr add-git-tag && git push --tags && git push --all",
+    "watch": "tsc -w -p ./src/tsconfig.json",
+    "test": "docker-compose -f ./tests/unit/docker-compose.yml up",
+    "test:clean": "docker container prune -f && docker image rm -f xinit:unit"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/configstore": "^4.0.0",
+    "@types/find-root": "^1.1.1",
+    "@types/fs-extra": "^7.0.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.0.4",
+    "@types/rimraf": "^2.0.2",
+    "@types/shelljs": "^0.8.5",
+    "appversion-mgr": "^0.7.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.2.0",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.1"
+  },
+  "dependencies": {
+    "commander": "^2.20.0",
+    "configstore": "^4.0.0",
+    "find-root": "^1.1.0",
+    "fs-extra": "^8.0.1",
+    "shelljs": "^0.8.3",
+    "winston": "^3.2.1"
+  }
 }

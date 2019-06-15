@@ -57,7 +57,7 @@ export class PackageJsonUpdater extends Updater {
                     'dockerfile:XBUILD_VERSION': 'echo \"$(sed -e \"s/__XBUILD_VERSION__/$npm_package_version/g\" ./Dockerfile)\" > ./Dockerfile',
                     'dockerfile:build': 'yarn dockerfile:XBUILD_BUILD_DATE && yarn dockerfile:XBUILD_VCS_REF && yarn dockerfile:XBUILD_VERSION',
 
-                    'docker:clean:dev': 'docker image rm -f xcompany/xbuild:devcontainer',
+                    'docker:clean:dev': `docker image rm -f ${this.options.imageName}:devcontainer`,
                     'docker:clean:image': 'docker image rm -f $npm_package_config_image_name:$npm_package_version',
                     'docker:clean:latest': 'docker image rm -f $npm_package_config_image_name:latest',
 
@@ -69,7 +69,7 @@ export class PackageJsonUpdater extends Updater {
                     'build': 'yarn docker:build',
                     'postbuild': 'yarn docker:tag && git add . && git commit -m \'Automatic Build Commit\'',
 
-                    'test': 'docker-compose -f ./tests/unit/docker-compose.yml up',
+                    'test': 'docker-compose -f ./.devcontainer/docker-compose.test.yml up',
 
                     'release': 'yarn build && appvmgr add-git-tag && git push --tags && git push --all',
                 },

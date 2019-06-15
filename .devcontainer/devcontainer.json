@@ -2,7 +2,7 @@
 {
 	"name": "xinit system",
     "dockerComposeFile": "docker-compose.yml",
-    "service": "xinit",
+    "service": "run",
     "workspaceFolder": "/workspace",
     "shutdownAction": "stopCompose",
 

@@ -21,7 +21,6 @@ import { PackageJsonUpdater } from '../../updaters/PackageJsonUpdater';
 import { ProjectLayoutUpdater } from '../../updaters/ProjectLayoutUpdater';
 import { ReadmeUpdater } from '../../updaters/ReadmeUpdater';
 import { AppVersionUpdater } from '../../updaters/AppVersionUpdater';
-import { DockerComposeUpdater } from '../../updaters/DockerComposeUpdater';
 import { DockerfileUpdater } from '../../updaters/DockerfileUpdater';
 import { BuildfileUpdater } from '../../updaters/BuildfileUpdater';
 import { DevContainerUpdater } from '../../updaters/DevContainerUpdater';
@@ -62,7 +61,6 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
             await mgr.update(new PackageJsonUpdater());
             await mgr.update(new AppVersionUpdater());
             await mgr.update(new ReadmeUpdater());
-            await mgr.update(new DockerComposeUpdater());
             await mgr.update(new DockerfileUpdater());
             await mgr.update(new BuildfileUpdater());
             await mgr.update(new DevContainerUpdater());

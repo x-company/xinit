@@ -146,4 +146,34 @@ volumes:
             Log.warn('Docker Compose File could not created. File already exists.');
         }
     }
+
+    private async updateDockerComposeFileForTests(directory: string) {
+
+        Log.info('Create Docker Compose Test File for Dev Container');
+        const file = path.join(directory, 'docker-compose.test.yml');
+        if (!fs.existsSync(file)) {
+
+            const content = `version: "3.7"
+
+services:
+  build:
+    image: ${this.options.imageName}:devcontainer
+    build:
+      context: ..
+      dockerfile: Dockerfile
+
+  test:
+    image: ${this.options.imageName}:devcontainer
+    depends_on:
+      - build
+      volumes:
+      - ..:/workspace
+    command: /usr/bin/bats /workspace/tests/unit/
+`;
+            await fs.writeFile(file, content, { encoding: 'utf8' });
+            await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('Docker Compose File could not created. File already exists.');
+        }
+    }
 }

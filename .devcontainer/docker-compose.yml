@@ -1,9 +1,14 @@
 version: "3.7"
 
 services:
-  xinit:
-    image: xcompany/xinit:dev
+  build:
+    image: xcompany/xinit:devcontainer
     build: .
+
+  run:
+    image: xcompany/hellodocker:devcontainer
+    depends_on:
+      - build
     volumes:
       # Map the current Source Folder
       - ..:/workspace

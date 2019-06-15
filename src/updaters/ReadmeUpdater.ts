@@ -53,7 +53,6 @@ export class ReadmeUpdater extends Updater {
             buildBadge = buildBadge.trim();
 
             const content = `# ${this.options.imageName}
-# ${this.options.imageName}
 
 | Type | States |
 |---|---|
