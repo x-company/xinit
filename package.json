@@ -1,6 +1,6 @@
 {
   "name": "xinit",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -26,12 +26,13 @@
     "runit"
   ],
   "files": [
-    "./bin/",
-    "./lib/",
-    "./lib/.layout/",
-    "./LICENSE",
-    "./package.json",
-    "./README.md"
+    "bin/**/*",
+    "lib/**/*.js",
+    "lib/**/*.d.ts",
+    "lib/.layout/**/*",
+    "LICENSE",
+    "package.json",
+    "README.md"
   ],
   "config": {
     "image_name": "xcompany/xinit"
