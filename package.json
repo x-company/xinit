@@ -25,13 +25,16 @@
         "init",
         "runit"
     ],
+    "files": [
+        "src/.layout/"
+    ],
     "config": {
         "image_name": "xcompany/xinit"
     },
     "scripts": {
         "lint": "tslint -c ./tslint.json './src/**/*.ts'",
         "prebuild": "yarn lint && rimraf -rf lib && mkdir lib && appvmgr update build",
-        "build": "tsc -p ./src/tsconfig.json",
+        "build": "tsc -p ./src/tsconfig.json && cp -Rf ./src/.layout/ ./lib/",
         "postbuild": "git add . && git commit -m 'Automatic Build Commit'",
         "prepublish": "yarn build && appvmgr add-git-tag && git push --tags && git push --all",
         "watch": "tsc -w -p ./src/tsconfig.json",
