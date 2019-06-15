@@ -133,13 +133,15 @@
             "",
             "WORKDIR /build",
             "",
-            "COPY ./build/ /",
+            "COPY ./src/$1/build/ /",
             "",
-            "RUN ./build.sh",
+            "RUN ./build/build.sh",
             "",
             "ENTRYPOINT [\"/usr/bin/xinit\"]",
             "",
             "HEALTHCHECK --interval=5s --timeout=3s CMD /usr/local/bin/healthcheck.sh || exit 1",
+            "",
+            "$0"
         ]
     },
     "Load xbuild": {
