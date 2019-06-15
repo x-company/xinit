@@ -30,8 +30,6 @@ export class ProjectLayoutUpdater extends Updater {
 
         Log.info('Create a new Layout for your Image');
 
-        Log.info(`Current Dir=${__dirname}`);
-
         const layoutDir = path.join(__dirname, '..', '.layout');
         const destDir = path.join(this.options.directory, 'src', this.options.imageName, 'build');
         if (this.force || (fs.existsSync(layoutDir) && !fs.existsSync(destDir))) {

@@ -29,7 +29,7 @@ export class DockerfileUpdater extends Updater {
         await fs.ensureDir(directory);
 
         await this.updateDockerfile(directory);
-        await this.updateDockerIgnore(directory);
+        await this.updateDockerIgnore(this.options.directory);
     }
 
     private async updateDockerfile(directory: string) {
