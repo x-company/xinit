@@ -2,12 +2,12 @@
   "version": {
     "major": 0,
     "minor": 1,
-    "patch": 1,
+    "patch": 2,
     "badge": "[![xinit-version](https://img.shields.io/badge/Version-${M.m.p}-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xinit/v/${M.m.p})"
   },
   "build": {
     "date": "2019-06-15T13:44:19.858Z",
-    "number": 3,
+    "number": 0,
     "total": 50,
     "badge": "[![xinit-build](https://img.shields.io/badge/Builds-${n}-brightgreen.svg?style=flat)](https://github.com/x-company/xinit#status)"
   },

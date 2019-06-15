@@ -1,6 +1,6 @@
 {
   "name": "xinit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -24,6 +24,14 @@
     "docker",
     "init",
     "runit"
+  ],
+  "files": [
+    "./bin/",
+    "./lib/",
+    "./lib/.layout/",
+    "./LICENSE",
+    "./package.json",
+    "./README.md"
   ],
   "config": {
     "image_name": "xcompany/xinit"
