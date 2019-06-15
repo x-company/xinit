@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-03 09:29:50
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-03 09:29:50
+ * @Last Modified At: 2019-06-14 12:21:20
  * @Description: This is description.
  */
 
@@ -52,9 +52,16 @@ const program = new Command(`${CommandInfos.main.command} ${CommandInfos.run.com
                 throw new Error('When --skip-runit is given, you must also pass a main command.');
             }
 
-            process.on('SIGINT', () => {
+            const exitProcess = () => {
                 Log.warn('Init System aborted.');
                 process.exit(2);
+            };
+
+            // Strg + C is pressed
+            process.on('SIGINT', () => exitProcess());
+            process.on('SIGTERM', () => exitProcess());
+            process.on('SIGALRM', () => {
+                throw new Error('Alarm');
             });
 
             new RunCommand({

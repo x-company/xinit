@@ -9,10 +9,12 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-27 20:35:42
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-10 19:58:06
+ * @Last Modified At: 2019-06-14 12:24:50
  * @Description: This is description.
  */
 
+import fs from 'fs-extra';
+import path from 'path';
 import { Command } from '../../helpers/Command';
 import { RunCommandOptions } from './RunCommandOptions';
 import { Log } from '../../helpers/Log';
@@ -23,58 +25,96 @@ export class RunCommand extends Command<RunCommandOptions> {
 
     private static KILL_PROCESS_TIMEOUT: number = 5;
 
+    private eventsDir = '/etc/xinit/events.d/';
+
     constructor(options?: RunCommandOptions) {
-        const defaultOptions: RunCommandOptions = {
+        super({
             mainCommand: 'runit',
             skipStartupFiles: false,
             killallOnExit: true,
             skipRunit: false,
-        };
-
-        super({
-            ...defaultOptions,
             ...options,
         });
     }
 
     protected async execute() {
 
+        // Run Prev Startups
         if (!this.options.skipStartupFiles) {
-            // this.runPreStartupFiles();
+            this.runEventFiles(EventMode.PREV);
         }
 
+        // Run Startups
+        if (!this.options.skipStartupFiles) {
+            this.runEventFiles();
+        }
+
+        // Run Runit
         if (!this.options.skipRunit) {
             await this.startRunit();
         }
 
+        // Run Post Startups
         if (!this.options.skipStartupFiles) {
-            // this.runPostStartupFiles();
+            this.runEventFiles(EventMode.POST);
         }
 
         try {
+            if (this.options.mainCommand && this.options.mainCommand === 'runit') {
 
+            } else {
+
+            }
             // Implement Logik
-
 
         } catch (e) {
             throw e;
         } finally {
             if (!this.options.skipRunit) {
+                await this.runEventFiles(EventMode.PREV, false);
+
+                await this.runEventFiles(EventMode.NONE, false);
+
                 await this.shutdownRunitServices();
                 await this.waitForRunitServices();
+
+                await this.runEventFiles(EventMode.POST, false);
             }
         }
     }
 
-    private async runStartupFiles() {
-        throw new Error('Not implemented');
+    private async runEventFiles(mode: EventMode = EventMode.NONE, isStartup: boolean = true) {
+
+        let directory = this.eventsDir;
+        if (mode === EventMode.PREV) {
+            directory = path.join(this.eventsDir, 'prev.d');
+        }
+
+        if (mode === EventMode.POST) {
+            directory = path.join(this.eventsDir, 'post.d');
+        }
+
+        const files = await fs.readdir(directory);
+        const extension = isStartup ? '.init' : '.shutdown';
+
+        files
+            .filter((file) => file.endsWith(extension))
+            .forEach(async (file) => {
+                Log.info(`Start File ${file}`);
+                await Shell.execute(file, {
+                    cwd: directory,
+                    detached: true,
+                    silent: true,
+                    windowsHide: true,
+                });
+            });
     }
 
     private async startRunit() {
 
         Log.info('Booting runit daemon');
 
-        return Shell.execute('/usr/bin/runsvdir -P /etc/service', {
+        await Shell.execute('/usr/bin/runsvdir -P /etc/service', {
             cwd: '/usr/bin',
             detached: true,
             silent: true,
@@ -122,5 +162,9 @@ export class RunCommand extends Command<RunCommandOptions> {
                 this.shutdownRunitServices(true);
             }
         }
+    }
+
+    private async waitpid_reap_other_children(){
+
     }
 }

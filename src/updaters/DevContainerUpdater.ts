@@ -29,8 +29,6 @@ export class DevContainerUpdater extends Updater {
 
         await this.updateDevcontainerFile(directory);
         await this.updateDockerComposeFile(directory);
-        await this.updateDockerfile(directory);
-        await this.updateBuildfile(directory);
     }
 
     private async updateDevcontainerFile(directory: string) {
@@ -43,7 +41,7 @@ export class DevContainerUpdater extends Updater {
 {
     "name": "${this.options.imageName}",
     "dockerComposeFile": "docker-compose.yml",
-    "service": "${this.options.shortImageName}",
+    "service": "run",
     "workspaceFolder": "/workspace",
     "shutdownAction": "stopCompose",
 
@@ -116,9 +114,16 @@ export class DevContainerUpdater extends Updater {
             const content = `version: "3.7"
 
 services:
-  ${this.options.shortImageName}:
+  build:
     image: ${this.options.imageName}:devcontainer
-    build: .
+    build:
+      context: ..
+      dockerfile: Dockerfile
+
+  run:
+    image: ${this.options.imageName}:devcontainer
+    depends_on:
+      - build
     volumes:
       # Map the current Source Folder
       - ..:/workspace
@@ -139,60 +144,6 @@ volumes:
             await fs.chmod(file, 0o644);
         } else {
             Log.warn('Docker Compose File could not created. File already exists.');
-        }
-    }
-
-    private async updateDockerfile(directory: string) {
-
-        Log.info('Create Dockerfile for Dev Container');
-        const file = path.join(directory, 'Dockerfile');
-        if (!fs.existsSync(file)) {
-
-            const content = `FROM  xcompany/xbuild:latest
-
-WORKDIR /workspace
-
-COPY ./build.sh /
-
-RUN /build.sh
-`;
-            await fs.writeFile(file, content, { encoding: 'utf8' });
-            await fs.chmod(file, 0o644);
-        } else {
-            Log.warn('Dockerfile could not created. File already exists.');
-        }
-    }
-
-    private async updateBuildfile(directory: string) {
-
-        Log.info('Create Buildfile for Dev Container');
-        const file = path.join(directory, 'build.sh');
-        if (!fs.existsSync(file)) {
-
-            const content = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
-
-# Load the xBuild System
-source /usr/local/include/xbuild/loader
-
-# Load the Environment Variables to the current Session
-loadvars
-
-# TODO: Use Snippet xb-prepare-dev to Prepare the Dev Container for your needs
-
-# Persist Environment Variables
-savevars
-
-# Cleanup the Build and the Image. It should called when you finished your Work
-cleanup
-
-header "That's it. Your Dev Container is prepared. Have fun and a nice Day."
-`;
-
-            await fs.writeFile(file, content, { encoding: 'utf8' });
-            await fs.chmod(file, 0o755);
-        } else {
-            Log.warn('Buildfile could not created. File already exists.');
         }
     }
 }

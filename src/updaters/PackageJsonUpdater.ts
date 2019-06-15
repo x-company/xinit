@@ -52,17 +52,25 @@ export class PackageJsonUpdater extends Updater {
                     'appversion-mgr': '^0.7.0',
                 },
                 scripts: {
-                    'docker:clean': 'docker system prune -f',
+                    'dockerfile:XBUILD_BUILD_DATE': `echo \"$(sed -e \"s/__XBUILD_BUILD_DATE__/$(date -u +\'%Y-%m-%dT%H:%M:%SZ\')/g\" ./src/${this.options.imageName}/Dockerfile.tmpl)\" > ./Dockerfile`,
+                    'dockerfile:XBUILD_VCS_REF': 'echo \"$(sed -e \"s/__XBUILD_VCS_REF__/$(git rev-parse --short HEAD)/g\" ./Dockerfile)\" > ./Dockerfile',
+                    'dockerfile:XBUILD_VERSION': 'echo \"$(sed -e \"s/__XBUILD_VERSION__/$npm_package_version/g\" ./Dockerfile)\" > ./Dockerfile',
+                    'dockerfile:build': 'yarn dockerfile:XBUILD_BUILD_DATE && yarn dockerfile:XBUILD_VCS_REF && yarn dockerfile:XBUILD_VERSION',
+
+                    'docker:clean:dev': 'docker image rm -f xcompany/xbuild:devcontainer',
                     'docker:clean:image': 'docker image rm -f $npm_package_config_image_name:$npm_package_version',
                     'docker:clean:latest': 'docker image rm -f $npm_package_config_image_name:latest',
-                    'docker:build': 'docker build --target prod --label version=$npm_package_version --tag $npm_package_config_image_name:$npm_package_version --rm .',
+
+                    'docker:build': 'docker build --tag $npm_package_config_image_name:$npm_package_version --force-rm .',
                     'docker:tag': 'docker image tag $npm_package_config_image_name:$npm_package_version $npm_package_config_image_name:latest',
-                    'clean': 'yarn docker:clean:image && yarn docker:clean:latest',
-                    'prebuild': 'appvmgr update build',
+
+                    'clean': 'docker system prune -f && docker container prune -f  && yarn docker:clean:image && yarn docker:clean:latest && yarn docker:clean:dev',
+                    'prebuild': 'appvmgr update build && yarn dockerfile:build',
                     'build': 'yarn docker:build',
                     'postbuild': 'yarn docker:tag && git add . && git commit -m \'Automatic Build Commit\'',
+
                     'test': 'docker-compose -f ./tests/unit/docker-compose.yml up',
-                    'test:clean': 'docker container prune -f && docker image rm -f $npm_package_config_image_name:unit',
+
                     'release': 'yarn build && appvmgr add-git-tag && git push --tags && git push --all',
                 },
             };

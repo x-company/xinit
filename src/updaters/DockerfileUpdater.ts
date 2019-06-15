@@ -34,7 +34,7 @@ export class DockerfileUpdater extends Updater {
 
     private async updateDockerfile(directory: string) {
 
-        const file = path.join(directory, 'Dockerfile');
+        const file = path.join(directory, 'Dockerfile.tmpl');
         if (!fs.existsSync(file)) {
             const content = `# This is a Docker Build File
 #
