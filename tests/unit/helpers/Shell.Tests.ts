@@ -14,7 +14,7 @@
  */
 
 import { assert } from 'chai';
-import { Shell } from '../../../lib/helpers/Shell';
+import { Shell } from '../../../src/helpers/Shell';
 
 
 describe('Test Shell Helper', () => {
