@@ -4,9 +4,6 @@
 # Load the xBuild System
 source /usr/local/include/xbuild/loader
 
-# Load the Environment Variables to the current Session
-loadvars
-
 # Install here your Service for example we show how to install mariadb
 install --packages cron
 
