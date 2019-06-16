@@ -17,6 +17,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { Command } from '../../helpers/Command';
 import { RunCommandOptions } from './RunCommandOptions';
+import { EventMode } from './EventMode';
 import { Log } from '../../helpers/Log';
 import { Shell } from '../../helpers/Shell';
 import { wait } from '../../helpers/HelperFunctions';

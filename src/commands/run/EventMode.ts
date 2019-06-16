@@ -13,7 +13,7 @@
  * @Description: This is description.
  */
 
-enum EventMode {
+export enum EventMode {
     PREV,
     POST,
     NONE,
