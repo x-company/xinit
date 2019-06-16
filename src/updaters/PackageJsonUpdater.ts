@@ -64,7 +64,7 @@ export class PackageJsonUpdater extends Updater {
                     'docker:build': 'docker build --tag $npm_package_config_image_name:$npm_package_version --force-rm .',
                     'docker:tag': 'docker image tag $npm_package_config_image_name:$npm_package_version $npm_package_config_image_name:latest',
 
-                    'clean': 'docker system prune -f && docker container prune -f  && yarn docker:clean:image && yarn docker:clean:latest && yarn docker:clean:dev',
+                    'clean': 'docker system prune -f && yarn docker:clean:image && yarn docker:clean:latest && yarn docker:clean:dev',
                     'prebuild': 'appvmgr update build && yarn dockerfile:build',
                     'build': 'yarn docker:build',
                     'postbuild': 'yarn docker:tag && git add . && git commit -m \'Automatic Build Commit\'',
