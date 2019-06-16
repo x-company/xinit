@@ -21,8 +21,8 @@ import { CreateLayoutCommand } from '../../../../src/commands/layout/CreateLayou
 
 describe('Creates a new Service', () => {
     const testarea = path.join(process.cwd(), 'testarea');
-    const imageName = 'TestBaseImage';
-    const serviceName = 'TestService';
+    const imageName = 'xcompany/mariadb';
+    const serviceName = 'mariadb';
 
     beforeEach(async () => {
         if (fs.existsSync(testarea)) {
@@ -51,7 +51,7 @@ describe('Creates a new Service', () => {
         // Assert
         assert.isTrue(fs.existsSync(testarea));
 
-        const layoutRoot = path.join(testarea, imageName);
+        const layoutRoot = path.join(testarea, 'src', imageName);
         assert.isTrue(fs.existsSync(layoutRoot));
 
         const serviceRoot = path.join(layoutRoot, 'build', 'services', serviceName);

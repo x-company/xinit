@@ -44,8 +44,7 @@
     "postbuild": "git add . && git commit -m 'Automatic Build Commit'",
     "prepare": "yarn build && appvmgr add-git-tag && git push --tags && git push --all",
     "watch": "tsc -w -p ./src/tsconfig.json",
-    "test": "docker-compose -f ./tests/unit/docker-compose.yml up",
-    "test:clean": "docker container prune -f && docker image rm -f xinit:unit"
+    "test": "mocha --timeout 999999 --require ts-node/register '/workspace/tests/unit/**/*.Tests.ts'"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",

@@ -31,4 +31,4 @@ jobs:
 
       - run:
           name: Execute Unit Tests
-          command: mocha --require ts-node/register '/workspace/tests/unit/**/*.Tests.ts'
+          command: mocha --timeout 999999 --require ts-node/register '/workspace/tests/unit/**/*.Tests.ts'

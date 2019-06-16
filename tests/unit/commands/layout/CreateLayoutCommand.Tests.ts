@@ -43,7 +43,7 @@ describe('Creates a new Layout for Services', () => {
         // Assert
         assert.isTrue(fs.existsSync(testarea));
 
-        const layoutRoot = path.join(testarea, imageName);
+        const layoutRoot = path.join(testarea, 'src', imageName);
         assert.isTrue(fs.existsSync(layoutRoot));
     });
 });

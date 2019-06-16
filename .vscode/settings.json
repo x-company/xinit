@@ -303,5 +303,12 @@
     "mocha.files.glob": "tests/unit/**/*.Tests.ts",
     "mocha.requires": [
         "ts-node/register"
-    ]
+    ],
+    "mocha.options": {
+        "timeout": 999999
+    },
+    "mocha.env": {
+        "TS_NODE_TRANSPILE_ONLY": true
+    }
+
 }
