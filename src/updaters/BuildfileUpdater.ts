@@ -45,7 +45,5 @@ export class BuildfileUpdater extends Updater {
         } else {
             Log.warn('Build File could not created. File already exists.');
         }
-
-
     }
 }

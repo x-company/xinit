@@ -50,7 +50,7 @@ describe('Creates a new Service', () => {
             await fs.symlink(buildDir, '/build');
         }
 
-        await Shell.execute('/build/build.sh');
+        // await Shell.execute('/build/build.sh');
     });
 
     it('Run runit', async () => {

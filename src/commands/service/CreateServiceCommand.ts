@@ -55,30 +55,4 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
             Log.error(e);
         }
     }
-
-
-
-    private async registerServiceForBuild(directory: string) {
-
-        const buildFile = path.join(directory, 'build.sh');
-
-        if (fs.existsSync(buildFile)) {
-
-            let content = await fs.readFile(buildFile, {
-                encoding: 'utf8',
-            });
-
-            const lines = content.split('\n');
-            content = '';
-
-            lines.forEach((line) => {
-                if (line.startsWith('services=')) {
-                    line = `${line}${this.options.serviceName} `;
-                }
-                content += `${line}\n`;
-            });
-
-            await fs.writeFile(buildFile, content, { encoding: 'utf8' });
-        }
-    }
 }
