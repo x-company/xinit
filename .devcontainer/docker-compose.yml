@@ -6,7 +6,7 @@ services:
     build: .
 
   run:
-    image: xcompany/hellodocker:devcontainer
+    image: xcompany/xinit:devcontainer
     depends_on:
       - build
     volumes:

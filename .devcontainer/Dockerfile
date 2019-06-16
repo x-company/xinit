@@ -7,3 +7,5 @@ WORKDIR /workspace
 COPY ./build.sh /build/
 
 RUN /build/build.sh
+
+SHELL ["/bin/bash", "-l", "-c"]
