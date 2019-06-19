@@ -40,7 +40,7 @@
   "scripts": {
     "lint": "tslint -c ./tslint.json './src/**/*.ts'",
     "prebuild": "yarn lint && rimraf -rf lib && mkdir lib && appvmgr update build",
-    "build": "tsc -p ./src/tsconfig.json && cp -Rf ./src/.layout/ ./lib/",
+    "build": "tsc -p ./src/tsconfig.json && cp -rf ./src/.layout/ ./lib/",
     "postbuild": "git add . && git commit -m 'Automatic Build Commit'",
     "prepare": "yarn build && appvmgr add-git-tag && git push --tags && git push --all",
     "watch": "tsc -w -p ./src/tsconfig.json",
