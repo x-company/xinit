@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-27 17:00:02
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-03-27 17:02:08
+ * @Last Modified At: 2019-06-19 08:26:24
  * @Description: This is description.
  */
 
@@ -27,7 +27,7 @@ const program = new Command(`${CommandInfos.main.command} ${CommandInfos.layout.
 program
     .command('create <name>')
     .description('Creates an new Layout to create new Services')
-    .option('--configure-sourcelists', 'APT Source Lists can be configured. See fsroot/etc/xbuild for further Details.')
+    .option('--configure-sourcelists', 'APT Source Lists can be configured. See rootfs/etc/xbuild for further Details.')
     .option('--without-default', 'Default Services will not installed.')
     .option('--force', 'Overwrites the Layout. Attention! This will delete already created Services and Events.')
     .action(async (name, options) => {

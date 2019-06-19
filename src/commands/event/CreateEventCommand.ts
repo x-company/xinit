@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 21:47:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-14 00:37:01
+ * @Last Modified At: 2019-06-19 08:24:54
  * @Description: This is description.
  */
 
@@ -58,35 +58,12 @@ export class CreateEventCommand extends Command<EventCommandOptions> {
                 await this.updateEventTemplate(updaterOptions);
             }
 
-            if (this.options.prevInit) {
-                updaterOptions.eventExtension = 'init';
-                updaterOptions.directory = path.join(directory, 'prev');
-                await this.updateEventTemplate(updaterOptions);
-            }
-
-            if (this.options.postInit) {
-                updaterOptions.eventExtension = 'init';
-                updaterOptions.directory = path.join(directory, 'post');
-                await this.updateEventTemplate(updaterOptions);
-            }
-
-            if (this.options.shutdown) {
-                updaterOptions.eventExtension = 'shutdown';
+            if (this.options.finish) {
+                updaterOptions.eventExtension = 'finish';
                 updaterOptions.directory = directory;
                 await this.updateEventTemplate(updaterOptions);
             }
 
-            if (this.options.prevShutdown) {
-                updaterOptions.eventExtension = 'shutdown';
-                updaterOptions.directory = path.join(directory, 'prev');
-                await this.updateEventTemplate(updaterOptions);
-            }
-
-            if (this.options.postShutdown) {
-                updaterOptions.eventExtension = 'shutdown';
-                updaterOptions.directory = path.join(directory, 'post');
-                await this.updateEventTemplate(updaterOptions);
-            }
 
             Log.info('Event for your Base Image is now created.');
 

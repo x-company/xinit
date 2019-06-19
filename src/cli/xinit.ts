@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 15:02:08
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-11 15:04:33
+ * @Last Modified At: 2019-06-19 08:19:46
  * @Description: This is description.
  */
 
@@ -45,7 +45,6 @@ program
 // Commands
 program
     .command(CommandInfos.layout.command, CommandInfos.layout.description)
-    .command(CommandInfos.run.command, CommandInfos.run.description)
     .command(CommandInfos.service.command, CommandInfos.service.description)
     .command(CommandInfos.event.command, CommandInfos.event.description);
 

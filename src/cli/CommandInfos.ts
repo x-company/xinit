@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 15:18:44
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-11 15:05:36
+ * @Last Modified At: 2019-06-19 08:20:05
  * @Description: This is description.
  */
 
@@ -29,9 +29,5 @@ export class CommandInfos {
 
     public static layout = {
         command: 'layout', description: 'Creates the Working Layout to create new Services',
-    };
-
-    public static run = {
-        command: 'run', description: 'Starts the xinit Runtime Environment',
     };
 }

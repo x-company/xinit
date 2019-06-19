@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-10 23:11:04
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-11 11:15:09
+ * @Last Modified At: 2019-06-19 08:26:35
  * @Description: This is description.
  */
 
@@ -42,7 +42,7 @@ export class ProjectLayoutUpdater extends Updater {
 
             if (!this.updateSourcelists) {
                 Log.info('Remove Source Lists');
-                const xbuildDir = path.join(destDir, 'fsroot', 'etc', 'xbuild');
+                const xbuildDir = path.join(destDir, 'rootfs', 'etc', 'xbuild');
                 const sourcelistsDir = path.join(xbuildDir, 'sources.list.d');
                 if (fs.existsSync(sourcelistsDir)) {
                     this.removeDir(sourcelistsDir);
@@ -65,11 +65,11 @@ export class ProjectLayoutUpdater extends Updater {
                 this.removeDir(path.join(eventsDir, 'post'));
                 await fs.unlink(path.join(eventsDir, 'syslog-ng.init'));
 
-                const fsrootDir = path.join(destDir, 'fsroot', 'etc');
-                this.removeDir(path.join(fsrootDir, 'default'));
-                this.removeDir(path.join(fsrootDir, 'logrotate.d'));
-                this.removeDir(path.join(fsrootDir, 'syslog-ng'));
-                await fs.unlink(path.join(fsrootDir, 'logrotate.conf'));
+                const rootfsDir = path.join(destDir, 'rootfs', 'etc');
+                this.removeDir(path.join(rootfsDir, 'default'));
+                this.removeDir(path.join(rootfsDir, 'logrotate.d'));
+                this.removeDir(path.join(rootfsDir, 'syslog-ng'));
+                await fs.unlink(path.join(rootfsDir, 'logrotate.conf'));
 
                 const serviceDir = path.join(destDir, 'services');
                 this.removeDir(path.join(serviceDir, 'cron'));
