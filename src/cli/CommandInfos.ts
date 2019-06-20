@@ -23,10 +23,6 @@ export class CommandInfos {
         command: 'service', description: 'Helps you to manage runit Services',
     };
 
-    public static event = {
-        command: 'event', description: 'Helps you to manage Events for ',
-    };
-
     public static layout = {
         command: 'layout', description: 'Creates the Working Layout to create new Services',
     };

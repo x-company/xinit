@@ -45,7 +45,6 @@ program
 // Commands
 program
     .command(CommandInfos.layout.command, CommandInfos.layout.description)
-    .command(CommandInfos.service.command, CommandInfos.service.description)
-    .command(CommandInfos.event.command, CommandInfos.event.description);
+    .command(CommandInfos.service.command, CommandInfos.service.description);
 
 CliManager.parseArguments(program);

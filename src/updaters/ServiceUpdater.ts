@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-11 12:18:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-11 17:45:34
+ * @Last Modified At: 2019-06-20 12:14:55
  * @Description: This is description.
  */
 
@@ -20,9 +20,28 @@ import { Log } from '../helpers/Log';
 
 export class ServiceUpdater extends Updater {
 
+    constructor(
+        private addFinish: boolean,
+        private addFix: boolean,
+        private addInit: boolean,
+        private addLog: boolean,
+        private addRules: boolean,
+        private addShutdown: boolean,
+        private priority: number,
+
+        private shouldModify: boolean = false) {
+
+        super();
+
+    }
+
     public async update() {
 
-        Log.info('Create new Service');
+        if (!this.shouldModify) {
+            Log.info(`Create new Service '${this.options.serviceName}'`);
+        } else {
+            Log.info(`Modify Service '${this.options.serviceName}'`);
+        }
 
         if (!this.options.serviceName) {
             throw new Error('No Service Name is given. Service could not updated.');
@@ -33,18 +52,38 @@ export class ServiceUpdater extends Updater {
 
         await fs.ensureDir(serviceDir);
 
-        await this.updateServiceBuildFile(serviceDir);
-        await this.updateServiceFile(serviceDir);
+        await this.updateBuildFile(serviceDir);
+        await this.updateRunFile(serviceDir);
         await this.updateHealthcheckFile(serviceDir);
+
+        if (this.addFinish) {
+            await this.updateFinishFile(serviceDir);
+        }
+
+        if (this.addFix) {
+            await this.updateAttributeFixFile(serviceDir, this.priority);
+        }
+
+        if (this.addInit) {
+            await this.updateInitFile(serviceDir, this.priority);
+        }
+
+        if (this.addLog) {
+            //await this.updatelo
+        }
+
+        if (this.addRules) {
+            // await this.update
+        }
+
+        if (this.addShutdown) {
+            //await this.update
+        }
     }
 
-    private async updateServiceBuildFile(directory: string) {
+    private async updateBuildFile(directory: string) {
 
-        Log.info('Create Buildfile for the Service');
-        const file = path.join(directory, `${this.options.serviceName}.build`);
-        if (!fs.existsSync(file)) {
-
-            const content = `#!/usr/bin/env bash
+        const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
 # Main Build File for your Service
@@ -53,20 +92,12 @@ export class ServiceUpdater extends Updater {
 # Hint: Look also for other Snippets with the Prefix 'xb-...'
 
 `;
-            await fs.writeFile(file, content, { encoding: 'utf-8' });
-            await fs.chmod(file, 0o755);
-        } else {
-            Log.warn('Buildfile could not created. File already exists.');
-        }
+        await this.saveFile(directory, `${this.options.serviceName}.build`, 'Build', content);
     }
 
-    private async updateServiceFile(directory: string) {
+    private async updateRunFile(directory: string) {
 
-        Log.info('Create Service Run File');
-
-        const file = path.join(directory, `${this.options.serviceName}.run`);
-        if (!fs.existsSync(file)) {
-            const content = `#!/usr/bin/env bash
+        const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
 # File will called to start your Service
@@ -75,20 +106,12 @@ export class ServiceUpdater extends Updater {
 # Hint: Look also for other Snippets with the Prefix 'xb-...'
 
 `;
-            await fs.writeFile(file, content, { encoding: 'utf-8' });
-            await fs.chmod(file, 0o755);
-        } else {
-            Log.warn('Service Run File could not created. File already exists.');
-        }
+        await this.saveFile(directory, `${this.options.serviceName}.run`, 'Run', content);
     }
 
     private async updateHealthcheckFile(directory: string) {
 
-        Log.info('Create Service Health File');
-
-        const file = path.join(directory, `${this.options.serviceName}.health`);
-        if (!fs.existsSync(file)) {
-            const content = `#!/usr/bin/env bash
+        const content = `#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
 # Define here the Health Check for your Service
@@ -97,69 +120,59 @@ export class ServiceUpdater extends Updater {
 # Hint: Look also for other Snippets with the Prefix 'xb-...'
 
 `;
-            await fs.writeFile(file, content, { encoding: 'utf-8' });
-            await fs.chmod(file, 0o755);
-        } else {
-            Log.warn('Service Health File could not created. File already exists.');
-        }
+        await this.saveFile(directory, `${this.options.serviceName}.health`, 'Health', content);
     }
 
-    private async updateServiceFinishFile(directory: string) {
+    private async updateFinishFile(directory: string) {
 
-        Log.info('Create Service Finish File');
-
-        const file = path.join(directory, `${this.options.serviceName}.finish`);
-        if (!fs.existsSync(file)) {
-            const content = `#!/usr/bin/execlineb -S0
+        const content = `#!/usr/bin/execlineb -S0
 
 # A Service Finish Script
 
 `;
-            await fs.writeFile(file, content, { encoding: 'utf-8' });
-            await fs.chmod(file, 0o755);
-        } else {
-            Log.warn('Service Finish File could not created. File already exists.');
-        }
+        await this.saveFile(directory, `${this.options.serviceName}.finish`, 'Finish', content);
     }
 
-    private async updateServiceAttributeFix(directory: string, priority: number) {
+    private async updateAttributeFixFile(directory: string, priority: number) {
 
-        Log.info('Create Attribute Fix File');
-
-        const file = path.join(directory, `${this.convertPriority(priority)}-${this.options.serviceName}.attrs`);
-        if (!fs.existsSync(file)) {
-            const content = `# Fixing ownership & permissions
+        const content = `# Fixing ownership & permissions
 #
 # path              recurse account fmode   dmode
 # /var/lib/mysql    true    mysql   0600    0700
 
 `;
-            await fs.writeFile(file, content, { encoding: 'utf-8' });
-            await fs.chmod(file, 0o755);
-        } else {
-            Log.warn('Service Attribute Fix File could not created. File already exists.');
-        }
+        await this.saveFile(directory, `${this.options.serviceName}.attrs`, 'Fix Attributes', content, priority);
     }
 
-    private async updateContainerInitFile(directory: string, priority: number) {
+    private async updateInitFile(directory: string, priority: number) {
 
-        Log.info('Create Container Init File');
-
-        const file = path.join(directory, `${this.convertPriority(priority)}-${this.options.serviceName}.attrs`);
-        if (!fs.existsSync(file)) {
-            const content = `#!/usr/bin/execlineb -P
+        const content = `#!/usr/bin/execlineb -P
 
 # Executing container initialization tasks
 
 
 `;
+        await this.saveFile(directory, `${this.options.serviceName}.init`, 'Init', content, priority);
+    }
+
+    private async saveFile(directory: string, filename: string, context: string, content: string, priority?: number) {
+
+        Log.info(`Create Service File for Context '${context}'`);
+
+        if (priority) {
+            const prioString = this.convertPriority(priority);
+            filename = `${prioString}-${filename}`;
+        }
+
+        const file = path.join(directory, filename);
+        if (!fs.existsSync(file)) {
+
             await fs.writeFile(file, content, { encoding: 'utf-8' });
             await fs.chmod(file, 0o755);
         } else {
-            Log.warn('Container Init File could not created. File already exists.');
+            Log.warn(`Service File for Context '${context}' could not created. File already exists.`);
         }
     }
-
     private convertPriority(priority: number): string {
 
         const prioAsString = priority.toString();

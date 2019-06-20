@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 21:47:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-11 16:50:42
+ * @Last Modified At: 2019-06-20 12:30:19
  * @Description: This is description.
  */
 
@@ -24,7 +24,7 @@ import { Log } from '../../helpers/Log';
 
 export class CreateServiceCommand extends Command<ServiceCommandOptions> {
 
-    constructor(options?: ServiceCommandOptions) {
+    constructor(options?: ServiceCommandOptions, private shouldModify: boolean = false) {
         super({
             addFinish: false,
             addFix: false,
@@ -33,7 +33,7 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
             addRules: false,
             addShutdown: false,
             priority: 10,
-            serviceName: '',
+            serviceName: 'NewService',
             ...options,
         });
     }
@@ -57,13 +57,17 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
                 directory,
             });
 
-            await mgr.update(new ServiceUpdater());
+            await mgr.update(new ServiceUpdater(
+                this.options.addFinish,
+                this.options.addFix,
+                this.options.addInit,
+                this.options.addLog,
+                this.options.addRules,
+                this.options.addShutdown,
+                this.options.priority,
+                this.shouldModify));
 
-            if (this.options.addFinish) {
-
-            }
-
-            Log.info('Event for your Base Image is now created.');
+            Log.info(`Service '${this.options.serviceName}' for your Base Image is now created.`);
 
         } catch (e) {
             Log.error(e);
