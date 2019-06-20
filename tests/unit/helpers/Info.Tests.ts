@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-27 17:16:19
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-03 16:14:29
+ * @Last Modified At: 2019-06-20 08:39:18
  * @Description: This is description.
  */
 
@@ -43,6 +43,6 @@ describe('Load the Image Root Dir', () => {
     });
 
     it('Get Product Name', () => {
-        expect(Info.ProductName).to.be.equal('xinit');
+        expect(Info.ProductName).to.be.equal('xbuild');
     });
 });

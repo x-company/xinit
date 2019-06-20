@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 14:37:05
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-10 20:59:06
+ * @Last Modified At: 2019-06-20 08:38:58
  * @Description: This is description.
  */
 
@@ -124,5 +124,5 @@ export class Info {
     }
 
     private static PROG_VERSION: string = '0.1.0';
-    private static PROG_NAME: string = 'xinit';
+    private static PROG_NAME: string = 'xbuild';
 }

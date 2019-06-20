@@ -10,16 +10,16 @@ eventName="TestEvent"
 rm -rf "$testarea"
 
 # Create a Base Image Layout
-xinit layout create "$imageName" -d "$testarea"
+xbuild layout create "$imageName" -d "$testarea"
 
 # Create a Base Image Layout
-# xinit layout create "$imageName2" -d "$testarea"
+# xbuild layout create "$imageName2" -d "$testarea"
 
 # Create a Base Image Layout
-# xinit layout create "$imageName1" -d "$testarea"
+# xbuild layout create "$imageName1" -d "$testarea"
 
 # Create a new Service
-xinit service create "$serviceName" -i "$imageName" -d "$testarea"
+xbuild service create "$serviceName" -i "$imageName" -d "$testarea"
 
 # --init
 # --prev-init
@@ -29,4 +29,4 @@ xinit service create "$serviceName" -i "$imageName" -d "$testarea"
 # --post-shutdown
 
 # Create new Event
-# xinit event create "$eventName" -i "$imageName" -d "$testarea" --init --prev-init --shutdown --post-shutdown
+# xbuild event create "$eventName" -i "$imageName" -d "$testarea" --init --prev-init --shutdown --post-shutdown

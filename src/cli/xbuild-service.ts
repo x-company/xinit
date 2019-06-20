@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  *
- * @Script: xinit-service.ts
+ * @Script: xbuild-service.ts
  * @Author: Roland Breitschaft
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-03 09:30:10

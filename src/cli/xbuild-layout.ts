@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  *
- * @Script: xinit-layout.ts
+ * @Script: xbuild-layout.ts
  * @Author: Roland Breitschaft
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-27 17:00:02

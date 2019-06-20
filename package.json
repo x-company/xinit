@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "bin": {
-    "xinit": "./bin/xbuild"
+    "xbuild": "./bin/xbuild"
   },
   "engines": {
     "node": ">=8.0.0"
