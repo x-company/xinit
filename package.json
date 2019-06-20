@@ -1,5 +1,5 @@
 {
-  "name": "xbuild-cli",
+  "name": "xbuildcli",
   "version": "0.1.6",
   "description": "",
   "main": "./lib/index.js",
@@ -36,7 +36,7 @@
     "README.md"
   ],
   "config": {
-    "image_name": "xcompany/xbuild-cli"
+    "image_name": "xcompany/xbuildcli"
   },
   "scripts": {
     "lint": "tslint -c ./tslint.json './src/**/*.ts'",
