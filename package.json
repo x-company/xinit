@@ -1,5 +1,5 @@
 {
-  "name": "xbuildcli",
+  "name": "xbuild-mgr",
   "version": "0.1.6",
   "description": "",
   "main": "./lib/index.js",
@@ -36,7 +36,7 @@
     "README.md"
   ],
   "config": {
-    "image_name": "xcompany/xbuildcli"
+    "image_name": "xcompany/xbuild-cli"
   },
   "scripts": {
     "lint": "tslint -c ./tslint.json './src/**/*.ts'",
@@ -53,7 +53,7 @@
     "@types/find-root": "^1.1.1",
     "@types/fs-extra": "^7.0.0",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.0.4",
+    "@types/node": "^12.0.8",
     "@types/rimraf": "^2.0.2",
     "@types/shelljs": "^0.8.5",
     "appversion-mgr": "^0.7.0",
@@ -61,13 +61,13 @@
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
     "rimraf": "^2.6.3",
-    "ts-node": "^8.2.0",
+    "ts-node": "^8.3.0",
     "tslint": "^5.17.0",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.2"
   },
   "dependencies": {
     "commander": "^2.20.0",
-    "configstore": "^4.0.0",
+    "configstore": "^5.0.0",
     "find-root": "^1.1.0",
     "fs-extra": "^8.0.1",
     "shelljs": "^0.8.3",

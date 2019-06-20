@@ -2,11 +2,11 @@ version: "3.7"
 
 services:
   build:
-    image: xcompany/xbuildcli:devcontainer
+    image: xcompany/xbuild-cli:devcontainer
     build: .
 
   run:
-    image: xcompany/xbuildcli:devcontainer
+    image: xcompany/xbuild-cli:devcontainer
     depends_on:
       - build
     volumes:
