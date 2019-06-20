@@ -276,6 +276,7 @@
         "predocker",
         "printf",
         "printvars",
+        "prio",
         "remisa",
         "resourcemonitor",
         "rogalmic",

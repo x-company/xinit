@@ -21,12 +21,4 @@ xbuild layout create "$imageName" -d "$testarea"
 # Create a new Service
 xbuild service create "$serviceName" -i "$imageName" -d "$testarea"
 
-# --init
-# --prev-init
-# --post-init
-# --shutdown
-# --prev-shutdown
-# --post-shutdown
-
-# Create new Event
-# xbuild event create "$eventName" -i "$imageName" -d "$testarea" --init --prev-init --shutdown --post-shutdown
+xbuild service modify "$serviceName" -i "$imageName" -d "$testarea" --add-fix
