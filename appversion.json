@@ -2,13 +2,13 @@
   "version": {
     "major": 0,
     "minor": 1,
-    "patch": 5,
+    "patch": 0,
     "badge": "[![xbuild-cli-version](https://img.shields.io/badge/Version-${M.m.p}-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xbuild-cli/v/${M.m.p})"
   },
   "build": {
-    "date": "2019-06-20T06:36:55.764Z",
-    "number": 4,
-    "total": 58,
+    "date": "2019-06-20T06:54:32.030Z",
+    "number": 1,
+    "total": 59,
     "badge": "[![xbuild-cli-build](https://img.shields.io/badge/Builds-${n}-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-cli#status)"
   },
   "status": {
