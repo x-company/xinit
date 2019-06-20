@@ -9,14 +9,14 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-03-26 15:18:44
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-19 08:20:05
+ * @Last Modified At: 2019-06-20 08:34:48
  * @Description: This is description.
  */
 
 export class CommandInfos {
 
     public static main = {
-        command: 'xinit', description: 'Helper to create and Start runit Services for a Docker Image.',
+        command: 'xbuild', description: 'Helper to create and Start runit Services for a Docker Image.',
     };
 
     public static service = {

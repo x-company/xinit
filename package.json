@@ -1,29 +1,30 @@
 {
-  "name": "xinit",
+  "name": "xbuild-cli",
   "version": "0.1.5",
   "description": "",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "bin": {
-    "xinit": "./bin/xinit"
+    "xinit": "./bin/xbuild"
   },
   "engines": {
     "node": ">=8.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:x-company/xinit.git"
+    "url": "git@github.com:x-company/xbuild-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/x-company/xinit/issues"
+    "url": "https://github.com/x-company/xbuild-cli/issues"
   },
-  "homepage": "https://github.com/x-company/xinit",
+  "homepage": "https://github.com/x-company/xbuild-cli",
   "author": "Roland Breitschaft <info@x-company.de> (https://www.x-company.de)",
   "license": "MIT",
   "keywords": [
     "docker",
     "init",
-    "runit"
+    "s6",
+    "supervision"
   ],
   "files": [
     "bin/**/*",
@@ -35,7 +36,7 @@
     "README.md"
   ],
   "config": {
-    "image_name": "xcompany/xinit"
+    "image_name": "xcompany/xbuild-cli"
   },
   "scripts": {
     "lint": "tslint -c ./tslint.json './src/**/*.ts'",
