@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
-
-exec logutil-service -f /var/run/myfifo /var/log/myapp

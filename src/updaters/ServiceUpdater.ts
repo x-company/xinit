@@ -9,7 +9,7 @@
  * @Email: roland.breitschaft@x-company.de
  * @Create At: 2019-06-11 12:18:35
  * @Last Modified By: Roland Breitschaft
- * @Last Modified At: 2019-06-20 12:14:55
+ * @Last Modified At: 2019-06-20 12:59:17
  * @Description: This is description.
  */
 
@@ -69,15 +69,15 @@ export class ServiceUpdater extends Updater {
         }
 
         if (this.addLog) {
-            //await this.updatelo
+            await this.updateLogFile(serviceDir);
         }
 
         if (this.addRules) {
-            // await this.update
+            await this.updateRulesFile(serviceDir, this.priority);
         }
 
         if (this.addShutdown) {
-            //await this.update
+            await this.updateShutdownFile(serviceDir, this.priority);
         }
     }
 
@@ -150,9 +150,43 @@ export class ServiceUpdater extends Updater {
 
 # Executing container initialization tasks
 
-
 `;
         await this.saveFile(directory, `${this.options.serviceName}.init`, 'Init', content, priority);
+    }
+
+    private async updateLogFile(directory: string) {
+
+        const content = `#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+
+# exec logutil-service -f /var/run/myfifo /var/log/myapp
+
+`;
+        directory = path.join(directory, 'log');
+        fs.ensureDirSync(directory);
+
+        await this.saveFile(directory, `${this.options.serviceName}.run`, 'Log', content);
+    }
+
+    private async updateShutdownFile(directory: string, priority: number) {
+
+        const content = `#!/usr/bin/execlineb -S0
+
+# Executing container shutdown tasks
+
+`;
+        await this.saveFile(directory, `${this.options.serviceName}.shutdown`, 'Shutdown', content, priority);
+    }
+
+    private async updateRulesFile(directory: string, priority: number) {
+
+        const content = `-
++^cron\.
+\${SOCKLOG_TIMESTAMP_FORMAT}
+/var/log/socklog/cron
+
+`;
+        await this.saveFile(directory, `${this.options.serviceName}.logrules`, 'Log Rules', content, priority);
     }
 
     private async saveFile(directory: string, filename: string, context: string, content: string, priority?: number) {
