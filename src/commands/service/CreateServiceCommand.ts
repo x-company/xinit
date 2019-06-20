@@ -25,7 +25,17 @@ import { Log } from '../../helpers/Log';
 export class CreateServiceCommand extends Command<ServiceCommandOptions> {
 
     constructor(options?: ServiceCommandOptions) {
-        super(options);
+        super({
+            addFinish: false,
+            addFix: false,
+            addInit: false,
+            addLog: false,
+            addRules: false,
+            addShutdown: false,
+            priority: 10,
+            serviceName: '',
+            ...options,
+        });
     }
 
     protected async execute() {
@@ -48,6 +58,10 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
             });
 
             await mgr.update(new ServiceUpdater());
+
+            if (this.options.addFinish) {
+
+            }
 
             Log.info('Event for your Base Image is now created.');
 

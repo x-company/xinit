@@ -30,7 +30,7 @@ export class ServiceUpdater extends Updater {
 
         const buildDir = path.join(this.options.directory, 'src', this.options.imageName, 'build');
         const serviceDir = path.join(buildDir, 'services', this.options.serviceName);
-        
+
         await fs.ensureDir(serviceDir);
 
         await this.updateServiceBuildFile(serviceDir);
@@ -102,5 +102,71 @@ export class ServiceUpdater extends Updater {
         } else {
             Log.warn('Service Health File could not created. File already exists.');
         }
+    }
+
+    private async updateServiceFinishFile(directory: string) {
+
+        Log.info('Create Service Finish File');
+
+        const file = path.join(directory, `${this.options.serviceName}.finish`);
+        if (!fs.existsSync(file)) {
+            const content = `#!/usr/bin/execlineb -S0
+
+# A Service Finish Script
+
+`;
+            await fs.writeFile(file, content, { encoding: 'utf-8' });
+            await fs.chmod(file, 0o755);
+        } else {
+            Log.warn('Service Finish File could not created. File already exists.');
+        }
+    }
+
+    private async updateServiceAttributeFix(directory: string, priority: number) {
+
+        Log.info('Create Attribute Fix File');
+
+        const file = path.join(directory, `${this.convertPriority(priority)}-${this.options.serviceName}.attrs`);
+        if (!fs.existsSync(file)) {
+            const content = `# Fixing ownership & permissions
+#
+# path              recurse account fmode   dmode
+# /var/lib/mysql    true    mysql   0600    0700
+
+`;
+            await fs.writeFile(file, content, { encoding: 'utf-8' });
+            await fs.chmod(file, 0o755);
+        } else {
+            Log.warn('Service Attribute Fix File could not created. File already exists.');
+        }
+    }
+
+    private async updateContainerInitFile(directory: string, priority: number) {
+
+        Log.info('Create Container Init File');
+
+        const file = path.join(directory, `${this.convertPriority(priority)}-${this.options.serviceName}.attrs`);
+        if (!fs.existsSync(file)) {
+            const content = `#!/usr/bin/execlineb -P
+
+# Executing container initialization tasks
+
+
+`;
+            await fs.writeFile(file, content, { encoding: 'utf-8' });
+            await fs.chmod(file, 0o755);
+        } else {
+            Log.warn('Container Init File could not created. File already exists.');
+        }
+    }
+
+    private convertPriority(priority: number): string {
+
+        const prioAsString = priority.toString();
+
+        if (prioAsString.length === 1) {
+            return `0${prioAsString}`;
+        }
+        return prioAsString;
     }
 }

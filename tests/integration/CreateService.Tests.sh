@@ -19,7 +19,7 @@ xinit layout create "$imageName" -d "$testarea"
 # xinit layout create "$imageName1" -d "$testarea"
 
 # Create a new Service
-# xinit service create "$serviceName" -i "$imageName" -d "$testarea"
+xinit service create "$serviceName" -i "$imageName" -d "$testarea"
 
 # --init
 # --prev-init
