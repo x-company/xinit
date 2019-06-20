@@ -19,6 +19,6 @@ xbuild layout create "$imageName" -d "$testarea"
 # xbuild layout create "$imageName1" -d "$testarea"
 
 # Create a new Service
-xbuild service create "$serviceName" -i "$imageName" -d "$testarea"
+xbuild service create "$serviceName" -i "$imageName" -d "$testarea" --add-fix --add-log --add-init --add-finish --add-shutdown --add-rules --priority 20
 
-xbuild service modify "$serviceName" -i "$imageName" -d "$testarea" --add-fix --add-log --add-init --add-finish --add-shutdown --add-rules --priority 20
+# xbuild service modify "$serviceName" -i "$imageName" -d "$testarea"
