@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:x-company/xbuild-cli.git"
+    "url": "git@github.com:x-company/xbuild-mgr.git"
   },
   "bugs": {
-    "url": "https://github.com/x-company/xbuild-cli/issues"
+    "url": "https://github.com/x-company/xbuild-mgr/issues"
   },
-  "homepage": "https://github.com/x-company/xbuild-cli",
+  "homepage": "https://github.com/x-company/xbuild-mgr",
   "author": "Roland Breitschaft <info@x-company.de> (https://www.x-company.de)",
   "license": "MIT",
   "keywords": [
@@ -36,7 +36,7 @@
     "README.md"
   ],
   "config": {
-    "image_name": "xcompany/xbuild-cli"
+    "image_name": "xcompany/xbuild-mgr"
   },
   "scripts": {
     "lint": "tslint -c ./tslint.json './src/**/*.ts'",

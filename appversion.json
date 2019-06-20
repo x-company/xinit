@@ -3,18 +3,18 @@
     "major": 0,
     "minor": 1,
     "patch": 6,
-    "badge": "[![xbuild-cli-version](https://img.shields.io/badge/Version-${M.m.p}-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xbuild-cli/v/${M.m.p})"
+    "badge": "[![xbuild-mgr-version](https://img.shields.io/badge/Version-${M.m.p}-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xbuild-mgr/v/${M.m.p})"
   },
   "build": {
     "date": "2019-06-20T07:43:32.261Z",
     "number": 4,
     "total": 64,
-    "badge": "[![xbuild-cli-build](https://img.shields.io/badge/Builds-${n}-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-cli#status)"
+    "badge": "[![xbuild-mgr-build](https://img.shields.io/badge/Builds-${n}-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-mgr#status)"
   },
   "status": {
     "stage": "development",
     "number": 1,
-    "badge": "[![xbuild-cli-status](https://img.shields.io/badge/Status-${S%20s}-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-cli#status)"
+    "badge": "[![xbuild-mgr-status](https://img.shields.io/badge/Status-${S%20s}-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-mgr#status)"
   },
   "git": {
     "commit": null,
