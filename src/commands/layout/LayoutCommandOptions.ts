@@ -21,8 +21,6 @@ export interface LayoutCommandOptions extends CommandOptions {
 
     imageName: string;
 
-    configureSourcelists: boolean;
-
     withoutDefault: boolean;
 
     force: boolean;

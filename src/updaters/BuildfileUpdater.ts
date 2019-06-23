@@ -28,16 +28,17 @@ export class BuildfileUpdater extends Updater {
         const directory = path.join(this.options.directory, 'src', this.options.imageName, 'build');
         await fs.ensureDir(directory);
 
-        const file = path.join(directory, 'build.sh');
+        const file = path.join(directory, 'build');
         if (!fs.existsSync(file)) {
 
-            const content = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
+            const content = `#!/usr/bin/execlineb -P
 
-# This is the main Build File for your Docker Image
-#
-# POWERTIP: Use Snippet xb-build to create a Sample
-# Hint: Look also for other Snippets with the Prefix 'xb-...'
+# Execute here global Build Steps for Example ...
+# - Create new User
+# - Create global Files and Folders
+# - Install global Tools
+# - Do hardening Things
+# - ...
 
 `;
             await fs.writeFile(file, content, { encoding: 'utf-8' });

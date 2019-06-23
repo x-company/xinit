@@ -17,12 +17,11 @@ import fs from 'fs-extra';
 import path from 'path';
 import rimraf from 'rimraf';
 import { Updater } from './Updater';
-import { Info } from '../helpers/Info';
 import { Log } from '../helpers/Log';
 
 export class ProjectLayoutUpdater extends Updater {
 
-    constructor(private updateSourcelists: boolean, private withoutDefaultServices: boolean, private force: boolean) {
+    constructor(private withoutDefaultServices: boolean, private force: boolean) {
         super();
 
     }
@@ -31,49 +30,21 @@ export class ProjectLayoutUpdater extends Updater {
         Log.info('Create a new Layout for your Image');
 
         const layoutDir = path.join(__dirname, '..', '.layout');
-        const destDir = path.join(this.options.directory, 'src', this.options.imageName, 'build');
+        const destDir = path.join(this.options.directory, 'src', this.options.imageName);
+
         if (this.force || (fs.existsSync(layoutDir) && !fs.existsSync(destDir))) {
             await fs.copy(layoutDir, this.options.directory);
 
-            const sourceDir = path.join(this.options.directory, 'src', 'image', 'build');
+            const sourceDir = path.join(this.options.directory, 'src', 'image');
             fs.moveSync(sourceDir, destDir, { overwrite: true });
 
-            await fs.rmdir(path.join(sourceDir, '..'));
-
-            if (!this.updateSourcelists) {
-                Log.info('Remove Source Lists');
-                const xbuildDir = path.join(destDir, 'rootfs', 'etc', 'xbuild');
-                const sourcelistsDir = path.join(xbuildDir, 'sources.list.d');
-                if (fs.existsSync(sourcelistsDir)) {
-                    this.removeDir(sourcelistsDir);
-                }
-
-                const trustedDir = path.join(xbuildDir, 'trusted.gpg.d');
-                if (fs.existsSync(trustedDir)) {
-                    this.removeDir(trustedDir);
-                }
-
-                if (fs.existsSync(xbuildDir)) {
-                    this.removeDir(xbuildDir);
-                }
-            }
+            // await fs.rmdir(sourceDir);
 
             if (this.withoutDefaultServices) {
                 Log.info('Remove Default Services');
 
-                const eventsDir = path.join(destDir, 'events');
-                this.removeDir(path.join(eventsDir, 'post'));
-                await fs.unlink(path.join(eventsDir, 'syslog-ng.init'));
-
-                const rootfsDir = path.join(destDir, 'rootfs', 'etc');
-                this.removeDir(path.join(rootfsDir, 'default'));
-                this.removeDir(path.join(rootfsDir, 'logrotate.d'));
-                this.removeDir(path.join(rootfsDir, 'syslog-ng'));
-                await fs.unlink(path.join(rootfsDir, 'logrotate.conf'));
-
-                const serviceDir = path.join(destDir, 'services');
+                const serviceDir = path.join(destDir, 'build', 'services');
                 this.removeDir(path.join(serviceDir, 'cron'));
-                this.removeDir(path.join(serviceDir, 'syslog-ng'));
             }
         } else {
             Log.warn('Image already created. To recreate the Image use --force Parameter.');
