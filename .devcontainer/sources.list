@@ -1,0 +1,12 @@
+# OS Mirror
+deb [arch=amd64] http://xlca097.in.x-company.de/debian/major stretch main contrib non-free
+deb [arch=amd64] http://xlca097.in.x-company.de/debian/major stretch-updates main contrib non-free
+deb [arch=amd64] http://xlca097.in.x-company.de/debian/major stretch-backports main contrib non-free
+deb [arch=amd64] http://xlca097.in.x-company.de/debian/security stretch/updates main contrib non-free
+#deb [arch=amd64] http://xlca097.in.x-company.de/debian/major sid main contrib non-free
+
+# NodeJS Mirror
+deb [arch=amd64] http://xlca097.in.x-company.de/node/node_12.x stretch main
+
+# Microsoft Mirror
+deb [arch=amd64] http://xlca097.in.x-company.de/microsoft/debian/9/prod stretch main

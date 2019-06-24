@@ -2,10 +2,8 @@
 # Global Base Image for Development
 FROM  xcompany/xbuild:latest
 
+COPY ./build /build/
+
+RUN xb-build
+
 WORKDIR /workspace
-
-COPY ./build.sh /build/
-
-RUN /build/build.sh
-
-SHELL ["/bin/bash", "-l", "-c"]

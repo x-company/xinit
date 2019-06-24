@@ -10,6 +10,7 @@ services:
     depends_on:
       - build
     volumes:
+      - ./sources.list:/etc/xbuild/apt/sources.list
       # Map the current Source Folder
       - ..:/workspace
       # Configure Git with the current local Settings
