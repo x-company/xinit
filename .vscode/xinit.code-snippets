@@ -96,13 +96,13 @@
             "",
             "COPY   ./src/$1/rootfs/ /",
             "",
-            "RUN    /usr/local/bin/xb-build",
+            "RUN    xb-build",
             "",
             "WORKDIR /",
             "",
             "ENTRYPOINT [\"/init\"]",
             "",
-            "HEALTHCHECK --interval=5s --timeout=3s CMD /usr/local/bin/xb-healthcheck || exit 1",
+            "HEALTHCHECK --interval=5s --timeout=3s CMD xb-healthcheck || exit 1",
             "",
             "$0"
         ]
