@@ -4,13 +4,15 @@ services:
   build:
     image: xcompany/xbuild-mgr:devcontainer
     build: .
+    volumes:
+      - ./build:/build/build
+      - ./sources.list:/etc/xbuild/apt/sources.list
 
   run:
     image: xcompany/xbuild-mgr:devcontainer
     depends_on:
       - build
     volumes:
-      - ./sources.list:/etc/xbuild/apt/sources.list
       # Map the current Source Folder
       - ..:/workspace
       # Configure Git with the current local Settings

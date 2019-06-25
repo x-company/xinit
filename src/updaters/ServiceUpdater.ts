@@ -83,12 +83,11 @@ export class ServiceUpdater extends Updater {
 
     private async updateBuildFile(directory: string) {
 
-        const content = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
+        const content = `#!/usr/bin/execlineb -P
 
 # Main Build File for your Service
 #
-# POWERTIP: Use Snippet xb-service to create a Sample
+# POWERTIP: Use Snippet xb-build to create a Sample
 # Hint: Look also for other Snippets with the Prefix 'xb-...'
 
 `;
@@ -97,8 +96,7 @@ export class ServiceUpdater extends Updater {
 
     private async updateRunFile(directory: string) {
 
-        const content = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
+        const content = `#!/usr/bin/execlineb -P
 
 # File will called to start your Service
 #
@@ -111,8 +109,7 @@ export class ServiceUpdater extends Updater {
 
     private async updateHealthcheckFile(directory: string) {
 
-        const content = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
+        const content = `#!/usr/bin/execlineb -P
 
 # Define here the Health Check for your Service
 #
@@ -156,8 +153,7 @@ export class ServiceUpdater extends Updater {
 
     private async updateLogFile(directory: string) {
 
-        const content = `#!/usr/bin/env bash
-# -*- coding: utf-8 -*-
+        const content = `#!/usr/bin/execlineb -P
 
 # exec logutil-service -f /var/run/myfifo /var/log/myapp
 
