@@ -31,6 +31,7 @@ export class ProjectLayoutUpdater extends Updater {
 
         const layoutDir = path.join(__dirname, '..', '.layout');
         const destDir = path.join(this.options.directory, 'src', this.options.imageName);
+        const testDestDir = path.join(this.options.directory, 'tests', 'unit', this.options.imageName);
 
         if (this.force || (fs.existsSync(layoutDir) && !fs.existsSync(destDir))) {
             await fs.copy(layoutDir, this.options.directory);
@@ -38,7 +39,9 @@ export class ProjectLayoutUpdater extends Updater {
             const sourceDir = path.join(this.options.directory, 'src', 'image');
             fs.moveSync(sourceDir, destDir, { overwrite: true });
 
-            // await fs.rmdir(sourceDir);
+            const testDir = path.join(this.options.directory, 'tests', 'unit', 'image');
+            fs.moveSync(testDir, testDestDir, { overwrite: true });
+
 
             if (this.withoutDefaultServices) {
                 Log.info('Remove Default Services');
