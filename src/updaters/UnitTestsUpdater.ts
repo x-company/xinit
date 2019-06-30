@@ -26,34 +26,7 @@ export class UnitTestsUpdater extends Updater {
 
         const directory = path.join(this.options.directory, 'tests', 'unit', this.options.imageName);
         await fs.ensureDir(directory);
-
-        await this.updateDockercomposeFile(directory);
         await this.updateBatsFile(directory);
-    }
-
-    private async updateDockercomposeFile(directory: string) {
-
-        Log.info('Create Docker Compose for UnitTests');
-        const file = path.join(directory, 'docker-compose.yml');
-        if (!fs.existsSync(file)) {
-            const content = `version: "3.7"
-
-services:
-  ${this.options.shortImageName}:
-    image: ${this.options.imageName}:unit
-    build:
-      context: ../../../../.devcontainer
-    volumes:
-      # Map the current Source Folder
-      - ./:/workspace/tests/unit
-    command: "/usr/bin/bats /workspace/tests/unit/"
-
-`;
-            await fs.writeFile(file, content, { encoding: 'utf-8' });
-            await fs.chmod(file, 0o644);
-        } else {
-            Log.warn('Docker Compose could not created. File already exists.');
-        }
     }
 
     private async updateBatsFile(directory: string) {
@@ -64,6 +37,8 @@ services:
         if (!fs.existsSync(file)) {
             const content = `#!/usr/bin/env bats
 # -*- coding: utf-8 -*-
+
+load init
 
 @test "addition using bc" {
     # Arrange
