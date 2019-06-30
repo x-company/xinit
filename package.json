@@ -46,7 +46,6 @@
     "prepare": "yarn build && appvmgr add-git-tag && git push --tags && git push --all",
     "watch": "tsc -w -p ./src/tsconfig.json",
     "test": "mocha --timeout 999999 --require ts-node/register '/workspace/tests/unit/**/*.Tests.ts'",
-
     "dev:clean": "rimraf -rf lib && mkdir lib",
     "docker:clean": "docker image rm -f $npm_package_config_image_name:devcontainer",
     "dev:build": "docker-compose -f ./.devcontainer/docker-compose.yml build",
