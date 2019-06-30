@@ -1,6 +1,0 @@
-#!/usr/bin/execlineb -P
-
-if { apt-get update }
-if { xb-install nodejs git openssh-client }
-if { npm install -g yarn }
-if { yarn install }

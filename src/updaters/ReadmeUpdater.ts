@@ -56,7 +56,7 @@ export class ReadmeUpdater extends Updater {
 
 | Type | States |
 |---|---|
-| [Source](https://github.com/${this.options.imageName}"View Source") | ${versionBadge} ${statusBadge} ${buildBadge} |
+| [Source](https://github.com/${this.options.imageName} "View Source") | ${versionBadge} ${statusBadge} ${buildBadge} |
 | [Docker Image](https://cloud.docker.com/u/xcompany/repository/docker/xcompany "Show Image on Docker Hub") | [![](https://images.microbadger.com/badges/image/${this.options.imageName}.svg)](https://microbadger.com/images/${this.options.imageName} "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/xcompany/xbuild.svg)](https://microbadger.com/images/${this.options.imageName} "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/commit/xcompany/xbuild.svg)](https://microbadger.com/images/${this.options.imageName} "Get your own commit badge on microbadger.com") [![](https://images.microbadger.com/badges/license/${this.options.imageName}.svg)](https://microbadger.com/images/${this.options.imageName} "Get your own license badge on microbadger.com") |
 | [Known Vulnerabilities](https://snyk.io//test/github/${this.options.imageName} "View Security Status") |[![Known Vulnerabilities](https://snyk.io//test/github/${this.options.imageName}/badge.svg?targetFile=package.json)](https://snyk.io//test/github/${this.options.imageName}?targetFile=package.json) |
 | [Continuous Integration](https://circleci.com/gh/${this.options.imageName}/tree/master "View Build Status") | [![CircleCI](https://circleci.com/gh/${this.options.imageName}/tree/master.svg?style=svg)](https://circleci.com/gh/${this.options.imageName}/tree/master) |

@@ -5,8 +5,7 @@ services:
     image: xcompany/xbuild-mgr:devcontainer
     build: .
     volumes:
-      - ./build:/build/build
-      - ./sources.list:/etc/xbuild/apt/sources.list
+
 
   run:
     image: xcompany/xbuild-mgr:devcontainer
@@ -15,6 +14,8 @@ services:
     volumes:
       # Map the current Source Folder
       - ..:/workspace
+      - ./sources.list:/etc/xbuild/sources.list
+      - ./xbuild.conf:/etc/xbuild/xbuild.conf
       # Configure Git with the current local Settings
       - ~/.gitconfig:/root/.gitconfig
       # Persists Extensions and VSCode Server
