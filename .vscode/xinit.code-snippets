@@ -1,67 +1,4 @@
 {
-    "Service Builder": {
-        "prefix": "xb-service",
-        "scope": "shellscript",
-        "description": "Creates a Service Installer Script",
-        "body": [
-            "",
-            "# Install here your Service. In this example we install mariadb",
-            "#if { xb-install mariadb }",
-            "",
-            "# Do here further things to configure the installed Service"
-        ]
-    },
-    "Service Run Builder": {
-        "prefix": "xb-service-run",
-        "scope": "shellscript",
-        "description": "Creates a Script to run the Service",
-        "body": [
-            "",
-            "# Load the xBuild System",
-            "source /usr/local/include/xbuild/loader",
-            "",
-            "# Load the Environment Variables to the current Session",
-            "loadvars",
-            "",
-            "# Execute the Service",
-            "exec 2>&1",
-            "exec ${1:command_to_start_service}",
-        ]
-    },
-    "Service Finish Builder": {
-        "prefix": "xb-service-finish",
-        "scope": "shellscript",
-        "description": "Creates a Script to finish a Service",
-        "body": [
-            "",
-            "# Load the xBuild System",
-            "source /usr/local/include/xbuild/loader",
-            "",
-            "# Load the Environment Variables to the current Session",
-            "loadvars",
-            "",
-            "# Prepare here the Shutdown of your Service"
-        ]
-    },
-    "Health Builder": {
-        "prefix": "xb-health",
-        "scope": "shellscript",
-        "description": "Creates an Health Script",
-        "body": [
-            "",
-            "# Load the xBuild System",
-            "source /usr/local/include/xbuild/loader",
-            "",
-            "# Load the Environment Variables to the current Session",
-            "loadvars",
-            "",
-            "# Place here your Health Check Tests",
-            "$0",
-            "",
-            "# When everything is ok, than return 0, otherwise return 1",
-            "exit 0",
-        ]
-    },
     "Dockerfile Image File": {
         "prefix": "xb-docker",
         "scope": "dockerfile",
@@ -102,6 +39,13 @@
             "",
             "ENTRYPOINT [\"/init\"]",
             "",
+            "$0"
+        ]
+    },
+    "Dockerfile Health Command": {
+        "prefix": "xb-docker-health",
+        "scope": "dockerfile",
+        "body": [
             "HEALTHCHECK --interval=5s --timeout=3s CMD xb-healthcheck || exit 1",
             "",
             "$0"
