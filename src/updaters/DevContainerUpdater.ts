@@ -29,6 +29,7 @@ export class DevContainerUpdater extends Updater {
 
         await this.updateDevcontainerFile(directory);
         await this.updateDockerComposeFile(directory);
+        await this.updateDockerComposeFileForTests(directory);
     }
 
     private async updateDevcontainerFile(directory: string) {
@@ -157,18 +158,20 @@ volumes:
 
 services:
   build:
-    image: ${this.options.imageName}:devcontainer
+    image: ${this.options.imageName}:test
     build:
       context: ..
       dockerfile: Dockerfile
 
   test:
-    image: ${this.options.imageName}:devcontainer
+    image: ${this.options.imageName}:test
     depends_on:
       - build
-      volumes:
-      - ..:/workspace
-    command: /usr/bin/bats /workspace/tests/unit/
+    volumes:
+      - ../tests/unit/:/tests/
+      - ./sources.list:/build/sources.list
+      - ./xbuild.conf:/build/xbuild.conf
+    command: /usr/local/bin/xb-test
 `;
             await fs.writeFile(file, content, { encoding: 'utf8' });
             await fs.chmod(file, 0o644);
