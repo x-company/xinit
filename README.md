@@ -3,7 +3,8 @@
 [![xbuild-mgr-version](https://img.shields.io/badge/Version-0.2.0-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xbuild-mgr/v/0.2.0)
 [![xbuild-mgr-status](https://img.shields.io/badge/Status-development%201-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-mgr#status)
 [![xbuild-mgr-build](https://img.shields.io/badge/Builds-13-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-mgr#status)
-[![CircleCI](https://circleci.com/gh/x-company/xbuild.svg?style=svg)](https://circleci.com/gh/x-company/xbuild)
+[![Build Status](https://travis-ci.org/x-company/xbuild-mgr.svg?branch=master)](https://travis-ci.org/x-company/xbuild-mgr)
+
 
 `xbuild-mgr` is a Tool which will help you to develop small and secure Docker Base Images.
 

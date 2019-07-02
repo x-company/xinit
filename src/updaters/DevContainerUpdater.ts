@@ -27,12 +27,14 @@ export class DevContainerUpdater extends Updater {
         const directory = path.join(this.options.directory, '.devcontainer');
         await fs.ensureDir(directory);
 
-        await this.updateDevcontainerFile(directory);
+        await this.updateDevContainerFile(directory);
         await this.updateDockerComposeFile(directory);
+        await this.updateDockerComposeDevFile(directory);
+        await this.updateDockerComposeFileForCI(directory);
         await this.updateDockerComposeFileForTests(directory);
     }
 
-    private async updateDevcontainerFile(directory: string) {
+    private async updateDevContainerFile(directory: string) {
 
         Log.info('Create Configuration for Dev Container');
         const file = path.join(directory, 'devcontainer.json');
@@ -41,7 +43,10 @@ export class DevContainerUpdater extends Updater {
             const content = `// See https://aka.ms/vscode-remote/devcontainer.json for format details.
 {
     "name": "${this.options.imageName}",
-    "dockerComposeFile": "docker-compose.yml",
+    "dockerComposeFile": [
+        "docker-compose.yml",
+        "docker-compose.dev.yml",
+    ],
     "service": "run",
     "workspaceFolder": "/workspace",
     "shutdownAction": "stopCompose",
@@ -120,7 +125,23 @@ services:
     build:
       context: ..
       dockerfile: Dockerfile
+`;
+            await fs.writeFile(file, content, { encoding: 'utf8' });
+            await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('Docker Compose File could not created. File already exists.');
+        }
+    }
 
+    private async updateDockerComposeDevFile(directory: string) {
+
+        Log.info('Create Docker Compose File for Dev Container');
+        const file = path.join(directory, 'docker-compose.dev.yml');
+        if (!fs.existsSync(file)) {
+
+            const content = `version: "3.7"
+
+services:
   run:
     image: ${this.options.imageName}:devcontainer
     depends_on:
@@ -157,20 +178,41 @@ volumes:
             const content = `version: "3.7"
 
 services:
-  build:
-    image: ${this.options.imageName}:test
-    build:
-      context: ..
-      dockerfile: Dockerfile
-
   test:
-    image: ${this.options.imageName}:test
+    image: ${this.options.imageName}:devcontainer
     depends_on:
       - build
     volumes:
       - ../tests/unit/:/tests/
-      - ./sources.list:/build/sources.list
-      - ./xbuild.conf:/build/xbuild.conf
+      - ../src/${this.options.imageName}/build/:/build/
+      - ./sources.list:/etc/xbuild/sources.list
+      - ./xbuild.conf:/etc/xbuild/xbuild.conf
+    command: /usr/local/bin/xb-test
+`;
+            await fs.writeFile(file, content, { encoding: 'utf8' });
+            await fs.chmod(file, 0o644);
+        } else {
+            Log.warn('Docker Compose File could not created. File already exists.');
+        }
+    }
+
+    private async updateDockerComposeFileForCI(directory: string) {
+
+        Log.info('Create Docker Compose Test File for Dev Container');
+        const file = path.join(directory, 'docker-compose.test.yml');
+        if (!fs.existsSync(file)) {
+
+            const content = `version: "3.7"
+
+services:
+  test:
+    image: ${this.options.imageName}:devcontainer
+    depends_on:
+      - build
+    volumes:
+      - ../tests/unit/:/tests/
+      - ../src/${this.options.imageName}/build/:/build/
+      - ./xbuild.ci.conf:/etc/xbuild/xbuild.conf
     command: /usr/local/bin/xb-test
 `;
             await fs.writeFile(file, content, { encoding: 'utf8' });
