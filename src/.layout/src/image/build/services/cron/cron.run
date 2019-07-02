@@ -1,14 +1,3 @@
-#!/usr/bin/execlineb -P
+#!/usr/bin/with-contenv sh
 
-# Touch cron files to fix 'NUMBER OF HARD LINKS > 1' issue. See  https://github.com/phusion/baseimage-docker/issues/198
-if { s6-touch -c /var/spool/cron/crontabs/* }
-if { s6-touch -c /etc/crontab }
-if { s6-touch -c /etc/cron.d/* /etc/cron.daily/* /etc/cron.hourly/* /etc/cron.monthly/* /etc/cron.weekly/* }
-
-
-background {
-    s6-setuidgid daemon
-
-    fsmove -c 2 1
-    /usr/sbin/cron -f
-}
+exec /usr/sbin/cron -f

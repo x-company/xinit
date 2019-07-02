@@ -1,4 +1,1 @@
-# Fixing ownership & permissions
-#
-# path              recurse account fmode   dmode
 /etc/crontab        true    root    0600    0700

@@ -1,13 +1,26 @@
 #!/usr/bin/execlineb -P
 
-# Install here your Service for example we show how to install mariadb
+if { xb-log "Install cron" }
 if { xb-install cron }
+
+if { xb-log "Remove default 'cron' Log Rules" }
+if { rm -rf /etc/socklog.rules/~-cron }
 
 if { xb-log "Configure Service 'cron'" }
 if { sed -i "s/^\s*session\s\+required\s\+pam_loginuid.so/# &/" /etc/pam.d/cron }
 
-## Remove useless cron entries.
-# Checks for lost+found and scans for mtab.
+if { xb-log "Create Cron Folders" }
+if { s6-mkdir -p /var/spool/cron/crontabs/ }
+if { s6-mkdir -p /ect/cron.d/ }
+if { s6-mkdir -p /ect/cron.daily/ }
+if { s6-mkdir -p /ect/cron.hourly/ }
+if { s6-mkdir -p /ect/cron.monthly/ }
+if { s6-mkdir -p /ect/cron.weekly/ }
+
+if { xb-log "Create crontab" }
+if { s6-touch -c /etc/crontab }
+
+if { xb-log "Remove useless cron entries." }
 if { s6-rmrf /etc/cron.daily/standard }
 if { s6-rmrf /etc/cron.daily/upstart }
 if { s6-rmrf /etc/cron.daily/dpkg }
