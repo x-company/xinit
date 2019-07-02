@@ -8,4 +8,4 @@ before_script:
 
 script:
   - yarn install --ignore-scripts
-  - mocha --timeout 999999 --require ts-node/register '/tests/unit/**/*.Tests.ts'
+  - mocha --timeout 999999 --require ts-node/register './tests/unit/**/*.Tests.ts'
