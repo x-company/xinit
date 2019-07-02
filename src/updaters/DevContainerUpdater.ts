@@ -35,8 +35,6 @@ export class DevContainerUpdater extends Updater {
         await this.updateDockerComposeFile(ciDirectory, true);
 
         await this.updateDockerComposeFileForDev(directory);
-
-        await this.updateDockerComposeFileForCI(directory);
         await this.updateDockerComposeFileForTests(directory);
     }
 
@@ -153,7 +151,8 @@ WORKDIR /
 
             let content = `version: "3.7"
 services:
-  build:`;
+  build:
+`;
 
             if (!isCI) {
                 content += `    image: ${this.options.imageName}:devcontainer
@@ -231,32 +230,6 @@ services:
       - build
     volumes:
       - ../tests/unit/:/tests/
-    command: /usr/local/bin/xb-test
-`;
-            await fs.writeFile(file, content, { encoding: 'utf8' });
-            await fs.chmod(file, 0o644);
-        } else {
-            Log.warn('Docker Compose File could not created. File already exists.');
-        }
-    }
-
-    private async updateDockerComposeFileForCI(directory: string) {
-
-        Log.info('Create Docker Compose Test File for Dev Container');
-        const file = path.join(directory, 'docker-compose.test.yml');
-        if (!fs.existsSync(file)) {
-
-            const content = `version: "3.7"
-
-services:
-  test:
-    image: ${this.options.imageName}:devcontainer
-    depends_on:
-      - build
-    volumes:
-      - ../tests/unit/:/tests/
-      - ../src/${this.options.imageName}/build/:/build/
-      - ./xbuild.ci.conf:/etc/xbuild/xbuild.conf
     command: /usr/local/bin/xb-test
 `;
             await fs.writeFile(file, content, { encoding: 'utf8' });

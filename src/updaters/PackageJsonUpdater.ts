@@ -69,7 +69,8 @@ export class PackageJsonUpdater extends Updater {
                     'build': 'yarn docker:build',
                     'postbuild': 'yarn docker:tag && git add . && git commit -m \'Automatic Build Commit\'',
 
-                    'test': 'docker-compose -f ./.devcontainer/docker-compose.test.yml up',
+                    'test': 'docker-compose -f ./.devcontainer/docker-compose.yml -f ./.devcontainer/docker-compose.test.yml up',
+                    'ci': 'docker-compose -f ./.ci/docker-compose.yml up',
 
                     'release': 'yarn build && appvmgr add-git-tag && git push --tags && git push --all',
                 },

@@ -26,4 +26,4 @@ before_script:
 script:
   - yarn install
   - yarn clean
-  - yarn test:travis
+  - yarn ci
