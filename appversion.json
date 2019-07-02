@@ -6,9 +6,9 @@
     "badge": "[![xbuild-mgr-version](https://img.shields.io/badge/Version-${M.m.p}-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xbuild-mgr/v/${M.m.p})"
   },
   "build": {
-    "date": "2019-07-01T06:06:52.732Z",
-    "number": 1,
-    "total": 87,
+    "date": "2019-07-02T19:52:12.299Z",
+    "number": 2,
+    "total": 88,
     "badge": "[![xbuild-mgr-build](https://img.shields.io/badge/Builds-${n}-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-mgr#status)"
   },
   "status": {
