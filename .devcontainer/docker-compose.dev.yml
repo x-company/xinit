@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  run:
+    image: xcompany/xbuild-mgr:devcontainer
+    depends_on:
+      - build
+    volumes:
+      # Map the current Source Folder
+      - ..:/workspace
+      # Configure Git with the current local Settings
+      - ~/.gitconfig:/root/.gitconfig
+      # Persists Extensions and VSCode Server
+      - vscode-server:/root/.vscode-server
+    cap_add:
+        - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    command: sleep infinity
+
+volumes:
+  vscode-server:
