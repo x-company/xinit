@@ -29,7 +29,7 @@ export class DevContainerUpdater extends Updater {
         await fs.ensureDir(directory);
 
         await this.updateDevContainerFile(directory);
-        await this.updateDockerfile(directory);
+        await this.updateDockerfile(this.options.directory);
 
         await this.updateDockerComposeFile(directory);
         await this.updateDockerComposeFile(ciDirectory, true);
@@ -118,18 +118,18 @@ export class DevContainerUpdater extends Updater {
     private async updateDockerfile(directory: string) {
 
         Log.info('Create Dockerfile for Dev Container');
-        const file = path.join(directory, 'Dockerfile');
+        const file = path.join(directory, 'Dockerfile.dev');
         if (!fs.existsSync(file)) {
 
             const content = `FROM xcompany/xbuild:latest
 
-COPY   ../src/${this.options.imageName}/build/ /build/
+COPY   ./src/${this.options.imageName}/build/ /build/
 
-COPY   ../src/${this.options.imageName}/rootfs/ /
+COPY   ./src/${this.options.imageName}/rootfs/ /
 
-COPY    ./xbuild.conf /build/xbuild.conf
+COPY    ./.devcontainer/xbuild.conf /build/xbuild.conf
 
-COPY    ./sources.list /build/sources.list
+COPY    ./.devcontainer/sources.list /build/sources.list
 
 RUN    xb-build
 
@@ -156,7 +156,10 @@ services:
 
             if (!isCI) {
                 content += `    image: ${this.options.imageName}:devcontainer
-    build: Dockerfile`;
+    build:
+      context: ..
+      dockerfile: Dockerfile.dev
+`;
             } else {
                 content += `    image: ${this.options.imageName}:test
     build:
