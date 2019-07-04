@@ -63,3 +63,4 @@ typings/
 # Custom Ignores
 lib
 testarea
+package-lock.json
