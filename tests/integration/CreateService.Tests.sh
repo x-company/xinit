@@ -10,7 +10,7 @@ eventName="TestEvent"
 rm -rf "$testarea"
 
 # Create a Base Image Layout
-xbuild layout create "$imageName" -d "$testarea"
+xbuild layout create --name "$imageName" -d "$testarea"
 
 # Create a Base Image Layout
 # xbuild layout create "$imageName2" -d "$testarea"

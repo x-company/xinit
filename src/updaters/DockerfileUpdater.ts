@@ -21,20 +21,36 @@ import { Log } from '../helpers/Log';
 
 export class DockerfileUpdater extends Updater {
 
+    constructor(private withoutProjectLayout: boolean) {
+        super();
+    }
+
     public async update() {
 
         Log.info('Create Dockerfile for your Image');
 
-        const directory = path.join(this.options.directory, 'src', this.options.imageName);
+        let directory = '';
+        if (this.withoutProjectLayout) {
+            directory = path.join(this.options.directory, 'xbuild');
+        } else {
+            directory = path.join(this.options.directory, 'src', this.options.imageName);
+        }
+
         await fs.ensureDir(directory);
 
         await this.updateDockerfile(directory);
-        await this.updateDockerIgnore(this.options.directory);
+        if (!this.withoutProjectLayout) {
+            await this.updateDockerIgnore(this.options.directory);
+        }
     }
 
     private async updateDockerfile(directory: string) {
 
-        const file = path.join(directory, 'Dockerfile.tmpl');
+        let file = path.join(directory, 'Dockerfile.tmpl');
+        if (this.withoutProjectLayout) {
+            file = path.join(directory, 'Dockerfile');
+        }
+
         if (!fs.existsSync(file)) {
             const content = `# This is a Docker Build File
 #

@@ -86,9 +86,8 @@ export class ServiceUpdater extends Updater {
         const content = `#!/usr/bin/execlineb -P
 
 # Main Build File for your Service
-#
-# POWERTIP: Use Snippet xb-build to create a Sample
-# Hint: Look also for other Snippets with the Prefix 'xb-...'
+
+
 
 `;
         await this.saveFile(directory, `${this.options.serviceName}.build`, 'Build', content);
@@ -99,9 +98,6 @@ export class ServiceUpdater extends Updater {
         const content = `#!/usr/bin/execlineb -P
 
 # File will called to start your Service
-#
-# POWERTIP: Use Snippet xb-service-run to create a Sample
-# Hint: Look also for other Snippets with the Prefix 'xb-...'
 
 `;
         await this.saveFile(directory, `${this.options.serviceName}.run`, 'Run', content);
@@ -112,9 +108,6 @@ export class ServiceUpdater extends Updater {
         const content = `#!/usr/bin/execlineb -P
 
 # Define here the Health Check for your Service
-#
-# POWERTIP: Use Snippet xb-health to create a Sample
-# Hint: Look also for other Snippets with the Prefix 'xb-...'
 
 `;
         await this.saveFile(directory, `${this.options.serviceName}.health`, 'Health', content);
@@ -133,6 +126,7 @@ export class ServiceUpdater extends Updater {
     private async updateAttributeFixFile(directory: string, priority: number) {
 
         const content = `# Fixing ownership & permissions
+# Attention! Remove completly this Comment Block. Otherwise your Image will fail.
 #
 # path              recurse account fmode   dmode
 # /var/lib/mysql    true    mysql   0600    0700
@@ -179,7 +173,7 @@ export class ServiceUpdater extends Updater {
         const content = `-
 +^cron\.
 \${SOCKLOG_TIMESTAMP_FORMAT}
-/var/log/socklog/cron
+/var/log/socklog/${this.options.serviceName}
 
 `;
         await this.saveFile(directory, `${this.options.serviceName}.logrules`, 'Log Rules', content, priority);

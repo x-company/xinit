@@ -23,5 +23,7 @@ export interface LayoutCommandOptions extends CommandOptions {
 
     withoutDefault: boolean;
 
+    withoutProjectLayout: boolean;
+
     force: boolean;
 }

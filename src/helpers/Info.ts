@@ -97,7 +97,10 @@ export class Info {
 
         try {
             baseDirectory = findRoot(process.cwd(), (dir) => {
-                return fs.existsSync(path.resolve(dir, 'package.json'));
+                if (dir) {
+                    return fs.existsSync(path.resolve(dir, 'package.json'));
+                }
+                return false;
             });
         } catch (err) {
             Log.verbose(err);

@@ -31,6 +31,7 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
     private static defaultOptions: LayoutCommandOptions = {
         imageName: 'baseimage',
         withoutDefault: false,
+        withoutProjectLayout: false,
         force: false,
     };
     constructor(options?: LayoutCommandOptions) {
@@ -55,13 +56,15 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
                 directory,
             });
 
-            await mgr.update(new ProjectLayoutUpdater(this.options.withoutDefault, this.options.force));
-            await mgr.update(new PackageJsonUpdater());
-            await mgr.update(new AppVersionUpdater());
-            await mgr.update(new ReadmeUpdater());
-            await mgr.update(new DockerfileUpdater());
-            await mgr.update(new DevContainerUpdater());
-            await mgr.update(new UnitTestsUpdater());
+            await mgr.update(new ProjectLayoutUpdater(this.options.withoutDefault, this.options.withoutProjectLayout, this.options.force));
+            await mgr.update(new DockerfileUpdater(this.options.withoutProjectLayout));
+            if (!this.options.withoutProjectLayout) {
+                await mgr.update(new AppVersionUpdater());
+                await mgr.update(new PackageJsonUpdater());
+                await mgr.update(new ReadmeUpdater());
+                await mgr.update(new DevContainerUpdater());
+                await mgr.update(new UnitTestsUpdater());
+            }
 
             Log.info('Layout for your new Base Image is now created.');
 

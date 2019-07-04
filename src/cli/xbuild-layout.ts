@@ -25,18 +25,21 @@ const program = new Command(`${CommandInfos.main.command} ${CommandInfos.layout.
     .description(CommandInfos.layout.description);
 
 program
-    .command('create <name>')
+    .command('create')
     .description('Creates an new Layout to create new Services')
+    .option('-n, --name <value>', 'The Name of the Image')
     .option('--without-default', 'Default Services will not installed.')
+    .option('--without-project-layout', 'Deploys the Image without a default Project Layout.')
     .option('--force', 'Overwrites the Layout. Attention! This will delete already created Services and Events.')
-    .action(async (name, options) => {
+    .action(async (options) => {
 
         try {
             Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.layout.command} create' is called ...`);
 
             await new CreateLayoutCommand({
-                imageName: name,
+                imageName: options.value,
                 withoutDefault: options.withoutDefault,
+                withoutProjectLayout: options.withoutProjectLayout,
                 force: options.force,
             }).invoke();
 
