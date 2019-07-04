@@ -1,5 +1,6 @@
 {
     "Dockerfile Image File": {
+        "description": "Creates a Dockerfile for the xbuild Image Development Workflow",
         "prefix": "xb-docker",
         "scope": "dockerfile",
         "body": [
@@ -42,39 +43,52 @@
             "$0"
         ]
     },
-    "Dockerfile Health Command": {
-        "prefix": "xb-docker-health",
+    "Dockerfile Image File without Project Layout": {
+        "description": "Creates a Dockerfile for the xbuild Workflow without an Project Layout",
+        "prefix": "xb-docker-no-layout",
         "scope": "dockerfile",
         "body": [
-            "HEALTHCHECK --interval=5s --timeout=3s CMD xb-healthcheck || exit 1",
+            "FROM xcompany/xbuild:latest",
+            "",
+            "ARG XBUILD_VERSION=\"${1:The Image Version}\"",
+            "ARG XBUILD_IMAGE_NAME=\"${2:The Image Name}\"",
+            "ARG XBUILD_IMAGE_DESCRIPTION=\"${3:The Image Description}\"",
+            "ARG XBUILD_VENDOR=\"${4:Your Company Name}\"",
+            "ARG XBUILD_VENDOR_URL=\"https://www.${5:Your Domain Name}\"",
+            "ARG XBUILD_VENDOR_MAIL=\"info@$5\"",
+            "",
+            "LABEL  ${6:Type your Domain Name in Reverse DNS Notation}.name=\\$XBUILD_IMAGE_NAME \\",
+            "       $6.description=\\$XBUILD_IMAGE_DESCRIPTION \\",
+            "       $6.url=\\$XBUILD_VENDOR_URL \\",
+            "       $6.vendor=\\$XBUILD_VENDOR \\",
+            "       $5.version=\\$XBUILD_VERSION \\",
+            "       $6.schema-version=\"1.0\" \\",
+            "       $6.license=\"${6|MIT,Apache-1.0,Apache-1.1,Apache-2.0,ISC|}\" \\",
+            "       maintainer=\\$XBUILD_VENDOR_MAIL \\",
+            "       vendor=\\$XBUILD_VENDOR \\",
+            "       description=\\$XBUILD_IMAGE_DESCRIPTION \\",
+            "       version=\\$XBUILD_VERSION",
+            "",
+            "COPY   ./build/ /build/",
+            "",
+            "COPY   ./rootfs/ /",
+            "",
+            "RUN    xb-build",
+            "",
+            "WORKDIR /",
+            "",
+            "ENTRYPOINT [\"/init\"]",
             "",
             "$0"
         ]
     },
-    "Write an Header": {
-        "prefix": "xb-header",
-        "scope": "shellscript",
-        "description": "Writes an Log Header",
+    "Dockerfile Health Command": {
+        "prefix": "xb-docker-health",
+        "description": "Adds a health Script Command to your Docker Image",
+        "scope": "dockerfile",
         "body": [
-            "if { xb-header \"${1:Message}\" }",
-            "$0"
-        ]
-    },
-    "Install a new Package": {
-        "prefix": "xb-install",
-        "scope": "shellscript",
-        "description": "Install a new Package",
-        "body": [
-            "if { xb-install ${1:Package_to_install} }",
-            "$0"
-        ]
-    },
-    "Log a Message": {
-        "prefix": "xb-log",
-        "scope": "shellscript",
-        "description": "Log a Message",
-        "body": [
-            "if { xb-log \"${1:Message}\" }",
+            "HEALTHCHECK --interval=5s --timeout=3s CMD xb-healthcheck || exit 1",
+            "",
             "$0"
         ]
     }
