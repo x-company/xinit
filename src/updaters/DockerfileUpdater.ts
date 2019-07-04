@@ -52,11 +52,14 @@ export class DockerfileUpdater extends Updater {
         }
 
         if (!fs.existsSync(file)) {
-            const content = `# This is a Docker Build File
+            let content = `# This is a Docker Build File
 #
-# POWERTIP: Use Snippet xb-docker to create a Sample
-
 `;
+            if (this.withoutProjectLayout) {
+                content += '# POWERTIP: Use Snippet xb-docker-no-layout to create your Dockerfile';
+            } else {
+                content += '# POWERTIP: Use Snippet xb-docker to create your Dockerfile';
+            }
 
             await fs.writeFile(file, content, { encoding: 'utf-8' });
             await fs.chmod(file, 0o644);

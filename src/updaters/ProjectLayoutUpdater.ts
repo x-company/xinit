@@ -40,10 +40,13 @@ export class ProjectLayoutUpdater extends Updater {
             destDir = path.join(this.options.directory, 'xbuild');
 
             const projectRoot = Info.getProjectRoot();
+
             const vscodeDir = path.join(projectRoot, '.vscode');
+            fs.ensureDirSync(vscodeDir);
+
             const snippetFile = path.join(layoutDir, '.vscode', 'xbuild.code-snippets');
             if (fs.existsSync(snippetFile)) {
-                await fs.copy(snippetFile, vscodeDir);
+                await fs.copyFile(snippetFile, path.join(vscodeDir, 'xbuild.code-snippets'));
             } else {
                 Log.warn('Snippet could not found');
             }
