@@ -49,7 +49,9 @@
     "docker:clean": "docker image rm -f $npm_package_config_image_name:devcontainer",
     "dev:build": "docker-compose -f ./.devcontainer/docker-compose.yml build",
     "clean": "docker system prune -f && docker container prune -f && yarn docker:clean && yarn dev:clean",
-    "release": "yarn build && appvmgr add-git-tag && git push --tags && git push --all"
+    "release": "yarn build && appvmgr add-git-tag && git push --tags && git push --all",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
@@ -75,6 +77,8 @@
     "find-root": "^1.1.0",
     "fs-extra": "^8.1.0",
     "shelljs": "^0.8.3",
-    "winston": "^3.2.1"
-  }
+    "winston": "^3.2.1",
+    "snyk": "^1.192.3"
+  },
+  "snyk": true
 }
