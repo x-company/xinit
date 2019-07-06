@@ -21,7 +21,7 @@ import { Log } from '../helpers/Log';
 
 export class DockerfileUpdater extends Updater {
 
-    constructor(private withoutProjectLayout: boolean) {
+    constructor(private withProjectLayout: boolean) {
         super();
     }
 
@@ -30,7 +30,7 @@ export class DockerfileUpdater extends Updater {
         Log.info('Create Dockerfile for your Image');
 
         let directory = '';
-        if (this.withoutProjectLayout) {
+        if (!this.withProjectLayout) {
             directory = path.join(this.options.directory, 'xbuild');
         } else {
             directory = path.join(this.options.directory, 'src', this.options.imageName);
@@ -39,7 +39,7 @@ export class DockerfileUpdater extends Updater {
         await fs.ensureDir(directory);
 
         await this.updateDockerfile(directory);
-        if (!this.withoutProjectLayout) {
+        if (this.withProjectLayout) {
             await this.updateDockerIgnore(this.options.directory);
         }
     }
@@ -47,7 +47,7 @@ export class DockerfileUpdater extends Updater {
     private async updateDockerfile(directory: string) {
 
         let file = path.join(directory, 'Dockerfile.tmpl');
-        if (this.withoutProjectLayout) {
+        if (!this.withProjectLayout) {
             file = path.join(directory, 'Dockerfile');
         }
 
@@ -55,7 +55,7 @@ export class DockerfileUpdater extends Updater {
             let content = `# This is a Docker Build File
 #
 `;
-            if (this.withoutProjectLayout) {
+            if (!this.withProjectLayout) {
                 content += '# POWERTIP: Use Snippet xb-docker-no-layout to create your Dockerfile';
             } else {
                 content += '# POWERTIP: Use Snippet xb-docker to create your Dockerfile';

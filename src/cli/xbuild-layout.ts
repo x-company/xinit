@@ -27,19 +27,24 @@ const program = new Command(`${CommandInfos.main.command} ${CommandInfos.layout.
 program
     .command('create')
     .description('Creates an new Layout to create new Services')
-    .option('-n, --name <value>', 'The Name of the Image')
-    .option('--without-default', 'Default Services will not installed.')
-    .option('--without-project-layout', 'Deploys the Image without a default Project Layout.')
-    .option('--force', 'Overwrites the Layout. Attention! This will delete already created Services and Events.')
+    .option('-n, --name <name>', 'The Name of the Image')
+    .option('--with-cron', 'Adds the Cron Service to your Images.')
+    .option('--with-project-layout', 'Deploys the Image with a default Project Layout to develop an new Base Image.')
+    .option('-f, --force', 'Overwrites the Layout. Attention! This will delete already created Services and Events.')
     .action(async (options) => {
 
         try {
             Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.layout.command} create' is called ...`);
 
+            let imageName = '';
+            if (typeof options.name !== 'function') {
+                imageName = options.name;
+            }
+
             await new CreateLayoutCommand({
-                imageName: options.value,
-                withoutDefault: options.withoutDefault,
-                withoutProjectLayout: options.withoutProjectLayout,
+                imageName,
+                withCron: options.withCron,
+                withProjectLayout: options.withProjectLayout,
                 force: options.force,
             }).invoke();
 

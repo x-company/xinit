@@ -23,7 +23,7 @@ import { Info } from '../helpers/Info';
 
 export class ProjectLayoutUpdater extends Updater {
 
-    constructor(private withoutDefaultServices: boolean, private withoutProjectLayout: boolean, private force: boolean) {
+    constructor(private withCron: boolean, private withProjectLayout: boolean, private force: boolean) {
         super();
 
     }
@@ -36,7 +36,7 @@ export class ProjectLayoutUpdater extends Updater {
         let destDir = '';
         let testDestDir = '';
 
-        if (this.withoutProjectLayout) {
+        if (!this.withProjectLayout) {
             destDir = path.join(this.options.directory, 'xbuild');
 
             const projectRoot = Info.getProjectRoot();
@@ -52,13 +52,14 @@ export class ProjectLayoutUpdater extends Updater {
             }
 
         } else {
+            Log.info(`Dir ${this.options.imageName}`);
             destDir = path.join(this.options.directory, 'src', this.options.imageName);
             testDestDir = path.join(this.options.directory, 'tests', 'unit', this.options.imageName);
         }
 
         if (this.force || (fs.existsSync(layoutDir) && !fs.existsSync(destDir))) {
 
-            if (!this.withoutProjectLayout) {
+            if (this.withProjectLayout) {
                 await fs.copy(layoutDir, this.options.directory);
 
                 const sourceDir = path.join(this.options.directory, 'src', 'image');
@@ -69,10 +70,10 @@ export class ProjectLayoutUpdater extends Updater {
 
             } else {
                 await fs.copy(path.join(layoutDir, 'src', 'image'), destDir);
-                this.withoutDefaultServices = true;
+                this.withCron = false;
             }
 
-            if (this.withoutDefaultServices) {
+            if (!this.withCron) {
                 Log.info('Remove Default Services');
 
                 const serviceDir = path.join(destDir, 'build', 'services');

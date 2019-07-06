@@ -47,12 +47,19 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
                 directory = this.options.directory;
             }
 
-            if (!this.options.imageName) {
-                throw new Error('No Image Name is given. Service could not created.');
+            let imageName = '';
+            const imageObj = Info.getImageRoot(directory);
+            if (imageObj) {
+                imageName = imageObj.name;
+                directory = imageObj.root;
+            }
+
+            if (!imageName) {
+                throw new Error('Your Base Image could not found. Service could not created.');
             }
 
             const mgr = new TemplateUpdateManager({
-                imageName: this.options.imageName,
+                imageName,
                 serviceName: this.options.serviceName,
                 directory,
             });

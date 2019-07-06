@@ -29,9 +29,9 @@ import { Log } from '../../helpers/Log';
 export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
 
     private static defaultOptions: LayoutCommandOptions = {
-        imageName: 'baseimage',
-        withoutDefault: false,
-        withoutProjectLayout: false,
+        imageName: 'xcompany/baseimage',
+        withCron: false,
+        withProjectLayout: false,
         force: false,
     };
     constructor(options?: LayoutCommandOptions) {
@@ -56,9 +56,9 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
                 directory,
             });
 
-            await mgr.update(new ProjectLayoutUpdater(this.options.withoutDefault, this.options.withoutProjectLayout, this.options.force));
-            await mgr.update(new DockerfileUpdater(this.options.withoutProjectLayout));
-            if (!this.options.withoutProjectLayout) {
+            await mgr.update(new ProjectLayoutUpdater(this.options.withCron, this.options.withProjectLayout, this.options.force));
+            await mgr.update(new DockerfileUpdater(this.options.withProjectLayout));
+            if (this.options.withProjectLayout) {
                 await mgr.update(new AppVersionUpdater());
                 await mgr.update(new PackageJsonUpdater());
                 await mgr.update(new ReadmeUpdater());

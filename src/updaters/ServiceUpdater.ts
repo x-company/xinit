@@ -47,7 +47,7 @@ export class ServiceUpdater extends Updater {
             throw new Error('No Service Name is given. Service could not updated.');
         }
 
-        const buildDir = path.join(this.options.directory, 'src', this.options.imageName, 'build');
+        const buildDir = path.join(this.options.directory, 'build');
         const serviceDir = path.join(buildDir, 'services', this.options.serviceName);
 
         await fs.ensureDir(serviceDir);

@@ -1,24 +1,23 @@
 #!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 
-testarea="../../testarea"
+testarea1="../../testarea/without"
+testarea2="../../testarea/with"
 imageName="xcompany/mariadb"
 serviceName="TestService"
-eventName="TestEvent"
 
+rm -rf "$testarea1"
+rm -rf "$testarea2"
 
-rm -rf "$testarea"
-
-# Create a Base Image Layout
-xbuild layout create --name "$imageName" -d "$testarea"
-
-# Create a Base Image Layout
-# xbuild layout create "$imageName2" -d "$testarea"
-
-# Create a Base Image Layout
-# xbuild layout create "$imageName1" -d "$testarea"
+# Creates a Image Layout without a Project Structure
+xbuild layout create --directory "$testarea1"
 
 # Create a new Service
-xbuild service create "$serviceName" -i "$imageName" -d "$testarea" --add-fix --add-log --add-init --add-finish --add-shutdown --add-rules --priority 20
+xbuild service create --directory "$testarea1" --name "$serviceName"
 
-# xbuild service modify "$serviceName" -i "$imageName" -d "$testarea"
+
+# Creates a Image Layout with a Project Structure
+xbuild layout create --directory "$testarea2" --name "$imageName" --with-project-layout
+
+# Create a new Service
+xbuild service create --directory "$testarea2" --name "$serviceName"

@@ -15,7 +15,7 @@
 
 
 import fs from 'fs-extra';
-import path from 'path';
+import path, { basename } from 'path';
 import findRoot from 'find-root';
 import Configstore from 'configstore';
 import { Log } from '../helpers/Log';
@@ -69,28 +69,6 @@ export class Info {
         return store;
     }
 
-    // public static getImageRoot(imageName?: string | null | undefined, baseDirectory?: string | null | undefined): string {
-
-    //     let rootDirectory = CliManager.getDirectory(baseDirectory);
-    //     if (!imageName) {
-    //         const dirs = fs.readdirSync(rootDirectory).filter((file) => fs.statSync(path.join(rootDirectory, file)).isDirectory());
-
-    //         if (dirs.length > 1) {
-    //             throw new Error('More than one Base Images found. Please specify the Base Image with parameter -i or --image');
-    //         } else {
-    //             if (dirs.length === 1) {
-    //                 imageName = path.basename(dirs[0]);
-    //             } else {
-    //                 throw new Error('No Base Image found.');
-    //             }
-    //         }
-    //     }
-
-    //     rootDirectory = path.join(rootDirectory, 'src', imageName);
-    //     fs.ensureDirSync(rootDirectory);
-    //     return rootDirectory;
-    // }
-
     public static getProjectRoot() {
 
         let baseDirectory = null;
@@ -126,6 +104,69 @@ export class Info {
         return baseDirectory;
     }
 
+    public static getImageRoot(baseDirectory: string): any {
+
+        let imageName = null;
+
+        let buildDir = path.join(baseDirectory, 'build');
+        if (!fs.existsSync(buildDir)) {
+            const result = this.navigate(baseDirectory);
+            if (result) {
+                buildDir = result;
+            }
+        }
+
+        if (!fs.existsSync(buildDir)) {
+            throw new Error('Root of your Image could not found.');
+        }
+
+        buildDir = path.join(buildDir, '..');
+        imageName = basename(buildDir);
+        if (imageName !== 'xbuild') {
+            const imageNamePart1 = basename(buildDir);
+            buildDir = path.join(buildDir, '..');
+            const imageNamePart2 = basename(buildDir);
+
+            if (imageNamePart2 === 'src') {
+                imageName = imageNamePart1;
+            } else {
+                imageName = `${imageNamePart2}/${imageNamePart1}`;
+            }
+
+            buildDir = path.join(buildDir, imageNamePart1);
+        }
+
+        return {
+            name: imageName,
+            root: buildDir,
+        };
+    }
+
     private static PROG_VERSION: string = '0.1.0';
     private static PROG_NAME: string = 'xbuild';
+
+    private static navigate(currentDir: string): string {
+
+        const dirs = fs
+            .readdirSync(currentDir)
+            .filter((file) => fs.statSync(path.join(currentDir, file)).isDirectory());
+
+        let result = '';
+
+        for (const dir of dirs) {
+            const subDir = path.join(currentDir, dir);
+            const buildDir = path.join(subDir, 'build');
+            if (fs.existsSync(buildDir)) {
+                result = buildDir;
+                break;
+            } else {
+                result = this.navigate(subDir);
+                if (result) {
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
 }

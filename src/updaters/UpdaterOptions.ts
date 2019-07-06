@@ -19,9 +19,4 @@ export interface UpdaterOptions {
 
     shortImageName?: string;
     serviceName?: string;
-
-    eventName?: string;
-
-    eventExtension?: string;
-
 }

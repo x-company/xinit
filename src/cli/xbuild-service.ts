@@ -27,23 +27,26 @@ const program = new Command(`${CommandInfos.main.command} ${CommandInfos.service
 program
     .command('create')
     .description('Creates an new Service')
-    .option('-n, --name <value>', 'The Name of the Service')
-    .option('-i, --image <image>', 'The Name of the Base Image which the Service will created.')
+    .option('-n, --name <name>', 'The Name of the Service')
     .option('--add-fix', 'Add Attribute Fix to modify the Security of folders and files.')
     .option('--add-init', 'Add Init Script which will executed when a container starts.')
-    .option('--add-shutdown', 'Add Script which will executed when a Container shutdowns.')
-    .option('--add-rules', 'Add Log Rules for the Service.')
-    .option('--add-log', 'Add Log Script for the Service.')
+    .option('--add-shutdown', 'Add Shutdown Script which will executed when a Container shutdowns.')
     .option('--add-finish', 'Add Service Finish Script which will executed when Service will shutdown.')
-    .option('-p, --priority <prio>', 'The Priority when the choosed option should run. A value between 1-98. 99 is the highest Prio an could not used.', 10)
+    .option('-p, --priority <prio>', 'The Priority when the choosed option should run. A value between 1-98. 99 is the highest Prio and is reserved for the system.', 10)
+    // .option('--add-rules', 'Add Log Rules for the Service.')
+    // .option('--add-log', 'Add Log Script for the Service.')
     .action(async (options) => {
 
         try {
             Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.service.command} create' is called ...`);
 
+            let serviceName = '';
+            if (typeof options.name !== 'function') {
+                serviceName = options.name;
+            }
+
             await new CreateServiceCommand({
-                serviceName: options.name,
-                imageName: options.image,
+                serviceName,
                 addFinish: options.addFinish,
                 addFix: options.addFix,
                 addInit: options.addInit,
@@ -59,24 +62,28 @@ program
     });
 
 program
-    .command('modify <name>')
+    .command('modify')
     .description('Modifies a Service')
-    .option('-i, --image <image>', 'The Name of the Base Image which the Service will created.')
+    .option('-n, --name <name>', 'The Name of the Service')
     .option('--add-fix', 'Add Attribute Fix to modify the Security of folders and files.')
     .option('--add-init', 'Add Init Script which will executed when a container starts.')
-    .option('--add-shutdown', 'Add Script which will executed when a Container shutdowns.')
-    .option('--add-rules', 'Add Log Rules for the Service.')
-    .option('--add-log', 'Add Log Script for the Service.')
+    .option('--add-shutdown', 'Add Shutdown Script which will executed when a Container shutdowns.')
     .option('--add-finish', 'Add Service Finish Script which will executed when Service will shutdown.')
-    .option('-p, --priority <prio>', 'The Priority when the choosed option should run. A value between 1-98. 99 is the highest Prio an could not used.', 10)
-    .action(async (name, options) => {
+    .option('-p, --priority <prio>', 'The Priority when the choosed option should run. A value between 1-98. 99 is the highest Prio and is reserved for the system.', 10)
+    // .option('--add-rules', 'Add Log Rules for the Service.')
+    // .option('--add-log', 'Add Log Script for the Service.')
+    .action(async (options) => {
 
         try {
             Log.verbose(`Command '${CommandInfos.main.command} ${CommandInfos.service.command} modify' is called ...`);
 
+            let serviceName = '';
+            if (typeof options.name !== 'function') {
+                serviceName = options.name;
+            }
+
             await new CreateServiceCommand({
-                serviceName: name,
-                imageName: options.image,
+                serviceName,
                 addFinish: options.addFinish,
                 addFix: options.addFix,
                 addInit: options.addInit,

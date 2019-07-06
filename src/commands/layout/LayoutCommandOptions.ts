@@ -21,9 +21,9 @@ export interface LayoutCommandOptions extends CommandOptions {
 
     imageName: string;
 
-    withoutDefault: boolean;
+    withCron: boolean;
 
-    withoutProjectLayout: boolean;
+    withProjectLayout: boolean;
 
     force: boolean;
 }
