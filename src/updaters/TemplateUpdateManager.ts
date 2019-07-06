@@ -23,7 +23,6 @@ export class TemplateUpdateManager {
 
     constructor(options: UpdaterOptions) {
         if (options.imageName) {
-            Log.info(`ITemplate ${options.imageName}`);
             if (options.imageName.indexOf('/') !== -1) {
                 options.shortImageName = options.imageName.substring(options.imageName.lastIndexOf('/') + 1);
             } else {
