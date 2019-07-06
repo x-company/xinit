@@ -27,6 +27,7 @@ export class ServiceUpdater extends Updater {
         private addLog: boolean,
         private addRules: boolean,
         private addShutdown: boolean,
+        private addHealth: boolean,
         private priority: number,
 
         private shouldModify: boolean = false) {
@@ -54,7 +55,10 @@ export class ServiceUpdater extends Updater {
 
         await this.updateBuildFile(serviceDir);
         await this.updateRunFile(serviceDir);
-        await this.updateHealthcheckFile(serviceDir);
+
+        if (this.addHealth) {
+            await this.updateHealthcheckFile(serviceDir);
+        }
 
         if (this.addFinish) {
             await this.updateFinishFile(serviceDir);

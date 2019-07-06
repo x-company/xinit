@@ -32,6 +32,7 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
             addLog: false,
             addRules: false,
             addShutdown: false,
+            addHealth: false,
             priority: 10,
             serviceName: 'NewService',
             ...options,
@@ -71,6 +72,7 @@ export class CreateServiceCommand extends Command<ServiceCommandOptions> {
                 this.options.addLog,
                 this.options.addRules,
                 this.options.addShutdown,
+                this.options.addHealth,
                 this.options.priority,
                 this.shouldModify));
 

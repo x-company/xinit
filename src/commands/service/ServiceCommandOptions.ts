@@ -25,5 +25,7 @@ export interface ServiceCommandOptions extends CommandOptions {
     addLog: boolean;
     addFinish: boolean;
 
+    addHealth: boolean;
+
     priority: number;
 }
