@@ -35,8 +35,8 @@ describe('Creates a new Layout for Services', () => {
         await new CreateLayoutCommand({
             directory: testarea,
             imageName,
-            configureSourcelists: false,
-            withoutDefault: false,
+            withCron: false,
+            withProjectLayout: true,
             force: false,
         }).invoke();
 

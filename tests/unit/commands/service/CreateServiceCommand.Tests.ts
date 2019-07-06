@@ -32,8 +32,8 @@ describe('Creates a new Service', () => {
         await new CreateLayoutCommand({
             directory: testarea,
             imageName,
-            configureSourcelists: false,
-            withoutDefault: false,
+            withCron: false,
+            withProjectLayout: true,
             force: false,
         }).invoke();
     });
@@ -44,7 +44,14 @@ describe('Creates a new Service', () => {
         // Act
         await new CreateServiceCommand({
             directory: testarea,
-            imageName,
+            addFinish: false,
+            addFix: false,
+            addHealth: false,
+            addInit: false,
+            addLog: false,
+            addRules: false,
+            addShutdown: false,
+            priority: 10,
             serviceName,
         }).invoke();
 

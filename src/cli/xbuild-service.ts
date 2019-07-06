@@ -51,9 +51,10 @@ program
                 addFinish: options.addFinish,
                 addFix: options.addFix,
                 addInit: options.addInit,
-                addLog: options.addLog,
-                addRules: options.addRules,
+                addLog: false, // options.addLog,
+                addRules: false, // options.addRules,
                 addShutdown: options.addShutdown,
+                addHealth: options.addHealth,
                 priority: options.priority,
             }).invoke();
 
@@ -89,9 +90,10 @@ program
                 addFinish: options.addFinish,
                 addFix: options.addFix,
                 addInit: options.addInit,
-                addLog: options.addLog,
-                addRules: options.addRules,
+                addLog: false, // options.addLog,
+                addRules: false, // options.addRules,
                 addShutdown: options.addShutdown,
+                addHealth: options.addHealth,
                 priority: options.priority,
             }, true).invoke();
 
