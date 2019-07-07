@@ -167,7 +167,7 @@ services:
       dockerfile: Dockerfile
 
   test:
-    image: xcompany/hellodocker:test
+    image: ${this.options.imageName}:test
     depends_on:
       - build
     volumes:
@@ -221,7 +221,7 @@ volumes:
     private async updateDockerComposeFileForTests(directory: string) {
 
         Log.info('Create Docker Compose Test File for Dev Container');
-        const file = path.join(directory, 'docker-compose.test.yml');
+        const file = path.join(directory, 'docker-compose.tests.yml');
         if (!fs.existsSync(file)) {
 
             const content = `version: "3.7"

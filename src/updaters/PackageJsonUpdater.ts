@@ -48,31 +48,42 @@ export class PackageJsonUpdater extends Updater {
                 config: {
                     image_name: this.options.imageName,
                 },
+                dependencies: {
+                    'snyk': '^1.189.0'
+                },
                 devDependencies: {
                     'appversion-mgr': '^0.7.0',
                 },
+                snyk: true,
                 scripts: {
                     'dockerfile:XBUILD_BUILD_DATE': `echo \"$(sed -e \"s/__XBUILD_BUILD_DATE__/$(date -u +\'%Y-%m-%dT%H:%M:%SZ\')/g\" ./src/${this.options.imageName}/Dockerfile.tmpl)\" > ./Dockerfile`,
                     'dockerfile:XBUILD_VCS_REF': 'echo \"$(sed -e \"s/__XBUILD_VCS_REF__/$(git rev-parse --short HEAD)/g\" ./Dockerfile)\" > ./Dockerfile',
                     'dockerfile:XBUILD_VERSION': 'echo \"$(sed -e \"s/__XBUILD_VERSION__/$npm_package_version/g\" ./Dockerfile)\" > ./Dockerfile',
                     'dockerfile:build': 'yarn dockerfile:XBUILD_BUILD_DATE && yarn dockerfile:XBUILD_VCS_REF && yarn dockerfile:XBUILD_VERSION',
 
-                    'docker:clean:dev': `docker image rm -f ${this.options.imageName}:devcontainer`,
+                    'docker:clean:dev': `docker image rm -f $npm_package_config_image_name:devcontainer`,
+                    'docker:clean:debug': 'docker image rm -f $npm_package_config_image_name:debug',
+                    'docker:clean:test': 'docker image rm -f $npm_package_config_image_name:test',
                     'docker:clean:image': 'docker image rm -f $npm_package_config_image_name:$npm_package_version',
                     'docker:clean:latest': 'docker image rm -f $npm_package_config_image_name:latest',
 
                     'docker:build': 'docker build --tag $npm_package_config_image_name:$npm_package_version --force-rm .',
                     'docker:tag': 'docker image tag $npm_package_config_image_name:$npm_package_version $npm_package_config_image_name:latest',
 
-                    'clean': 'docker system prune -f && yarn docker:clean:image && yarn docker:clean:latest && yarn docker:clean:dev',
+                    'clean': 'docker system prune -f && docker container prune -f  && yarn docker:clean:image && yarn docker:clean:latest && yarn docker:clean:dev && yarn docker:clean:debug && yarn docker:clean:test',
                     'prebuild': 'appvmgr update build && yarn dockerfile:build',
                     'build': 'yarn docker:build',
                     'postbuild': 'yarn docker:tag && git add . && git commit -m \'Automatic Build Commit\'',
 
-                    'test': 'docker-compose -f ./.devcontainer/docker-compose.yml -f ./.devcontainer/docker-compose.test.yml up',
-                    'ci': 'docker-compose -f ./.ci/docker-compose.yml up',
+                    'test': 'yarn prebuild && docker-compose -f ./.devcontainer/docker-compose.yml -f ./.devcontainer/docker-compose.tests.yml up',
+                    'ci': 'yarn prebuild && docker-compose -f ./.ci/docker-compose.yml up',
+
+                    'snyk-protect': 'snyk protect',
+                    'prepublish': 'yarn snyk-protect',
 
                     'release': 'yarn build && appvmgr add-git-tag && git push --tags && git push --all',
+
+                    'debug': 'yarn prebuild && docker container run -it --mount type=bind,source=$(pwd)/.devcontainer/sources.list,target=/etc/xbuild/sources.list --mount type=bind,source=$(pwd)/.devcontainer/xbuild.conf,target=/etc/xbuild/xbuild.conf --mount type=bind,source=$(pwd)/tests/unit,target=/tests $npm_package_config_image_name:latest /bin/bash',
                 },
             };
 
