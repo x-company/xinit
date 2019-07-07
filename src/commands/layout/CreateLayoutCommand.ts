@@ -67,8 +67,14 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
                 await mgr.update(new UnitTestsUpdater());
             }
 
+            Log.info('Your new Layout is nearly done. Only one thing is left.');
             Log.info(`Execute 'yarn install'. This could take a while. Please be patient.`);
-            await Shell.execute('yarn install', { detached: false, silent: true, windowsHide: true });
+
+            try {
+                await Shell.execute('yarn install', { detached: false, silent: true, windowsHide: true });
+            } catch (err) {
+                // Nothing to do
+            }
 
             Log.info('Layout for your new Base Image is now created.');
 

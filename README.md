@@ -100,4 +100,14 @@ A another Feature are Code Snippets. In your Project Layout you have a bundle of
 - **xb-docker-no-layout** to create a Docker file without an Project Layout. This UseCase will applicable if you want to build an Service without an Project Layout
 - **xb-docker-health** create an Health Entry in your Dockerfile
 
+## How to configure and manage the build
+
+You can manage the behaviour of *xbuild* in a Config File called *xbuild.conf*. This File can be found on two locations in your Project Layout. One Location is the Folder *.devcontainer* and the another Location is the Build folder in the Home of your Service. Why is this so?
+
+Its reallys simple to understand. All Configurations you made in Folder *.devcontainer* is only for your local Development. The other File is for Deployment.
+
+## HowTo configure the Mirrors for install of further Packages
+
+The same behaviour is for a custom *sources.list*. Per default *xbuild* configures your Image with the official Repositories, that can be found in the Internet. If you dont have access to the Internet you have to define your own *sources.list* with your custom Mirrors.
+
 If you want more Informations of *xbuild* please visit <https://github.com/x-company/xbuild>
