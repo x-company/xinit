@@ -68,7 +68,7 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
             }
 
             Log.info(`Execute 'yarn install'. This could take a while. Please be patient.`);
-            Shell.execute('yarn install', { detached: false, silent: true, windowsHide: true });
+            await Shell.execute('yarn install', { detached: false, silent: true, windowsHide: true });
 
             Log.info('Layout for your new Base Image is now created.');
 
