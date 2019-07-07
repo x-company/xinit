@@ -49,7 +49,7 @@ export class PackageJsonUpdater extends Updater {
                     image_name: this.options.imageName,
                 },
                 dependencies: {
-                    'snyk': '^1.189.0'
+                    snyk: '^1.189.0',
                 },
                 devDependencies: {
                     'appversion-mgr': '^0.7.0',
