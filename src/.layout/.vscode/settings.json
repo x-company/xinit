@@ -61,8 +61,6 @@
     "git.confirmSync": false,
     "git.promptToSaveFilesBeforeCommit": true,
     "git-graph.fetchAvatars": true,
-    "hadolint.hadolintPath": ".vscode/hadolint-Linux-x86_64",
-    "hadolint.outputLevel": "info",
     "licenser.author": "<Your Firm> <info@your-domain.com>",
     "licenser.disableAutoHeaderInsertion": false,
     "licenser.projectName": "Your Project Name",
