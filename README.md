@@ -1,6 +1,6 @@
 # xbuild-mgr - A CLI for xbuild to create small and securey Docker Images written in Node
 
-[![xbuild-mgr-version](https://img.shields.io/badge/Version-0.5.1-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xbuild-mgr/v/0.5.1)
+[![xbuild-mgr-version](https://img.shields.io/badge/Version-0.5.2-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xbuild-mgr/v/0.5.2)
 [![xbuild-mgr-status](https://img.shields.io/badge/Status-development%201-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-mgr#status)
 [![xbuild-mgr-build](https://img.shields.io/badge/Builds-13-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-mgr#status)
 [![Build Status](https://travis-ci.org/x-company/xbuild-mgr.svg?branch=master)](https://travis-ci.org/x-company/xbuild-mgr)
