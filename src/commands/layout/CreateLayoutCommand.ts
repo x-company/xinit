@@ -25,6 +25,7 @@ import { DockerfileUpdater } from '../../updaters/DockerfileUpdater';
 import { DevContainerUpdater } from '../../updaters/DevContainerUpdater';
 import { UnitTestsUpdater } from '../../updaters/UnitTestsUpdater';
 import { Log } from '../../helpers/Log';
+import { Shell } from '../../helpers/Shell';
 
 export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
 
@@ -65,6 +66,8 @@ export class CreateLayoutCommand extends Command<LayoutCommandOptions> {
                 await mgr.update(new DevContainerUpdater());
                 await mgr.update(new UnitTestsUpdater());
             }
+
+            Shell.execute('yarn install', { detached: false, silent: true, windowsHide: true });
 
             Log.info('Layout for your new Base Image is now created.');
 
