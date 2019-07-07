@@ -52,7 +52,6 @@ export class ProjectLayoutUpdater extends Updater {
             }
 
         } else {
-            Log.info(`Dir ${this.options.imageName}`);
             destDir = path.join(this.options.directory, 'src', this.options.imageName);
             testDestDir = path.join(this.options.directory, 'tests', 'unit', this.options.imageName);
         }
