@@ -5,29 +5,43 @@
     // List of extensions which should be recommended for users of this workspace.
     "recommendations": [
         // Global Extensions
+        "alefragnani.bookmarks",
+        "christian-kohler.path-intellisense",
+        "coenraads.bracket-pair-colorizer-2",
+        "emilast.logfilehighlighter",
+        "emmanuelbeziat.vscode-great-icons",
+        "gruntfuggly.todo-tree",
+        "ibm.output-colorizer",
+        "ionutvmi.path-autocomplete",
+        "johnpapa.vscode-peacock",
+        "mutantdino.resourcemonitor",
+        "philhindle.errorlens",
         "streetsidesoftware.code-spell-checker",
         "streetsidesoftware.code-spell-checker-german",
+        "tyriar.shell-launcher",
         "xiaokangtu.codeheader",
-        "philhindle.errorlens",
         "ymotongpoo.licenser",
-        "ionutvmi.path-autocomplete",
-        "christian-kohler.path-intellisense",
-        "alefragnani.bookmarks",
-        "pomber.git-file-history",
-        "mhutchie.git-graph",
-        "emilast.logfilehighlighter",
-        "ibm.output-colorizer",
-        "johnpapa.vscode-peacock",
-        "gruntfuggly.todo-tree",
-        "coenraads.bracket-pair-colorizer-2",
-        "github.vscode-pull-request-github",
-        "emmanuelbeziat.vscode-great-icons",
+
+        // Docker Extensions
+        "exiasr.hadolint",
+        "ilevine.squash",
+        "ipedrazas.kubernetes-snippets",
+        "ms-azuretools.vscode-docker",
         "ms-vscode-remote.remote-containers",
         "ms-vscode-remote.remote-ssh",
         "ms-vscode-remote.remote-ssh-edit",
         "ms-vscode-remote.remote-ssh-explorer",
         "ms-vscode-remote.remote-wsl",
         "ms-vscode-remote.vscode-remote-extensionpack",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "redhat.vscode-yaml",
+
+        // Github Extensions
+        "dunstontc.vscode-gitignore-syntax",
+        "github.vscode-pull-request-github",
+        "mhutchie.git-graph",
+        "peterhdd.github-folder",
+        "pomber.git-file-history",
 
         // Markdown Extensions
         "davidanson.vscode-markdownlint",
@@ -36,21 +50,22 @@
         "docsmsft.docs-preview",
 
         // Bash Extensions
-        "rogalmic.bash-debug",
         "bat-snippets.bat-snippets",
-        "jetmartin.bats",
-        "rpinski.shebang-snippets",
         "foxundermoon.shell-format",
-        "remisa.shellman"
+        "jetmartin.bats",
+        "rogalmic.bash-debug",
+        "remisa.shellman",
+        "rpinski.shebang-snippets",
+        "timonwong.shellcheck"
     ],
     // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
     "unwantedRecommendations": [
-        "eg2.vscode-npm-script",
-        "hookyqr.beautify",
         "dbaeumer.jshint",
         "dbaeumer.vscode-eslint",
+        "donjayamanne.githistory",
         "eamodio.gitlens",
+        "eg2.vscode-npm-script",
         "felipecaputo.git-project-manager",
-        "donjayamanne.githistory"
+        "hookyqr.beautify"
     ]
 }

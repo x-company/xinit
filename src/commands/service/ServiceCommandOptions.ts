@@ -21,7 +21,6 @@ export interface ServiceCommandOptions extends CommandOptions {
     addFix: boolean;
     addInit: boolean;
     addShutdown: boolean;
-    addRules: boolean;
     addLog: boolean;
     addFinish: boolean;
 

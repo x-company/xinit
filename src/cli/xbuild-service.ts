@@ -33,9 +33,8 @@ program
     .option('--add-shutdown', 'Add Shutdown Script which will executed when a Container shutdowns.')
     .option('--add-finish', 'Add Service Finish Script which will executed when Service will shutdown.')
     .option('--add-health', 'Add Script to check the Healthiness of your Service.')
+    .option('--add-log', 'Add Log Script for the Service.')
     .option('-p, --priority <prio>', 'The Priority when the choosed option should run. A value between 1-98. 99 is the highest Prio and is reserved for the system.', 10)
-    // .option('--add-rules', 'Add Log Rules for the Service.')
-    // .option('--add-log', 'Add Log Script for the Service.')
     .action(async (options) => {
 
         try {
@@ -51,8 +50,7 @@ program
                 addFinish: options.addFinish,
                 addFix: options.addFix,
                 addInit: options.addInit,
-                addLog: false, // options.addLog,
-                addRules: false, // options.addRules,
+                addLog: options.addLog,
                 addShutdown: options.addShutdown,
                 addHealth: options.addHealth,
                 priority: options.priority,
@@ -72,9 +70,8 @@ program
     .option('--add-shutdown', 'Add Shutdown Script which will executed when a Container shutdowns.')
     .option('--add-finish', 'Add Service Finish Script which will executed when Service will shutdown.')
     .option('--add-health', 'Add Script to check the Healthiness of your Service.')
+    .option('--add-log', 'Add Log Script for the Service.')
     .option('-p, --priority <prio>', 'The Priority when the choosed option should run. A value between 1-98. 99 is the highest Prio and is reserved for the system.', 10)
-    // .option('--add-rules', 'Add Log Rules for the Service.')
-    // .option('--add-log', 'Add Log Script for the Service.')
     .action(async (options) => {
 
         try {
@@ -90,8 +87,7 @@ program
                 addFinish: options.addFinish,
                 addFix: options.addFix,
                 addInit: options.addInit,
-                addLog: false, // options.addLog,
-                addRules: false, // options.addRules,
+                addLog: options.addLog,
                 addShutdown: options.addShutdown,
                 addHealth: options.addHealth,
                 priority: options.priority,

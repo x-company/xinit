@@ -2,7 +2,7 @@
 
 [![xbuild-mgr-version](https://img.shields.io/badge/Version-0.5.2-brightgreen.svg?style=flat)](https://www.npmjs.com/package/xbuild-mgr/v/0.5.2)
 [![xbuild-mgr-status](https://img.shields.io/badge/Status-development%201-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-mgr#status)
-[![xbuild-mgr-build](https://img.shields.io/badge/Builds-13-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-mgr#status)
+[![xbuild-mgr-build](https://img.shields.io/badge/Builds-17-brightgreen.svg?style=flat)](https://github.com/x-company/xbuild-mgr#status)
 [![Build Status](https://travis-ci.org/x-company/xbuild-mgr.svg?branch=master)](https://travis-ci.org/x-company/xbuild-mgr)
 
 `xbuild-mgr` is a Tool which will help you to develop small and secure Docker Base Images. It helps you to create your own secure Base Image derived from xbuild (see <https://github.com/x-company/xbuild).> *xbuild* is a Framework to helps you to let run your app in his own sandbox and as different User as root. To reach this goal *xbuild* uses the Supervisor *s6*. This Supervisor loads all your Commands with the *Chain loading* Method. `xbuild-mgr` helps you to create a correct Project Layout to develop your on Docker Images in front of *xbuild*.

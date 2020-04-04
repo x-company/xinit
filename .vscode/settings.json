@@ -316,6 +316,81 @@
     },
     "mocha.env": {
         "TS_NODE_TRANSPILE_ONLY": true
-    }
+    },
+    "todo-tree.tree.autoRefresh": true,
+    "todo-tree.highlights.customHighlight": {
+        "TODO": {
+            "background": "#2bc600",
+            "icon": "check",
+            "iconColour": "#2bc600"
+        },
+        "FIXME": {
+            "background": "#c300dd",
+            "icon": "tools",
+            "iconColour": "#c300dd"
+        },
+        "POWERTIP": {
+            "background": "yellow",
+            "icon": "light-bulb",
+            "iconColour": "yellow"
+        },
+        "BUG": {
+            "background": "red",
+            "icon": "bug",
+            "iconColour": "red"
+        },
+        "HACK": {
+            "background": "grey",
+            "icon": "file-binary",
+            "iconColour": "grey"
+        },
+        "TRICKY": {
+            "background": "#ff00b2",
+            "icon": "mortar-board",
+            "iconColour": "#ff00b2"
+        },
+        "BREAKING": {
+            "background": "#ffa500",
+            "icon": "alert",
+            "iconColour": "#ffa500"
+        },
+        "DEPRECATED": {
+            "type": "tag",
+            "background": "#c6003b",
+            "icon": "trashcan",
+            "iconColour": "#c6003b"
+        }
+    },
+    "todo-tree.highlights.defaultHighlight": {
+        "icon": "checklist",
+        "type": "tag",
+        "foreground": "white",
+        "background": "yellow",
+        "opacity": 80,
+        "iconColour": "white"
+    },
+    "todo-tree.filtering.excludeGlobs": [
+        "node_modules/**/*",
+        ".git/**/*",
+        ".gitlab/**/*",
+        ".vscode/**/*"
+    ],
+    "todo-tree.tree.flat": true,
+    "todo-tree.tree.grouped": true,
+    "todo-tree.highlights.highlightDelay": 500,
+    "todo-tree.regex.regexCaseSensitive": false,
+    "todo-tree.tree.showCountsInTree": true,
+    "todo-tree.general.statusBar": "total",
+    "todo-tree.general.tags": [
+        "TODO",
+        "FIXME",
+        "POWERTIP",
+        "HACK",
+        "TRICKY",
+        "BUG",
+        "BREAKING",
+        "DEPRECATED"
+    ],
+    "todo-tree.tree.trackFile": true
 
 }

@@ -38,7 +38,7 @@
             "",
             "WORKDIR /",
             "",
-            "ENTRYPOINT [\"/init\"]",
+            "ENTRYPOINT [\"/xb-init\"]",
             "",
             "$0"
         ]
@@ -77,7 +77,7 @@
             "",
             "WORKDIR /",
             "",
-            "ENTRYPOINT [\"/init\"]",
+            "ENTRYPOINT [\"/xb-init\"]",
             "",
             "$0"
         ]

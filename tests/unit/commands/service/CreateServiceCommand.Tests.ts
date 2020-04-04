@@ -49,7 +49,6 @@ describe('Creates a new Service', () => {
             addHealth: false,
             addInit: false,
             addLog: false,
-            addRules: false,
             addShutdown: false,
             priority: 10,
             serviceName,

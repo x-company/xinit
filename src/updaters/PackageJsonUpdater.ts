@@ -84,16 +84,26 @@ export class PackageJsonUpdater extends Updater {
                     'release': 'yarn clean && yarn build && appvmgr add-git-tag && git push --tags && git push --all',
 
                     'debug:xbuild:backup': `mv ./src/${this.options.imageName}/build/xbuild.conf ./src/${this.options.imageName}/build/xbuild.conf.org`,
-                    'debug:xbuild:copy': `cp -f ./.devcontainer/xbuild.conf ./src/${this.options.imageName}/build/xbuild.conf`,
-                    'debug:sources:test': `if test -f ./src/${this.options.imageName}/build/sources.list; then mv ./src/${this.options.imageName}/build/sources.list ./src/${this.options.imageName}/build/sources.list.org; fi`,
-                    'debug:sources:copy': `cp -f ./.devcontainer/sources.list ./src/${this.options.imageName}/build/sources.list`,
-                    'debug:build': 'appvmgr update build && docker build --tag $npm_package_config_image_name:debug .',
-                    'predebug': 'yarn debug:xbuild:backup && yarn debug:xbuild:copy && yarn debug:sources:test && yarn debug:sources:copy && yarn debug:build',
-                    'debug': 'yarn prebuild && docker container run -it --mount type=bind,source=$(pwd)/tests/unit,target=/tests $npm_package_config_image_name:debug /bin/bash',
-                    'postdebug': 'yarn debug:xbuild:restore && yarn debug:sources:clean && yarn debug:sources:restore',
                     'debug:xbuild:restore' : `rm -f ./src/${this.options.imageName}/build/xbuild.conf && mv ./src/${this.options.imageName}/build/xbuild.conf.org ./src/${this.options.imageName}/build/xbuild.conf`,
-                    'debug:sources:clean' : `rm -f ./src/${this.options.imageName}/build/sources.list`,
+                    'debug:xbuild:copy': `cp -f ./.devcontainer/xbuild.conf ./src/${this.options.imageName}/build/xbuild.conf`,
+
+                    'debug:sources:backup': `if test -f ./src/${this.options.imageName}/build/sources.list; then mv ./src/${this.options.imageName}/build/sources.list ./src/${this.options.imageName}/build/sources.list.org; fi`,
                     'debug:sources:restore' : `if test -f ./src/${this.options.imageName}/build/sources.list.org; then mv ./src/${this.options.imageName}/build/sources.list.org ./src/${this.options.imageName}/build/sources.list; fi`,
+                    'debug:sources:copy': `cp -f ./.devcontainer/sources.list ./src/${this.options.imageName}/build/sources.list`,
+                    'debug:sources:clean' : `rm -f ./src/${this.options.imageName}/build/sources.list`,
+
+                    'debug:xbuild:pre': 'yarn debug:xbuild:backup && yarn debug:xbuild:copy',
+                    'debug:xbuild:post': 'yarn debug:xbuild:restore',
+                    'debug:sources:pre': 'yarn debug:sources:backup && yarn debug:sources.copy',
+                    'debug:sources:post': 'yarn debug:sources:clean && yarn debug:sources:restore ',
+
+                    'debug:build': 'appvmgr update build && docker build --tag $npm_package_config_image_name:debug .',
+                    'debug:run': `docker container run --detach --name xbuild_debug_${this.options.shortImageName} --rm --mount type=bind,source=$(pwd)/tests/unit,target=/tests $npm_package_config_image_name:debug`,
+
+                    'predebug': 'yarn debug:xbuild:pre && yarn debug:sources:pre && yarn dockerfile:build && yarn debug:build',
+                    'debug': `yarn debug:run && docker container exec -it xbuild_debug_${this.options.shortImageName} /bin/bash`,
+                    'postdebug': `yarn debug:xbuild:post && yarn debug:sources:post && docker container stop xbuild_debug_${this.options.shortImageName}`,
+
                 },
             };
 

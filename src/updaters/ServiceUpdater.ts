@@ -25,7 +25,6 @@ export class ServiceUpdater extends Updater {
         private addFix: boolean,
         private addInit: boolean,
         private addLog: boolean,
-        private addRules: boolean,
         private addShutdown: boolean,
         private addHealth: boolean,
         private priority: number,
@@ -76,10 +75,6 @@ export class ServiceUpdater extends Updater {
             await this.updateLogFile(serviceDir);
         }
 
-        if (this.addRules) {
-            await this.updateRulesFile(serviceDir, this.priority);
-        }
-
         if (this.addShutdown) {
             await this.updateShutdownFile(serviceDir, this.priority);
         }
@@ -91,7 +86,9 @@ export class ServiceUpdater extends Updater {
 
 # Main Build File for your Service
 
-
+# Comment out if you want use Logging. Don't forget to change also the
+# Foldername in your Log Command
+# if { s6-mkdir -p /var/log/<yourapp-log-folder>/ }
 
 `;
         await this.saveFile(directory, `${this.options.serviceName}.build`, 'Build', content);
@@ -103,6 +100,9 @@ export class ServiceUpdater extends Updater {
 
 # File will called to start your Service
 
+# Load Env Vars
+# xb-withenv
+
 `;
         await this.saveFile(directory, `${this.options.serviceName}.run`, 'Run', content);
     }
@@ -112,6 +112,9 @@ export class ServiceUpdater extends Updater {
         const content = `#!/usr/bin/execlineb -P
 
 # Define here the Health Check for your Service
+
+# Load Env Vars
+# xb-withenv
 
 `;
         await this.saveFile(directory, `${this.options.serviceName}.health`, 'Health', content);
@@ -123,6 +126,9 @@ export class ServiceUpdater extends Updater {
 
 # A Service Finish Script
 
+# Load Env Vars
+# xb-withenv
+
 `;
         await this.saveFile(directory, `${this.options.serviceName}.finish`, 'Finish', content);
     }
@@ -130,10 +136,11 @@ export class ServiceUpdater extends Updater {
     private async updateAttributeFixFile(directory: string, priority: number) {
 
         const content = `# Fixing ownership & permissions
-# Attention! Remove completly this Comment Block. Otherwise your Image will fail.
+# Attention! Remove completely all comments, otherwise your Image will not start.
 #
-# path              recurse account fmode   dmode
-# /var/lib/mysql    true    mysql   0600    0700
+# path                              recurse account             fmode   dmode
+# /var/lib/mysql                    true    mysql               0600    0700
+# /var/log/<yourapp-log-folder>/    true    nobody,32768:32768  0644    0750
 
 `;
         await this.saveFile(directory, `${this.options.serviceName}.attrs`, 'Fix Attributes', content, priority);
@@ -145,6 +152,9 @@ export class ServiceUpdater extends Updater {
 
 # Executing container initialization tasks
 
+# Load Env Vars
+# xb-withenv
+
 `;
         await this.saveFile(directory, `${this.options.serviceName}.init`, 'Init', content, priority);
     }
@@ -153,7 +163,7 @@ export class ServiceUpdater extends Updater {
 
         const content = `#!/usr/bin/execlineb -P
 
-# exec logutil-service -f /var/run/myfifo /var/log/myapp
+# exec logutil-service /var/log/<yourapp-log-folder>/
 
 `;
         directory = path.join(directory, 'log');
@@ -168,19 +178,11 @@ export class ServiceUpdater extends Updater {
 
 # Executing container shutdown tasks
 
+# Load Env Vars
+# xb-withenv
+
 `;
         await this.saveFile(directory, `${this.options.serviceName}.shutdown`, 'Shutdown', content, priority);
-    }
-
-    private async updateRulesFile(directory: string, priority: number) {
-
-        const content = `-
-+^cron\.
-\${SOCKLOG_TIMESTAMP_FORMAT}
-/var/log/socklog/${this.options.serviceName}
-
-`;
-        await this.saveFile(directory, `${this.options.serviceName}.logrules`, 'Log Rules', content, priority);
     }
 
     private async saveFile(directory: string, filename: string, context: string, content: string, priority?: number) {
